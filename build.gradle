@@ -181,3 +181,8 @@ spotless {
         endWithNewline()
     }
 }
+
+// A grave sin, but necessary for other programmers to use this system lol
+afterEvaluate {
+    tasks.getByName('spotlessCheck').dependsOn(tasks.getByName('spotlessApply'))
+}
