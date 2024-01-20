@@ -22,6 +22,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
+import frc.robot.Constants.DriveConstants;
 import java.util.Queue;
 
 /**
@@ -55,27 +56,35 @@ public class ModuleIOSparkMax implements ModuleIO {
 
   public ModuleIOSparkMax(int index) {
     switch (index) {
+        // Front left
       case 0:
-        driveSparkMax = new CANSparkMax(1, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(2, MotorType.kBrushless);
+        driveSparkMax =
+            new CANSparkMax(DriveConstants.kFrontLeftDrivingCanId, MotorType.kBrushless);
+        turnSparkMax = new CANSparkMax(DriveConstants.kFrontLeftTurningCanId, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(0);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
+        // Front right
       case 1:
-        driveSparkMax = new CANSparkMax(3, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(4, MotorType.kBrushless);
+        driveSparkMax =
+            new CANSparkMax(DriveConstants.kFrontRightDrivingCanId, MotorType.kBrushless);
+        turnSparkMax =
+            new CANSparkMax(DriveConstants.kFrontRightTurningCanId, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(1);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
+        // Rear left
       case 2:
-        driveSparkMax = new CANSparkMax(5, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(6, MotorType.kBrushless);
+        driveSparkMax = new CANSparkMax(DriveConstants.kRearLeftDrivingCanId, MotorType.kBrushless);
+        turnSparkMax = new CANSparkMax(DriveConstants.kRearLeftTurningCanId, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(2);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
+        // Rear right
       case 3:
-        driveSparkMax = new CANSparkMax(7, MotorType.kBrushless);
-        turnSparkMax = new CANSparkMax(8, MotorType.kBrushless);
+        driveSparkMax =
+            new CANSparkMax(DriveConstants.kRearRightDrivingCanId, MotorType.kBrushless);
+        turnSparkMax = new CANSparkMax(DriveConstants.kRearRightTurningCanId, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(3);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
