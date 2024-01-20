@@ -1,3 +1,8 @@
+//Awtybots 5829 2024 Codebase
+//Thank you FRC 6328 and FRC 3015!
+
+
+
 // Copyright 2021-2024 FRC 6328
 // http://github.com/Mechanical-Advantage
 //
@@ -10,6 +15,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
+
 
 package frc.robot;
 
