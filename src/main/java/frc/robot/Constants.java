@@ -34,4 +34,16 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+  public static final class DriveConstants {
+      // SPARK MAX CAN IDs
+      public static final int kFrontLeftDrivingCanId = 10;
+      public static final int kRearLeftDrivingCanId = 8;
+      public static final int kFrontRightDrivingCanId = 2;
+      public static final int kRearRightDrivingCanId = 4;
+  
+      public static final int kFrontLeftTurningCanId = 11;
+      public static final int kRearLeftTurningCanId = 9;
+      public static final int kFrontRightTurningCanId = 3;
+      public static final int kRearRightTurningCanId = 5;
+  }
 }
