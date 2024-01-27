@@ -54,4 +54,29 @@ public final class Constants {
     public static final int kTopFlywheelSparkMaxCanId = 13;
     public static final int kBottomFlywheelSparkMaxCanId = 14;
   }
+
+  public static final class Arm{
+    public static final int kRightArmMotorId = 15;
+    public static final int kLeftArmMotorId = 16;
+    
+    public static final int kCurrentLimit = 30;
+
+    public static final int startingAngle = 30; // TODO TUNE
+
+    public static final double armConversion = 1; //TODO TUNE
+
+    public static final double kP = 0.1; //TODO TUNE
+    public static final double kI = 0.0; //TODO TUNE
+    public static final double kD = 0.0; //TODO TUNE
+    public static final double kFF = 0.0; //TODO TUNE
+    public static final double kIz = 0.0; //TODO TUNE
+
+    public static final double initialHeight = 0.0; //TODO TUNE
+
+  }
+
+  public static final class Presets{
+    public static final double ArmThreshold = 0.1; //TODO TUNE
+
+  }
 }
