@@ -47,4 +47,11 @@ public final class Constants {
     public static final int kFrontRightTurningCanId = 3;
     public static final int kRearRightTurningCanId = 5;
   }
+
+  public static final class FlywheelConstants {
+
+    // CAN ID's
+    public static final int kTopFlywheelSparkMaxCanId = 13;
+    public static final int kBottomFlywheelSparkMaxCanId = 14;
+  }
 }

@@ -15,7 +15,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -34,7 +33,7 @@ import frc.robot.subsystems.drive.ModuleIOSparkMax;
 import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
-import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
+import frc.robot.subsystems.flywheel.TopFlywheelIOSparkMax;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -47,7 +46,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  private final Flywheel flywheel;
+  private final Flywheel TopFlywheel;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -59,6 +58,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -69,7 +69,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(1),
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
-        flywheel = new Flywheel(new FlywheelIOSparkMax());
+        TopFlywheel = new Flywheel(new TopFlywheelIOSparkMax());
         // drive = new Drive(
         // new GyroIOPigeon2(true),
         // new ModuleIOTalonFX(0),
@@ -88,7 +88,8 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim());
-        flywheel = new Flywheel(new FlywheelIOSim());
+        TopFlywheel = new Flywheel(new FlywheelIOSim());
+
         break;
 
       default:
@@ -100,7 +101,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
-        flywheel = new Flywheel(new FlywheelIO() {});
+        TopFlywheel = new Flywheel(new FlywheelIO() {});
         break;
     }
 
@@ -108,7 +109,9 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Run Flywheel",
         Commands.startEnd(
-                () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel)
+                () -> TopFlywheel.runVelocity(flywheelSpeedInput.get()),
+                TopFlywheel::stop,
+                TopFlywheel)
             .withTimeout(5.0));
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -120,7 +123,7 @@ public class RobotContainer {
     autoChooser.addOption(
         "Flywheel FF Characterization",
         new FeedForwardCharacterization(
-            flywheel, flywheel::runVolts, flywheel::getCharacterizationVelocity));
+            TopFlywheel, TopFlywheel::runVolts, TopFlywheel::getCharacterizationVelocity));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -153,7 +156,9 @@ public class RobotContainer {
         .a()
         .whileTrue(
             Commands.startEnd(
-                () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+                () -> TopFlywheel.runVelocity(flywheelSpeedInput.get()),
+                TopFlywheel::stop,
+                TopFlywheel));
   }
 
   /**
