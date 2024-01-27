@@ -47,6 +47,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Flywheel TopFlywheel;
+  private final Flywheel BottomFlywheel;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -70,6 +71,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
         TopFlywheel = new Flywheel(new TopFlywheelIOSparkMax());
+        BottomFlywheel = new Flywheel(new TopFlywheelIOSparkMax());
         // drive = new Drive(
         // new GyroIOPigeon2(true),
         // new ModuleIOTalonFX(0),
@@ -89,6 +91,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         TopFlywheel = new Flywheel(new FlywheelIOSim());
+        BottomFlywheel = new Flywheel(new FlywheelIOSim());
 
         break;
 
@@ -102,17 +105,26 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         TopFlywheel = new Flywheel(new FlywheelIO() {});
+        BottomFlywheel = new Flywheel(new FlywheelIO() {});
         break;
     }
 
     // Set up auto routines
     NamedCommands.registerCommand(
-        "Run Flywheel",
+        "Run TopFlywheel",
         Commands.startEnd(
                 () -> TopFlywheel.runVelocity(flywheelSpeedInput.get()),
                 TopFlywheel::stop,
                 TopFlywheel)
             .withTimeout(5.0));
+    NamedCommands.registerCommand(
+        "Run BottomFlywheel",
+        Commands.startEnd(
+                () -> BottomFlywheel.runVelocity(flywheelSpeedInput.get()),
+                BottomFlywheel::stop,
+                BottomFlywheel)
+            .withTimeout(5.0));
+
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
     // Set up feedforward characterization
@@ -121,9 +133,13 @@ public class RobotContainer {
         new FeedForwardCharacterization(
             drive, drive::runCharacterizationVolts, drive::getCharacterizationVelocity));
     autoChooser.addOption(
-        "Flywheel FF Characterization",
+        "TopFlywheel FF Characterization",
         new FeedForwardCharacterization(
             TopFlywheel, TopFlywheel::runVolts, TopFlywheel::getCharacterizationVelocity));
+    autoChooser.addOption(
+        "BottomFlywheel FF Characterization",
+        new FeedForwardCharacterization(
+            BottomFlywheel, BottomFlywheel::runVolts, BottomFlywheel::getCharacterizationVelocity));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -159,6 +175,23 @@ public class RobotContainer {
                 () -> TopFlywheel.runVelocity(flywheelSpeedInput.get()),
                 TopFlywheel::stop,
                 TopFlywheel));
+    controller
+        .a()
+        .whileFalse(
+            Commands.startEnd(() -> TopFlywheel.runVelocity(0), TopFlywheel::stop, TopFlywheel));
+
+    controller
+        .a()
+        .whileTrue(
+            Commands.startEnd(
+                () -> BottomFlywheel.runVelocity(flywheelSpeedInput.get()),
+                BottomFlywheel::stop,
+                BottomFlywheel));
+    controller
+        .a()
+        .whileFalse(
+            Commands.startEnd(
+                () -> BottomFlywheel.runVelocity(0), BottomFlywheel::stop, BottomFlywheel));
   }
 
   /**
