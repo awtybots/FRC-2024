@@ -22,12 +22,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
+import frc.robot.commands.DriveParts.DriveCommands;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
 import frc.robot.subsystems.arm.ArmIOSparkMax;
+import frc.robot.subsystems.armElevator.ArmElevator;
+import frc.robot.subsystems.armElevator.ArmElevatorIO;
+import frc.robot.subsystems.armElevator.ArmElevatorIOSim;
+import frc.robot.subsystems.armElevator.ArmElevatorIOSparkMax;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -38,7 +42,12 @@ import frc.robot.subsystems.flywheel.BottomFlywheelIOSparkMax;
 import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
-import frc.robot.subsystems.flywheel.TopFlywheelIOSparkMax;
+import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
+import frc.robot.subsystems.wrist.Wrist;
+import frc.robot.subsystems.wrist.WristIO;
+import frc.robot.subsystems.wrist.WristIOSim;
+import frc.robot.subsystems.wrist.WristIOSparkMax;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -54,6 +63,8 @@ public class RobotContainer {
   private final Flywheel sTopFlywheel;
   private final Flywheel sBottomFlywheel;
   private final Arm sArm;
+  private final ArmElevator sArmElevator;
+  private final Wrist sWrist; 
 
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -79,9 +90,11 @@ public class RobotContainer {
                 new ModuleIOSparkMax(1),
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
-        sTopFlywheel = new Flywheel(new TopFlywheelIOSparkMax());
+        sTopFlywheel = new Flywheel(new FlywheelIOSparkMax());
         sBottomFlywheel = new Flywheel(new BottomFlywheelIOSparkMax());
         sArm = new Arm(new ArmIOSparkMax() {});
+        sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
+        sWrist = new Wrist(new WristIOSparkMax() {});
         // drive = new Drive(
         // new GyroIOPigeon2(true),
         // new ModuleIOTalonFX(0),
@@ -103,6 +116,8 @@ public class RobotContainer {
         sTopFlywheel = new Flywheel(new FlywheelIOSim());
         sBottomFlywheel = new Flywheel(new FlywheelIOSim());
         sArm = new Arm(new ArmIOSim() {});
+        sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
+        sWrist = new Wrist(new WristIOSim() {});
 
         break;
 
@@ -118,6 +133,9 @@ public class RobotContainer {
         sTopFlywheel = new Flywheel(new FlywheelIO() {});
         sBottomFlywheel = new Flywheel(new FlywheelIO() {});
         sArm = new Arm(new ArmIO() {});
+        sArmElevator = new ArmElevator(new ArmElevatorIO() {});
+        sWrist = new Wrist(new WristIO() {});
+
         break;
     }
 

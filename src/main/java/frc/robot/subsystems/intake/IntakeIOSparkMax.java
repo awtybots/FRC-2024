@@ -11,7 +11,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-package frc.robot.subsystems.flywheel;
+package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -20,50 +20,51 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.FlywheelConstants;
+import frc.robot.Constants.IntakeConstants;
 
 /**
  * NOTE: To use the Spark Flex / NEO Vortex, replace all instances of "CANSparkMax" with
  * "CANSparkFlex".
  */
-public class TopFlywheelIOSparkMax implements FlywheelIO {
-  private static final double GEAR_RATIO = 52.0 / 34.0; // May be recipricol
+public class IntakeIOSparkMax implements IntakeIO {
+  private static final double GEAR_RATIO = 52.0 / 34.0; // May be reciprocal
 
-  private final CANSparkMax leader =
-      new CANSparkMax(FlywheelConstants.kTopFlywheelSparkMaxCanId, MotorType.kBrushless);
-  private final RelativeEncoder encoder = leader.getEncoder();
-  private final SparkPIDController pid = leader.getPIDController();
+  private final CANSparkMax intakeMotor =
+    new CANSparkMax(IntakeConstants.kIntakeSparkMaxCanId, MotorType.kBrushless);
+  private final RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
+  private final SparkPIDController intakePID = intakeMotor.getPIDController();
 
-  public TopFlywheelIOSparkMax() {
-    leader.restoreFactoryDefaults();
 
-    leader.setCANTimeout(250);
+  public IntakeIOSparkMax() {
+    intakeMotor.restoreFactoryDefaults();
 
-    leader.setInverted(false);
+    intakeMotor.setCANTimeout(250);
 
-    leader.enableVoltageCompensation(12.0);
-    leader.setSmartCurrentLimit(30);
+    intakeMotor.setInverted(false);
 
-    leader.burnFlash();
+    intakeMotor.enableVoltageCompensation(12.0);
+    intakeMotor.setSmartCurrentLimit(30);
+
+    intakeMotor.burnFlash();
   }
 
   @Override
-  public void updateInputs(FlywheelIOInputs inputs) {
-    inputs.positionRad = Units.rotationsToRadians(encoder.getPosition() / GEAR_RATIO);
+  public void updateInputs(IntakeIOInputs inputs) {
+    inputs.positionRad = Units.rotationsToRadians(intakeEncoder.getPosition() / GEAR_RATIO);
     inputs.velocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
-    inputs.appliedVolts = leader.getAppliedOutput() * leader.getBusVoltage();
-    inputs.currentAmps = new double[] {leader.getOutputCurrent()};
+        Units.rotationsPerMinuteToRadiansPerSecond(intakeEncoder.getVelocity() / GEAR_RATIO);
+    inputs.appliedVolts = intakeMotor.getAppliedOutput() * intakeMotor.getBusVoltage();
+    inputs.currentAmps = new double[] {intakeMotor.getOutputCurrent()};
   }
 
   @Override
   public void setVoltage(double volts) {
-    leader.setVoltage(volts);
+    intakeMotor.setVoltage(volts);
   }
 
   @Override
   public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    pid.setReference(
+    intakePID.setReference(
         Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
         ControlType.kVelocity,
         0,
@@ -73,14 +74,14 @@ public class TopFlywheelIOSparkMax implements FlywheelIO {
 
   @Override
   public void stop() {
-    leader.stopMotor();
+    intakeMotor.stopMotor();
   }
 
   @Override
   public void configurePID(double kP, double kI, double kD) {
-    pid.setP(kP, 0);
-    pid.setI(kI, 0);
-    pid.setD(kD, 0);
-    pid.setFF(0, 0);
+    intakePID.setP(kP, 0);
+    intakePID.setI(kI, 0);
+    intakePID.setD(kD, 0);
+    intakePID.setFF(0, 0);
   }
 }

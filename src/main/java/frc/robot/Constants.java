@@ -55,6 +55,41 @@ public final class Constants {
     // CAN ID's
     public static final int kTopFlywheelSparkMaxCanId = 13;
     public static final int kBottomFlywheelSparkMaxCanId = 14;
+
+    // TODO implement the below
+    public static final int kCurrentLimit = 30;
+
+    public static final int startingAngle = 30; // TODO TUNE
+
+    public static final double armConversion = 1; // TODO TUNE
+
+    // Arm PID constants
+    public static final double kP = 0.1; // TODO TUNE
+    public static final double kI = 0.0; // TODO TUNE
+    public static final double kD = 0.0; // TODO TUNE
+
+    // Arm Feedforward characterization constants
+    public static final double ks = 0.10; // TODO TUNE
+    public static final double kv = 0.05; // TODO TUNE
+  }
+
+  public static final class IntakeConstants {
+    public static final int kIntakeSparkMaxCanId = 12341; // ! Change before testing
+
+    public static final int kCurrentLimit = 30;
+
+    public static final int startingAngle = 30; // TODO TUNE
+
+    public static final double armConversion = 1; // TODO TUNE
+
+    // Arm PID constants
+    public static final double kP = 0.1; // TODO TUNE
+    public static final double kI = 0.0; // TODO TUNE
+    public static final double kD = 0.0; // TODO TUNE
+
+    // Arm Feedforward characterization constants
+    public static final double ks = 0.10; // TODO TUNE
+    public static final double kv = 0.05; // TODO TUNE
   }
 
   public static final class ArmConstants {
@@ -111,7 +146,7 @@ public final class Constants {
   }
 
   public static final class WristConstants {
-    public static final int kWristMotorId = 103; // ! Change before testing
+    public static final int kWristMotorId = 104; // ! Change before testing
 
     public static final int kCurrentLimit = 30;
 
