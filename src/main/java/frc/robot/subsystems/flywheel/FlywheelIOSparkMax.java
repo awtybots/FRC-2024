@@ -30,12 +30,12 @@ public class FlywheelIOSparkMax implements FlywheelIO {
   private static final double GEAR_RATIO = 52.0 / 34.0; // May be reciprocal
 
   private final CANSparkMax topShooterMotor =
-    new CANSparkMax(FlywheelConstants.kTopFlywheelSparkMaxCanId, MotorType.kBrushless);
+      new CANSparkMax(FlywheelConstants.kTopFlywheelSparkMaxCanId, MotorType.kBrushless);
   private final RelativeEncoder topShooterEncoder = topShooterMotor.getEncoder();
   private final SparkPIDController topShooterPID = topShooterMotor.getPIDController();
 
   private final CANSparkMax bottomShooterMotor =
-    new CANSparkMax(FlywheelConstants.kBottomFlywheelSparkMaxCanId, MotorType.kBrushless);
+      new CANSparkMax(FlywheelConstants.kBottomFlywheelSparkMaxCanId, MotorType.kBrushless);
   private final RelativeEncoder bottomShooterEncoder = bottomShooterMotor.getEncoder();
   private final SparkPIDController bottomShooterPID = bottomShooterMotor.getPIDController();
 

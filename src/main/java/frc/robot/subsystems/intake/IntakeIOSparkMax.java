@@ -30,10 +30,9 @@ public class IntakeIOSparkMax implements IntakeIO {
   private static final double GEAR_RATIO = 52.0 / 34.0; // May be reciprocal
 
   private final CANSparkMax intakeMotor =
-    new CANSparkMax(IntakeConstants.kIntakeSparkMaxCanId, MotorType.kBrushless);
+      new CANSparkMax(IntakeConstants.kIntakeSparkMaxCanId, MotorType.kBrushless);
   private final RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
   private final SparkPIDController intakePID = intakeMotor.getPIDController();
-
 
   public IntakeIOSparkMax() {
     intakeMotor.restoreFactoryDefaults();
