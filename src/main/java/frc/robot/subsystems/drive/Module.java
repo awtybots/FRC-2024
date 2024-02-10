@@ -19,7 +19,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants;
+import frc.robot.Constants.EnvironmentalConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Module {
@@ -45,7 +45,7 @@ public class Module {
 
     // Switch constants based on mode (the physics simulator is treated as a
     // separate robot with different tuning)
-    switch (Constants.currentMode) {
+    switch (EnvironmentalConstants.currentMode) {
       case REAL:
       case REPLAY:
         driveFeedforward = new SimpleMotorFeedforward(0.1, 0.13);
@@ -95,7 +95,7 @@ public class Module {
       if (speedSetpoint != null) {
         // Scale velocity based on turn error
         //
-        // When the error is 90°, the velocity setpoint should be 0. As the wheel turns
+        // When the error is 90 degrees, the velocity setpoint should be 0. As the wheel turns
         // towards the setpoint, its velocity should increase. This is achieved by
         // taking the component of the velocity in the direction of the setpoint.
         double adjustSpeedSetpoint = speedSetpoint * Math.cos(turnFeedback.getPositionError());

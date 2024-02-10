@@ -11,22 +11,23 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-package frc.robot.subsystems.flywheel;
+package frc.robot.subsystems.wrist;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EnvironmentalConstants;
+import frc.robot.Constants.WristConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
-public class Flywheel extends SubsystemBase {
-  private final FlywheelIO io;
-  private final FlywheelIOInputsAutoLogged inputs = new FlywheelIOInputsAutoLogged();
+public class Wrist extends SubsystemBase {
+  private final WristIO io;
+  private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
   private final SimpleMotorFeedforward ffModel;
 
-  /** Creates a new Flywheel. */
-  public Flywheel(FlywheelIO io) {
+  /** Creates a new Wrist. */
+  public Wrist(WristIO io) {
     this.io = io;
 
     // Switch constants based on mode (the physics simulator is treated as a
@@ -34,15 +35,15 @@ public class Flywheel extends SubsystemBase {
     switch (EnvironmentalConstants.currentMode) {
       case REAL:
       case REPLAY:
-        ffModel = new SimpleMotorFeedforward(0.1, 0.05);
-        io.configurePID(1.0, 0.0, 0.0);
+        ffModel = new SimpleMotorFeedforward(WristConstants.ks, WristConstants.kv);
+        io.configurePID(WristConstants.kP, WristConstants.kI, WristConstants.kD);
         break;
       case SIM:
-        ffModel = new SimpleMotorFeedforward(0.0, 0.03);
-        io.configurePID(0.5, 0.0, 0.0);
+        ffModel = new SimpleMotorFeedforward(WristConstants.ks, WristConstants.kv);
+        io.configurePID(WristConstants.kP, WristConstants.kI, WristConstants.kD);
         break;
       default:
-        ffModel = new SimpleMotorFeedforward(0.0, 0.0);
+        ffModel = new SimpleMotorFeedforward(WristConstants.ks, WristConstants.kv);
         break;
     }
   }
@@ -50,7 +51,7 @@ public class Flywheel extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Flywheel", inputs);
+    Logger.processInputs("Wrist", inputs);
   }
 
   /** Run open loop at the specified voltage. */
@@ -63,11 +64,11 @@ public class Flywheel extends SubsystemBase {
     var velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
     io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
 
-    // Log flywheel setpoint
-    Logger.recordOutput("Flywheel/SetpointRPM", velocityRPM);
+    // Log Wrist setpoint
+    Logger.recordOutput("Wrist/SetpointRPM", velocityRPM);
   }
 
-  /** Stops the flywheel. */
+  /** Stops the Wrist. */
   public void stop() {
     io.stop();
   }

@@ -24,17 +24,21 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
+import frc.robot.subsystems.arm.Arm;
+import frc.robot.subsystems.arm.ArmIO;
+import frc.robot.subsystems.arm.ArmIOSim;
+import frc.robot.subsystems.arm.ArmIOSparkMax;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
+import frc.robot.subsystems.flywheel.BottomFlywheelIOSparkMax;
 import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.TopFlywheelIOSparkMax;
-import frc.robot.subsystems.flywheel.BottomFlywheelIOSparkMax;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -46,33 +50,38 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
  */
 public class RobotContainer {
   // Subsystems
-  private final Drive drive;
-  private final Flywheel TopFlywheel;
-  private final Flywheel BottomFlywheel;
+  private final Drive sDrive;
+  private final Flywheel sTopFlywheel;
+  private final Flywheel sBottomFlywheel;
+  private final Arm sArm;
 
   // Controller
-  private final CommandXboxController controller = new CommandXboxController(0);
+  private final CommandXboxController driverController = new CommandXboxController(0);
+  private final CommandXboxController operatorController = new CommandXboxController(1);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
   private final LoggedDashboardNumber flywheelSpeedInput =
       new LoggedDashboardNumber("Flywheel Speed", 1500.0);
+  private final LoggedDashboardNumber armSpeedInput =
+      new LoggedDashboardNumber("Arm Speed", 1500.0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    switch (Constants.currentMode) {
+    switch (Constants.EnvironmentalConstants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
-        drive =
+        sDrive =
             new Drive(
                 new GyroIOPigeon2(false),
                 new ModuleIOSparkMax(0),
                 new ModuleIOSparkMax(1),
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
-        TopFlywheel = new Flywheel(new TopFlywheelIOSparkMax());
-        BottomFlywheel = new Flywheel(new BottomFlywheelIOSparkMax());
+        sTopFlywheel = new Flywheel(new TopFlywheelIOSparkMax());
+        sBottomFlywheel = new Flywheel(new BottomFlywheelIOSparkMax());
+        sArm = new Arm(new ArmIOSparkMax() {});
         // drive = new Drive(
         // new GyroIOPigeon2(true),
         // new ModuleIOTalonFX(0),
@@ -84,29 +93,31 @@ public class RobotContainer {
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
-        drive =
+        sDrive =
             new Drive(
                 new GyroIO() {},
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim());
-        TopFlywheel = new Flywheel(new FlywheelIOSim());
-        BottomFlywheel = new Flywheel(new FlywheelIOSim());
+        sTopFlywheel = new Flywheel(new FlywheelIOSim());
+        sBottomFlywheel = new Flywheel(new FlywheelIOSim());
+        sArm = new Arm(new ArmIOSim() {});
 
         break;
 
       default:
         // Replayed robot, disable IO implementations
-        drive =
+        sDrive =
             new Drive(
                 new GyroIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
-        TopFlywheel = new Flywheel(new FlywheelIO() {});
-        BottomFlywheel = new Flywheel(new FlywheelIO() {});
+        sTopFlywheel = new Flywheel(new FlywheelIO() {});
+        sBottomFlywheel = new Flywheel(new FlywheelIO() {});
+        sArm = new Arm(new ArmIO() {});
         break;
     }
 
@@ -114,16 +125,16 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Run TopFlywheel",
         Commands.startEnd(
-                () -> TopFlywheel.runVelocity(flywheelSpeedInput.get()),
-                TopFlywheel::stop,
-                TopFlywheel)
+                () -> sTopFlywheel.runVelocity(flywheelSpeedInput.get()),
+                sTopFlywheel::stop,
+                sTopFlywheel)
             .withTimeout(5.0));
     NamedCommands.registerCommand(
         "Run BottomFlywheel",
         Commands.startEnd(
-                () -> BottomFlywheel.runVelocity(flywheelSpeedInput.get()),
-                BottomFlywheel::stop,
-                BottomFlywheel)
+                () -> sBottomFlywheel.runVelocity(flywheelSpeedInput.get()),
+                sBottomFlywheel::stop,
+                sBottomFlywheel)
             .withTimeout(5.0));
 
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -132,15 +143,17 @@ public class RobotContainer {
     autoChooser.addOption(
         "Drive FF Characterization",
         new FeedForwardCharacterization(
-            drive, drive::runCharacterizationVolts, drive::getCharacterizationVelocity));
+            sDrive, sDrive::runCharacterizationVolts, sDrive::getCharacterizationVelocity));
     autoChooser.addOption(
         "TopFlywheel FF Characterization",
         new FeedForwardCharacterization(
-            TopFlywheel, TopFlywheel::runVolts, TopFlywheel::getCharacterizationVelocity));
+            sTopFlywheel, sTopFlywheel::runVolts, sTopFlywheel::getCharacterizationVelocity));
     autoChooser.addOption(
         "BottomFlywheel FF Characterization",
         new FeedForwardCharacterization(
-            BottomFlywheel, BottomFlywheel::runVolts, BottomFlywheel::getCharacterizationVelocity));
+            sBottomFlywheel,
+            sBottomFlywheel::runVolts,
+            sBottomFlywheel::getCharacterizationVelocity));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -153,46 +166,46 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.setDefaultCommand(
+    sDrive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive,
-            () -> -controller.getLeftY(),
-            () -> -controller.getLeftX(),
-            () -> -controller.getRightX()));
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
-    controller
+            sDrive,
+            () -> -driverController.getLeftY(),
+            () -> -driverController.getLeftX(),
+            () -> -driverController.getRightX()));
+    driverController.x().onTrue(Commands.runOnce(sDrive::stopWithX, sDrive));
+    driverController // TODO change to operatorController later
         .b()
         .onTrue(
             Commands.runOnce(
                     () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-                    drive)
+                        sDrive.setPose(
+                            new Pose2d(sDrive.getPose().getTranslation(), new Rotation2d())),
+                    sDrive)
                 .ignoringDisable(true));
-    controller
+    driverController // TODO change to operatorController later
         .a()
         .whileTrue(
             Commands.startEnd(
-                () -> TopFlywheel.runVelocity(flywheelSpeedInput.get()),
-                TopFlywheel::stop,
-                TopFlywheel));
-    controller
+                () -> sTopFlywheel.runVelocity(flywheelSpeedInput.get()),
+                sTopFlywheel::stop,
+                sTopFlywheel));
+    driverController // TODO change to operatorController later
         .a()
         .whileFalse(
-            Commands.startEnd(() -> TopFlywheel.runVelocity(0), TopFlywheel::stop, TopFlywheel));
+            Commands.startEnd(() -> sTopFlywheel.runVelocity(0), sTopFlywheel::stop, sTopFlywheel));
 
-    controller
+    driverController // TODO change to operatorController later
         .a()
         .whileTrue(
             Commands.startEnd(
-                () -> BottomFlywheel.runVelocity(flywheelSpeedInput.get()),
-                BottomFlywheel::stop,
-                BottomFlywheel));
-    controller
+                () -> sBottomFlywheel.runVelocity(flywheelSpeedInput.get()),
+                sBottomFlywheel::stop,
+                sBottomFlywheel));
+    driverController // TODO change to operatorController later
         .a()
         .whileFalse(
             Commands.startEnd(
-                () -> BottomFlywheel.runVelocity(0), BottomFlywheel::stop, BottomFlywheel));
+                () -> sBottomFlywheel.runVelocity(0), sBottomFlywheel::stop, sBottomFlywheel));
   }
 
   /**

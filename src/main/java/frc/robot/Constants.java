@@ -22,7 +22,10 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final Mode currentMode = Mode.REAL;
+  public static final class EnvironmentalConstants {
+    // ! Change this when testing btwn modes yourself.
+    public static final Mode currentMode = Mode.REAL;
+  }
 
   public static enum Mode {
     /** Running on a real robot. */
@@ -55,28 +58,76 @@ public final class Constants {
     public static final int kBottomFlywheelSparkMaxCanId = 14;
   }
 
-  public static final class Arm{
+  public static final class ArmConstants {
     public static final int kRightArmMotorId = 15;
     public static final int kLeftArmMotorId = 16;
-    
+
     public static final int kCurrentLimit = 30;
 
     public static final int startingAngle = 30; // TODO TUNE
 
-    public static final double armConversion = 1; //TODO TUNE
+    public static final double armConversion = 1; // TODO TUNE
 
-    public static final double kP = 0.1; //TODO TUNE
-    public static final double kI = 0.0; //TODO TUNE
-    public static final double kD = 0.0; //TODO TUNE
-    public static final double kFF = 0.0; //TODO TUNE
-    public static final double kIz = 0.0; //TODO TUNE
+    // Arm PID constants
+    public static final double kP = 0.1; // TODO TUNE
+    public static final double kI = 0.0; // TODO TUNE
+    public static final double kD = 0.0; // TODO TUNE
 
-    public static final double initialHeight = 0.0; //TODO TUNE
+    // Arm Feedforward characterization constants
+    public static final double ks = 0.10; // TODO TUNE
+    public static final double kv = 0.05; // TODO TUNE
+
+    // do not use
+    // public static final double kFF = 0.0;
+    // public static final double kIz = 0.0;
+
+    // public static final double initialAngle = 0.0; // Not sure what this is for
+  }
+
+  public static final class ArmElevatorConstants {
+    public static final int kArmElevatorMotorId = 103; // ! Change before testing
+
+    public static final int kCurrentLimit = 30;
+
+    public static final int initialExtension = 0; // TODO TUNE
+    public static final int maxExtension = 1; // TODO TUNE
+
+    public static final double armElevatorConversion = 1; // TODO TUNE
+
+    // ArmElevator PID constants
+    public static final double kP = 0.1; // TODO TUNE
+    public static final double kI = 0.0; // TODO TUNE
+    public static final double kD = 0.0; // TODO TUNE
+
+    // Arm Elevator Feedforward characterization constants
+    public static final double ks = 0.10; // TODO TUNE
+    public static final double kv = 0.05; // TODO TUNE
+
+    // public static final double ArmThreshold = 0.1; // TODO TUNE
 
   }
 
-  public static final class Presets{
-    public static final double ArmThreshold = 0.1; //TODO TUNE
+  public static final class Presets {
+    public static final double ArmThreshold = 0.1; // TODO TUNE
+  }
 
+  public static final class WristConstants {
+    public static final int kWristMotorId = 103; // ! Change before testing
+
+    public static final int kCurrentLimit = 30;
+
+    public static final int initialExtension = 0; // TODO TUNE
+    public static final int maxExtension = 1; // TODO TUNE
+
+    public static final double armElevatorConversion = 1; // TODO TUNE
+
+    // ArmElevator PID constants
+    public static final double kP = 0.1; // TODO TUNE
+    public static final double kI = 0.0; // TODO TUNE
+    public static final double kD = 0.0; // TODO TUNE
+
+    // Arm Elevator Feedforward characterization constants
+    public static final double ks = 0.10; // TODO TUNE
+    public static final double kv = 0.05; // TODO TUNE
   }
 }
