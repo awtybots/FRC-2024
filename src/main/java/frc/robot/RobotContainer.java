@@ -34,6 +34,7 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.TopFlywheelIOSparkMax;
+import frc.robot.subsystems.flywheel.BottomFlywheelIOSparkMax;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -71,7 +72,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
         TopFlywheel = new Flywheel(new TopFlywheelIOSparkMax());
-        BottomFlywheel = new Flywheel(new TopFlywheelIOSparkMax());
+        BottomFlywheel = new Flywheel(new BottomFlywheelIOSparkMax());
         // drive = new Drive(
         // new GyroIOPigeon2(true),
         // new ModuleIOTalonFX(0),
