@@ -18,10 +18,14 @@ import org.littletonrobotics.junction.AutoLog;
 public interface FlywheelIO {
   @AutoLog
   public static class FlywheelIOInputs {
-    public double positionRad = 0.0;
-    public double velocityRadPerSec = 0.0;
-    public double appliedVolts = 0.0;
-    public double[] currentAmps = new double[] {};
+    public double positionRadTop = 0.0;
+    public double positionRadBottom = 0.0;
+    public double velocityRadPerSecTop = 0.0;
+    public double velocityRadPerSecBottom = 0.0;
+    public double appliedVoltsTop = 0.0;
+    public double appliedVoltsBottom = 0.0;
+    public double[] currentAmpsTop = new double[] {};
+    public double[] currentAmpsBottom = new double[] {};
   }
 
   /** Updates the set of loggable inputs. */

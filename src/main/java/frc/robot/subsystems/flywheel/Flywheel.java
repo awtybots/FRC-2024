@@ -17,6 +17,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EnvironmentalConstants;
+import frc.robot.Constants.FlywheelConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -34,15 +35,15 @@ public class Flywheel extends SubsystemBase {
     switch (EnvironmentalConstants.currentMode) {
       case REAL:
       case REPLAY:
-        ffModel = new SimpleMotorFeedforward(0.1, 0.05);
-        io.configurePID(1.0, 0.0, 0.0);
+        ffModel = new SimpleMotorFeedforward(FlywheelConstants.ks, FlywheelConstants.kv);
+        io.configurePID(FlywheelConstants.kP, FlywheelConstants.kI, FlywheelConstants.kD);
         break;
       case SIM:
-        ffModel = new SimpleMotorFeedforward(0.0, 0.03);
-        io.configurePID(0.5, 0.0, 0.0);
+        ffModel = new SimpleMotorFeedforward(FlywheelConstants.ks, FlywheelConstants.kv);
+        io.configurePID(FlywheelConstants.kP, FlywheelConstants.kI, FlywheelConstants.kD);
         break;
       default:
-        ffModel = new SimpleMotorFeedforward(0.0, 0.0);
+        ffModel = new SimpleMotorFeedforward(FlywheelConstants.ks, FlywheelConstants.kv);
         break;
     }
   }
@@ -74,12 +75,19 @@ public class Flywheel extends SubsystemBase {
 
   /** Returns the current velocity in RPM. */
   @AutoLogOutput
-  public double getVelocityRPM() {
-    return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSec);
+  public double getVelocityRPMTop() {
+    return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSecTop);
   }
 
-  /** Returns the current velocity in radians per second. */
+ @AutoLogOutput
+  public double getVelocityRPMBottom() {
+    return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSecBottom);
+  }
+
+  /** Returns the current velocity in radians per second. 
+   * Note: I don't think this will be necessary to include in the Auto Manager at all. Is feedforward even appropriate for this?
+  */
   public double getCharacterizationVelocity() {
-    return inputs.velocityRadPerSec;
+    return (inputs.velocityRadPerSecTop + inputs.velocityRadPerSecBottom)/2;
   }
 }

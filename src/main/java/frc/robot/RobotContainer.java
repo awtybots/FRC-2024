@@ -59,8 +59,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 public class RobotContainer {
   // Subsystems
   private final Drive sDrive;
-  private final Flywheel sTopFlywheel;
-  private final Flywheel sBottomFlywheel;
+  private final Flywheel sFlywheel;
   private final Arm sArm;
   private final ArmElevator sArmElevator;
   private final Wrist sWrist;
@@ -89,8 +88,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(1),
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
-        sTopFlywheel = new Flywheel(new FlywheelIOSparkMax());
-        sBottomFlywheel = new Flywheel(new BottomFlywheelIOSparkMax());
+        sFlywheel = new Flywheel(new FlywheelIOSparkMax());
         sArm = new Arm(new ArmIOSparkMax() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
         sWrist = new Wrist(new WristIOSparkMax() {});
@@ -112,8 +110,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim());
-        sTopFlywheel = new Flywheel(new FlywheelIOSim());
-        sBottomFlywheel = new Flywheel(new FlywheelIOSim());
+        sFlywheel = new Flywheel(new FlywheelIOSim());
         sArm = new Arm(new ArmIOSim() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
         sWrist = new Wrist(new WristIOSim() {});
@@ -129,8 +126,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
-        sTopFlywheel = new Flywheel(new FlywheelIO() {});
-        sBottomFlywheel = new Flywheel(new FlywheelIO() {});
+        sFlywheel = new Flywheel(new FlywheelIO() {});
         sArm = new Arm(new ArmIO() {});
         sArmElevator = new ArmElevator(new ArmElevatorIO() {});
         sWrist = new Wrist(new WristIO() {});
@@ -140,18 +136,11 @@ public class RobotContainer {
 
     // Set up auto routines
     NamedCommands.registerCommand(
-        "Run TopFlywheel",
+        "Run Flywheel",
         Commands.startEnd(
-                () -> sTopFlywheel.runVelocity(flywheelSpeedInput.get()),
-                sTopFlywheel::stop,
-                sTopFlywheel)
-            .withTimeout(5.0));
-    NamedCommands.registerCommand(
-        "Run BottomFlywheel",
-        Commands.startEnd(
-                () -> sBottomFlywheel.runVelocity(flywheelSpeedInput.get()),
-                sBottomFlywheel::stop,
-                sBottomFlywheel)
+                () -> sFlywheel.runVelocity(flywheelSpeedInput.get()),
+                sFlywheel::stop,
+                sFlywheel)
             .withTimeout(5.0));
 
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -162,15 +151,9 @@ public class RobotContainer {
         new FeedForwardCharacterization(
             sDrive, sDrive::runCharacterizationVolts, sDrive::getCharacterizationVelocity));
     autoChooser.addOption(
-        "TopFlywheel FF Characterization",
+        "Flywheel FF Characterization",
         new FeedForwardCharacterization(
-            sTopFlywheel, sTopFlywheel::runVolts, sTopFlywheel::getCharacterizationVelocity));
-    autoChooser.addOption(
-        "BottomFlywheel FF Characterization",
-        new FeedForwardCharacterization(
-            sBottomFlywheel,
-            sBottomFlywheel::runVolts,
-            sBottomFlywheel::getCharacterizationVelocity));
+            sFlywheel, sFlywheel::runVolts, sFlywheel::getCharacterizationVelocity));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -203,26 +186,13 @@ public class RobotContainer {
         .a()
         .whileTrue(
             Commands.startEnd(
-                () -> sTopFlywheel.runVelocity(flywheelSpeedInput.get()),
-                sTopFlywheel::stop,
-                sTopFlywheel));
+                () -> sFlywheel.runVelocity(flywheelSpeedInput.get()),
+                sFlywheel::stop,
+                sFlywheel));
     driverController // TODO change to operatorController later
         .a()
         .whileFalse(
-            Commands.startEnd(() -> sTopFlywheel.runVelocity(0), sTopFlywheel::stop, sTopFlywheel));
-
-    driverController // TODO change to operatorController later
-        .a()
-        .whileTrue(
-            Commands.startEnd(
-                () -> sBottomFlywheel.runVelocity(flywheelSpeedInput.get()),
-                sBottomFlywheel::stop,
-                sBottomFlywheel));
-    driverController // TODO change to operatorController later
-        .a()
-        .whileFalse(
-            Commands.startEnd(
-                () -> sBottomFlywheel.runVelocity(0), sBottomFlywheel::stop, sBottomFlywheel));
+            Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop, sFlywheel));
   }
 
   /**
