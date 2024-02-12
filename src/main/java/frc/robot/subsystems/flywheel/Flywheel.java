@@ -30,8 +30,7 @@ public class Flywheel extends SubsystemBase {
   public Flywheel(FlywheelIO io) {
     this.io = io;
 
-    // Switch constants based on mode (the physics simulator is treated as a
-    // separate robot with different tuning)
+    // Switch constants based on mode.
     switch (EnvironmentalConstants.currentMode) {
       case REAL:
       case REPLAY:

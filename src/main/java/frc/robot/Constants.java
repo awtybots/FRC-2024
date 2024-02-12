@@ -22,7 +22,10 @@ package frc.robot;
  */
 public final class Constants {
   public static final class EnvironmentalConstants {
-    // ! Change this when testing btwn modes yourself.
+    /*
+    ! Change this when testing btwn modes yourself. It's technically possible to connect this to a LoggedDashboardChooser for
+    ! convinence, but we shouldn't do that as that would mess with the REPLAY mode.
+    */
     public static final Mode currentMode = Mode.REAL;
   }
 

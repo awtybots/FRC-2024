@@ -23,12 +23,13 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.FlywheelConstants;
 
 public class FlywheelIOSparkMax implements FlywheelIO {
-  private static final double GEAR_RATIO = 52.0 / 34.0; // May be reciprocal
+  private static final double GEAR_RATIO = 52.0 / 34.0; // TODO May be reciprocal
 
-  // ! Note: I do not believe there will be any situation where the top motor and the bottom motor
-  // will need to
-  // ! be treated differently (because if they were, they could rip the note apart in the current
-  // design).
+  /*
+   Note: I do not believe there will be any situation where the top motor and the bottom motor
+   will need to be treated differently (because if they were, they could rip the note apart in
+   the current design). The following could also be achieved with a follower motor.
+  */
   private final CANSparkMax topShooterMotor =
       new CANSparkMax(FlywheelConstants.kTopFlywheelSparkMaxCanId, MotorType.kBrushless);
   private final RelativeEncoder topShooterEncoder = topShooterMotor.getEncoder();

@@ -42,6 +42,10 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeIO;
+import frc.robot.subsystems.intake.IntakeIOSim;
+import frc.robot.subsystems.intake.IntakeIOSparkMax;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.wrist.WristIO;
 import frc.robot.subsystems.wrist.WristIOSim;
@@ -59,15 +63,17 @@ public class RobotContainer {
   // Subsystems
   private final Drive sDrive;
   private final Flywheel sFlywheel;
+  private final Intake sIntake;
   private final Arm sArm;
   private final ArmElevator sArmElevator;
   private final Wrist sWrist;
 
-  // Controller
+  // Controllers
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
 
-  // Dashboard inputs
+  // Dashboard inputs - this seems to be for auto testing so I won't be adding the others
+  // See the Feedforward Characterizations
   private final LoggedDashboardChooser<Command> autoChooser;
   private final LoggedDashboardNumber flywheelSpeedInput =
       new LoggedDashboardNumber("Flywheel Speed", 1500.0);
@@ -88,20 +94,16 @@ public class RobotContainer {
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
         sFlywheel = new Flywheel(new FlywheelIOSparkMax());
+        sIntake = new Intake(new IntakeIOSparkMax() {});
         sArm = new Arm(new ArmIOSparkMax() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
         sWrist = new Wrist(new WristIOSparkMax() {});
-        // drive = new Drive(
-        // new GyroIOPigeon2(true),
-        // new ModuleIOTalonFX(0),
-        // new ModuleIOTalonFX(1),
-        // new ModuleIOTalonFX(2),
-        // new ModuleIOTalonFX(3));
-        // flywheel = new Flywheel(new FlywheelIOTalonFX());
+
         break;
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
+        // Note that most of these are broken and useless, and I don't think we have time to fix them
         sDrive =
             new Drive(
                 new GyroIO() {},
@@ -110,6 +112,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         sFlywheel = new Flywheel(new FlywheelIOSim());
+        sIntake = new Intake(new IntakeIOSim() {});
         sArm = new Arm(new ArmIOSim() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
         sWrist = new Wrist(new WristIOSim() {});
@@ -126,6 +129,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         sFlywheel = new Flywheel(new FlywheelIO() {});
+        sIntake = new Intake(new IntakeIO() {});
         sArm = new Arm(new ArmIO() {});
         sArmElevator = new ArmElevator(new ArmElevatorIO() {});
         sWrist = new Wrist(new WristIO() {});
