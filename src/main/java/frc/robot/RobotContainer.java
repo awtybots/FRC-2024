@@ -137,9 +137,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Run Flywheel",
         Commands.startEnd(
-                () -> sFlywheel.runVelocity(flywheelSpeedInput.get()),
-                sFlywheel::stop,
-                sFlywheel)
+                () -> sFlywheel.runVelocity(flywheelSpeedInput.get()), sFlywheel::stop, sFlywheel)
             .withTimeout(5.0));
 
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -172,7 +170,7 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
     driverController.x().onTrue(Commands.runOnce(sDrive::stopWithX, sDrive));
-    driverController // TODO change to operatorController later
+    driverController
         .b()
         .onTrue(
             Commands.runOnce(
@@ -185,13 +183,10 @@ public class RobotContainer {
         .a()
         .whileTrue(
             Commands.startEnd(
-                () -> sFlywheel.runVelocity(flywheelSpeedInput.get()),
-                sFlywheel::stop,
-                sFlywheel));
+                () -> sFlywheel.runVelocity(flywheelSpeedInput.get()), sFlywheel::stop, sFlywheel));
     driverController // TODO change to operatorController later
         .a()
-        .whileFalse(
-            Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop, sFlywheel));
+        .whileFalse(Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop, sFlywheel));
   }
 
   /**

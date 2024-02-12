@@ -22,15 +22,13 @@ import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.FlywheelConstants;
 
-/**
- * NOTE: To use the Spark Flex / NEO Vortex, replace all instances of "CANSparkMax" with
- * "CANSparkFlex".
- */
 public class FlywheelIOSparkMax implements FlywheelIO {
   private static final double GEAR_RATIO = 52.0 / 34.0; // May be reciprocal
 
-  // ! Note: I do not believe there will be any situation where the top motor and the bottom motor will need to 
-  // ! be treated differently, so 
+  // ! Note: I do not believe there will be any situation where the top motor and the bottom motor
+  // will need to
+  // ! be treated differently (because if they were, they could rip the note apart in the current
+  // design).
   private final CANSparkMax topShooterMotor =
       new CANSparkMax(FlywheelConstants.kTopFlywheelSparkMaxCanId, MotorType.kBrushless);
   private final RelativeEncoder topShooterEncoder = topShooterMotor.getEncoder();
@@ -65,10 +63,12 @@ public class FlywheelIOSparkMax implements FlywheelIO {
     inputs.appliedVoltsTop = topShooterMotor.getAppliedOutput() * topShooterMotor.getBusVoltage();
     inputs.currentAmpsTop = new double[] {topShooterMotor.getOutputCurrent()};
 
-    inputs.positionRadBottom = Units.rotationsToRadians(bottomShooterEncoder.getPosition() / GEAR_RATIO);
+    inputs.positionRadBottom =
+        Units.rotationsToRadians(bottomShooterEncoder.getPosition() / GEAR_RATIO);
     inputs.velocityRadPerSecBottom =
         Units.rotationsPerMinuteToRadiansPerSecond(bottomShooterEncoder.getVelocity() / GEAR_RATIO);
-    inputs.appliedVoltsBottom = bottomShooterMotor.getAppliedOutput() * bottomShooterMotor.getBusVoltage();
+    inputs.appliedVoltsBottom =
+        bottomShooterMotor.getAppliedOutput() * bottomShooterMotor.getBusVoltage();
     inputs.currentAmpsBottom = new double[] {bottomShooterMotor.getOutputCurrent()};
   }
 

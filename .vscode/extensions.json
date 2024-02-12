@@ -1,6 +1,13 @@
 {
   "recommendations": [
     "mechanical-advantage.event-deploy-wpilib",
-    "richardwillis.vscode-spotless-gradle"
+    "richardwillis.vscode-spotless-gradle",
+    "aaron-bond.better-comments",
+    "eamodio.gitlens",
+    "ms-vsliveshare.vsliveshare",
+    "wpilibsuite.vscode-wpilib",
+    "vscjava.vscode-gradle",
+    "vscjava.vscode-java-debug",
+    "redhat.java"
   ]
 }

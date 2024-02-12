@@ -79,15 +79,16 @@ public class Flywheel extends SubsystemBase {
     return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSecTop);
   }
 
- @AutoLogOutput
+  @AutoLogOutput
   public double getVelocityRPMBottom() {
     return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSecBottom);
   }
 
-  /** Returns the current velocity in radians per second. 
-   * Note: I don't think this will be necessary to include in the Auto Manager at all. Is feedforward even appropriate for this?
-  */
+  /**
+   * Returns the current velocity in radians per second. Note: I don't think this will be necessary
+   * to include in the Auto Manager at all. Is feedforward even appropriate for this?
+   */
   public double getCharacterizationVelocity() {
-    return (inputs.velocityRadPerSecTop + inputs.velocityRadPerSecBottom)/2;
+    return (inputs.velocityRadPerSecTop + inputs.velocityRadPerSecBottom) / 2;
   }
 }
