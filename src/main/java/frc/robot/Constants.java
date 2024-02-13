@@ -77,7 +77,8 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int kIntakeSparkMaxCanId = 12341; // ! Change before testing
+    public static final int kLeftIntakeSparkMaxCanId = 18; // ! Change before testing
+    public static final int kBottomIntakeSparkMaxCanId = 17;
 
     public static final int kCurrentLimit = 30;
 
