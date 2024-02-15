@@ -65,7 +65,10 @@ public class Arm extends SubsystemBase {
     io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
 
     // Log arm setpoint
-    Logger.recordOutput("Arm/SetpointRPM", velocityRPM);
+  }
+
+  public void runTargetAngle(double position) {
+    io.setTargetAngle(position);
   }
 
   /** Stops the arm. */

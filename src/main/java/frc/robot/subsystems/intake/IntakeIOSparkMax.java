@@ -32,10 +32,8 @@ public class IntakeIOSparkMax implements IntakeIO {
   private final CANSparkMax intakeMotor =
       new CANSparkMax(IntakeConstants.kTopIntakeSparkMaxCanId, MotorType.kBrushless);
 
- private final CANSparkMax followerMotor =
+  private final CANSparkMax followerMotor =
       new CANSparkMax(IntakeConstants.kBottomIntakeSparkMaxCanId, MotorType.kBrushless);
-
-
 
   private final RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
   private final SparkPIDController intakePID = intakeMotor.getPIDController();
@@ -50,17 +48,15 @@ public class IntakeIOSparkMax implements IntakeIO {
     intakeMotor.setInverted(false);
     followerMotor.setInverted(false);
 
-
     intakeMotor.enableVoltageCompensation(12.0);
     intakeMotor.setSmartCurrentLimit(30);
-     followerMotor.enableVoltageCompensation(12.0);
+    followerMotor.enableVoltageCompensation(12.0);
     followerMotor.setSmartCurrentLimit(30);
 
     intakeMotor.burnFlash();
-        followerMotor.burnFlash();
+    followerMotor.burnFlash();
 
     followerMotor.follow(intakeMotor);
-
   }
 
   @Override

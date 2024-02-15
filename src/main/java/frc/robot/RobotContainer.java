@@ -103,7 +103,8 @@ public class RobotContainer {
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
-        // Note that most of these are broken and useless, and I don't think we have time to fix them
+        // Note that most of these are broken and useless, and I don't think we have time to fix
+        // them
         sDrive =
             new Drive(
                 new GyroIO() {},

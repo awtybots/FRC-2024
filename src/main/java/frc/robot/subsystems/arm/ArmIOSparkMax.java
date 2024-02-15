@@ -34,6 +34,7 @@ public class ArmIOSparkMax implements ArmIO {
       new CANSparkMax(ArmConstants.kRightArmMotorId, MotorType.kBrushless);
   private final RelativeEncoder encoder = leftMotor.getEncoder();
   private final SparkPIDController pid = leftMotor.getPIDController();
+  private double targetAngle = 0.0; // Radians
 
   public ArmIOSparkMax() {
     leftMotor.restoreFactoryDefaults();
@@ -80,6 +81,11 @@ public class ArmIOSparkMax implements ArmIO {
         0,
         ffVolts,
         ArbFFUnits.kVoltage);
+  }
+
+  @Override
+  public void setTargetAngle(double angle) {
+    targetAngle = angle;
   }
 
   @Override

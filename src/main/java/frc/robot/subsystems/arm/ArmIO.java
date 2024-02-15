@@ -33,6 +33,8 @@ public interface ArmIO {
   /** Run closed loop at the specified velocity. */
   public default void setVelocity(double velocityRadPerSec, double ffVolts) {}
 
+  public default void setTargetAngle(double angle) {}
+
   /** Stop in open loop. */
   public default void stop() {}
 

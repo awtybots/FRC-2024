@@ -44,19 +44,19 @@ public final class Constants {
     // SPARK MAX CAN IDs
     public static final int kFrontLeftDrivingCanId = 10;
     public static final int kRearLeftDrivingCanId = 8;
-    public static final int kFrontRightDrivingCanId = 2;
-    public static final int kRearRightDrivingCanId = 4;
+    public static final int kFrontRightDrivingCanId = 12;
+    public static final int kRearRightDrivingCanId = 2;
 
     public static final int kFrontLeftTurningCanId = 11;
-    public static final int kRearLeftTurningCanId = 9;
-    public static final int kFrontRightTurningCanId = 3;
+    public static final int kRearLeftTurningCanId = 4;
+    public static final int kFrontRightTurningCanId = 13;
     public static final int kRearRightTurningCanId = 5;
   }
 
   public static final class FlywheelConstants {
 
     // CAN ID's
-    public static final int kTopFlywheelSparkMaxCanId = 13;
+    public static final int kTopFlywheelSparkMaxCanId = 3;
     public static final int kBottomFlywheelSparkMaxCanId = 14;
 
     // TODO implement the below
@@ -77,8 +77,8 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int kLeftIntakeSparkMaxCanId = 18; // ! Change before testing
-    public static final int kBottomIntakeSparkMaxCanId = 17;
+    public static final int kTopIntakeSparkMaxCanId = 7; // ! Change before testing
+    public static final int kBottomIntakeSparkMaxCanId = 101;
 
     public static final int kCurrentLimit = 30;
 
@@ -97,8 +97,8 @@ public final class Constants {
   }
 
   public static final class ArmConstants {
-    public static final int kRightArmMotorId = 15;
-    public static final int kLeftArmMotorId = 16;
+    public static final int kRightArmMotorId = 1;
+    public static final int kLeftArmMotorId = 9;
 
     public static final int kCurrentLimit = 30;
 
@@ -123,7 +123,7 @@ public final class Constants {
   }
 
   public static final class ArmElevatorConstants {
-    public static final int kArmElevatorMotorId = 103; // ! Change before testing
+    public static final int kArmElevatorMotorId = 17; // ! Change before testing
 
     public static final int kCurrentLimit = 30;
 
@@ -150,7 +150,29 @@ public final class Constants {
   }
 
   public static final class WristConstants {
-    public static final int kWristMotorId = 104; // ! Change before testing
+    public static final int kWristMotorId = 6; // ! Change before testing
+
+    public static final int kCurrentLimit = 30;
+
+    public static final int initialExtension = 0; // TODO TUNE
+    public static final int maxExtension = 1; // TODO TUNE
+
+    public static final double armElevatorConversion = 1; // TODO TUNE
+
+    // ArmElevator PID constants
+    public static final double kP = 0.1; // TODO TUNE
+    public static final double kI = 0.0; // TODO TUNE
+    public static final double kD = 0.0; // TODO TUNE
+
+    // Arm Elevator Feedforward characterization constants
+    public static final double ks = 0.10; // TODO TUNE
+    public static final double kv = 0.05; // TODO TUNE
+  }
+
+  public static final class ClimberConstants{
+    public static final int kLeftClimberMotorId = 15; // ! Change before testing
+    public static final int kRightClimberMotorId = 16; // ! Change before testing
+
 
     public static final int kCurrentLimit = 30;
 

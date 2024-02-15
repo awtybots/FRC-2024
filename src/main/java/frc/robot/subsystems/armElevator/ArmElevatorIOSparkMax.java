@@ -28,6 +28,8 @@ import frc.robot.Constants.ArmElevatorConstants;
 public class ArmElevatorIOSparkMax implements ArmElevatorIO {
   private static final double GEAR_RATIO = 52.0 / 34.0; // May be reciprocal
 
+  public double targetPosition = 0.0;
+
   private final CANSparkMax motor =
       new CANSparkMax(ArmElevatorConstants.kArmElevatorMotorId, MotorType.kBrushless);
   private final RelativeEncoder encoder = motor.getEncoder();
@@ -51,9 +53,8 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
 
   @Override
   public void updateInputs(ArmElevatorIOInputs inputs) {
-    inputs.positionRad = Units.rotationsToRadians(encoder.getPosition() / GEAR_RATIO);
-    inputs.velocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
+    inputs.position = encoder.getPosition() / GEAR_RATIO;
+    inputs.targetPosition = targetPosition;
     inputs.appliedVolts = motor.getAppliedOutput() * motor.getBusVoltage();
     inputs.currentAmps = new double[] {motor.getOutputCurrent()};
   }
