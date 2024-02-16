@@ -169,10 +169,9 @@ public final class Constants {
     public static final double kv = 0.05; // TODO TUNE
   }
 
-  public static final class ClimberConstants{
+  public static final class ClimberConstants {
     public static final int kLeftClimberMotorId = 15; // ! Change before testing
     public static final int kRightClimberMotorId = 16; // ! Change before testing
-
 
     public static final int kCurrentLimit = 30;
 

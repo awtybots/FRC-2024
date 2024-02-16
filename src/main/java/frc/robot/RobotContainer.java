@@ -15,8 +15,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -175,15 +173,15 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
     driverController.x().onTrue(Commands.runOnce(sDrive::stopWithX, sDrive));
-    driverController
-        .b()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        sDrive.setPose(
-                            new Pose2d(sDrive.getPose().getTranslation(), new Rotation2d())),
-                    sDrive)
-                .ignoringDisable(true));
+    // driverController
+    //     .b()
+    //     .onTrue(
+    //         Commands.runOnce(
+    //                 () ->
+    //                     sDrive.setPose(
+    //                         new Pose2d(sDrive.getPose().getTranslation(), new Rotation2d())),
+    //                 sDrive)
+    //             .ignoringDisable(true));
     driverController // TODO change to operatorController later
         .a()
         .whileTrue(

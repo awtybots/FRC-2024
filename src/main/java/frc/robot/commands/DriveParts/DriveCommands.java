@@ -25,7 +25,7 @@ import frc.robot.subsystems.drive.Drive;
 import java.util.function.DoubleSupplier;
 
 public class DriveCommands {
-  private static final double DEADBAND = 0.1;
+  private static final double DEADBAND = 0.3;
 
   private DriveCommands() {}
 
@@ -44,7 +44,9 @@ public class DriveCommands {
               MathUtil.applyDeadband(
                   Math.hypot(xSupplier.getAsDouble(), ySupplier.getAsDouble()), DEADBAND);
           Rotation2d linearDirection =
-              new Rotation2d(xSupplier.getAsDouble(), ySupplier.getAsDouble());
+              new Rotation2d(
+                  MathUtil.applyDeadband(xSupplier.getAsDouble(), 0.18),
+                  -MathUtil.applyDeadband(ySupplier.getAsDouble(), 0.18));
           double omega = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND);
 
           // Square values
