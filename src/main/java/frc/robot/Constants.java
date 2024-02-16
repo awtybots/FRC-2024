@@ -87,13 +87,13 @@ public final class Constants {
     public static final double armConversion = 1; // TODO TUNE
 
     // Arm PID constants
-    public static final double kP = 0.1; // TODO TUNE
+    public static final double kP = 10; // TODO TUNE
     public static final double kI = 0.0; // TODO TUNE
     public static final double kD = 0.0; // TODO TUNE
 
     // Arm Feedforward characterization constants
-    public static final double ks = 0.10; // TODO TUNE
-    public static final double kv = 0.05; // TODO TUNE
+    public static final double ks = 0; // TODO TUNE
+    public static final double kv = 0; // TODO TUNE
   }
 
   public static final class ArmConstants {

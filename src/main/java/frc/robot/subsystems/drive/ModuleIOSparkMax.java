@@ -53,7 +53,7 @@ public class ModuleIOSparkMax implements ModuleIO {
 
   private final SparkAbsoluteEncoder turnAbsoluteEncoderNew;
 
-  private final boolean isTurnMotorInverted = true;
+  private final boolean isTurnMotorInverted = false;
   private final Rotation2d absoluteEncoderOffset;
 
   public ModuleIOSparkMax(int index) {
@@ -73,14 +73,14 @@ public class ModuleIOSparkMax implements ModuleIO {
         turnSparkMax =
             new CANSparkMax(DriveConstants.kFrontRightTurningCanId, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(1);
-        absoluteEncoderOffset = new Rotation2d(0); // MUST BE CALIBRATED
+        absoluteEncoderOffset = new Rotation2d(0 + Math.PI); // MUST BE CALIBRATED
         break;
         // Rear left
       case 2:
         driveSparkMax = new CANSparkMax(DriveConstants.kRearLeftDrivingCanId, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(DriveConstants.kRearLeftTurningCanId, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(2);
-        absoluteEncoderOffset = new Rotation2d(Math.PI); // MUST BE CALIBRATED
+        absoluteEncoderOffset = new Rotation2d(Math.PI + Math.PI); // MUST BE CALIBRATED
         break;
         // Rear right
       case 3:
@@ -88,7 +88,8 @@ public class ModuleIOSparkMax implements ModuleIO {
             new CANSparkMax(DriveConstants.kRearRightDrivingCanId, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(DriveConstants.kRearRightTurningCanId, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(3);
-        absoluteEncoderOffset = new Rotation2d(Math.PI * 3 / 2); // MUST BE CALIBRATED
+        absoluteEncoderOffset =
+            new Rotation2d(Math.PI * 3 / 2 + Math.PI + Math.PI); // MUST BE CALIBRATED
         break;
       default:
         throw new RuntimeException("Invalid module index");
@@ -103,6 +104,7 @@ public class ModuleIOSparkMax implements ModuleIO {
     driveEncoder = driveSparkMax.getEncoder();
     turnRelativeEncoder = turnSparkMax.getEncoder();
     turnAbsoluteEncoderNew = turnSparkMax.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+    turnAbsoluteEncoderNew.setInverted(true);
 
     turnSparkMax.setInverted(isTurnMotorInverted);
     driveSparkMax.setSmartCurrentLimit(40);

@@ -172,16 +172,7 @@ public class RobotContainer {
             () -> -driverController.getLeftY(),
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
-    driverController.x().onTrue(Commands.runOnce(sDrive::stopWithX, sDrive));
-    // driverController
-    //     .b()
-    //     .onTrue(
-    //         Commands.runOnce(
-    //                 () ->
-    //                     sDrive.setPose(
-    //                         new Pose2d(sDrive.getPose().getTranslation(), new Rotation2d())),
-    //                 sDrive)
-    //             .ignoringDisable(true));
+
     driverController // TODO change to operatorController later
         .a()
         .whileTrue(

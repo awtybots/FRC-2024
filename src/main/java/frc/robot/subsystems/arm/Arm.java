@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.EnvironmentalConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
-import org.littletonrobotics.junction.Logger;
 
 public class Arm extends SubsystemBase {
   private final ArmIO io;
@@ -51,7 +50,6 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Arm", inputs);
   }
 
   /** Run open loop at the specified voltage. */
@@ -80,6 +78,16 @@ public class Arm extends SubsystemBase {
   @AutoLogOutput
   public double getVelocityRPM() {
     return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSec);
+  }
+
+  @AutoLogOutput
+  public double getPosition() {
+    return inputs.positionRad;
+  }
+
+  @AutoLogOutput
+  public double getTargetPosition() {
+    return inputs.targetPositionRad;
   }
 
   /** Returns the current velocity in radians per second. */

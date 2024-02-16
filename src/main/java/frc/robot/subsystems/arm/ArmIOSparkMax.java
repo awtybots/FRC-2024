@@ -16,6 +16,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.util.Units;
@@ -26,15 +27,21 @@ import frc.robot.Constants.ArmConstants;
  * "CANSparkFlex".
  */
 public class ArmIOSparkMax implements ArmIO {
-  private static final double GEAR_RATIO = 52.0 / 34.0; // May be reciprocal
+  private static final double GEAR_RATIO = 40.0 * (60.0 / 12.0); // May be reciprocal
 
   private final CANSparkMax leftMotor =
       new CANSparkMax(ArmConstants.kLeftArmMotorId, MotorType.kBrushless);
   private final CANSparkMax rightMotor =
       new CANSparkMax(ArmConstants.kRightArmMotorId, MotorType.kBrushless);
   private final RelativeEncoder encoder = leftMotor.getEncoder();
+
+
   private final SparkPIDController pid = leftMotor.getPIDController();
-  private double targetAngle = 0.0; // Radians
+  private final SparkPIDController mLeftArmPIDController;
+
+
+
+  private double targetAngle = 0.9; // Radians
 
   public ArmIOSparkMax() {
     leftMotor.restoreFactoryDefaults();
@@ -43,11 +50,16 @@ public class ArmIOSparkMax implements ArmIO {
     leftMotor.setCANTimeout(250);
     rightMotor.setCANTimeout(250);
 
+    encoder.setPosition(0.0);
+
     // left.setInverted(false);
     // right.setInverted(false);
 
     leftMotor.enableVoltageCompensation(12.0);
     rightMotor.enableVoltageCompensation(12.0);
+
+    mLeftArmPIDController = leftMotor.getPIDController();
+
 
     leftMotor.setSmartCurrentLimit(ArmConstants.kCurrentLimit);
     rightMotor.setSmartCurrentLimit(ArmConstants.kCurrentLimit);
@@ -65,6 +77,15 @@ public class ArmIOSparkMax implements ArmIO {
         Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
     inputs.appliedVolts = leftMotor.getAppliedOutput() * leftMotor.getBusVoltage();
     inputs.currentAmps = new double[] {leftMotor.getOutputCurrent()};
+    inputs.positionRad = targetAngle;
+
+    // FOR TESTING DELETE
+    pid.setReference(
+        Units.radiansPerSecondToRotationsPerMinute(targetAngle) * GEAR_RATIO,
+        ControlType.kPosition,
+        0,
+        0,
+        ArbFFUnits.kVoltage);
   }
 
   @Override
@@ -86,6 +107,12 @@ public class ArmIOSparkMax implements ArmIO {
   @Override
   public void setTargetAngle(double angle) {
     targetAngle = angle;
+    pid.setReference(
+        Units.radiansPerSecondToRotationsPerMinute(angle) * GEAR_RATIO,
+        ControlType.kPosition,
+        0,
+        0,
+        ArbFFUnits.kVoltage);
   }
 
   @Override

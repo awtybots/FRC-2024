@@ -45,13 +45,13 @@ public class DriveCommands {
                   Math.hypot(xSupplier.getAsDouble(), ySupplier.getAsDouble()), DEADBAND);
           Rotation2d linearDirection =
               new Rotation2d(
-                  MathUtil.applyDeadband(xSupplier.getAsDouble(), 0.18),
+                  -MathUtil.applyDeadband(xSupplier.getAsDouble(), 0.18),
                   -MathUtil.applyDeadband(ySupplier.getAsDouble(), 0.18));
           double omega = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND);
 
           // Square values
           linearMagnitude = linearMagnitude * linearMagnitude;
-          omega = Math.copySign(omega * omega, omega);
+          omega = -Math.copySign(omega * omega, omega);
 
           // Calcaulate new linear velocity
           Translation2d linearVelocity =
