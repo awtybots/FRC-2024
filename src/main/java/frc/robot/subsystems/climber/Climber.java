@@ -18,6 +18,8 @@ import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.EnvironmentalConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 
+// ! TODO Seperate target positions but they're controlled by one so that they can be controlled seperately from smartdashboard
+
 public class Climber extends SubsystemBase {
   private final ClimberIO io;
   private final ClimberIOInputsAutoLogged inputs = new ClimberIOInputsAutoLogged();

@@ -175,9 +175,9 @@ public final class Constants {
 
     public static final int kCurrentLimit = 30;
 
-    public static final int initialPosition = 1; // TODO TUNE
-    public static final int minPosition = 0; // TODO TUNE
-    public static final int maxPosition = 1; // TODO TUNE
+    public static final double initialPosition = 0.7; // TODO TUNE
+    public static final double minPosition = 0.0; // TODO TUNE
+    public static final double maxPosition = 0.7; // TODO TUNE
 
     public static final double climberConversion = 1; // TODO TUNE
 
