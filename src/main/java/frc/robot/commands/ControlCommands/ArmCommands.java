@@ -44,7 +44,8 @@ public class ArmCommands {
                   ySupplier.getAsDouble(), DEADBAND);
 
           // Square values, so that it's easier to control at lower speeds
-          stickMagnitude = stickMagnitude * stickMagnitude;
+          double sign = Math.copySign(1, stickMagnitude)
+          stickMagnitude = stickMagnitude * stickMagnitude * sign;
 
           // Calcaulate new rotational velocity
           double rotationalVelocity = stickMagnitude * MAXRPM;
