@@ -85,13 +85,13 @@ public final class Constants {
 
     public static final double armConversion = 1; // TODO TUNE
 
-    public static final double kP = 0.0007; // TODO TUNE
+    public static final double kP = 0.0003; // TODO TUNE
     public static final double kI = 0.0; // TODO TUNE
     public static final double kD = 0.001; // TODO TUNE
 
     // Arm Feedforward characterization constants
     public static final double ks = 0.1; // TODO TUNE
-    public static final double kv = 0.9; // TODO TUNE
+    public static final double kv = 5; // TODO TUNE
     public static double velocity = 300;
   }
 
