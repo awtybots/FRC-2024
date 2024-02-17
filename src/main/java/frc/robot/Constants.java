@@ -102,9 +102,7 @@ public final class Constants {
 
     public static final int kCurrentLimit = 30;
 
-    public static final int startingAngle = 30; // TODO TUNE
-
-    public static final double armConversion = 0.1; // TODO TUNE
+    public static final double armConversion = 0.05; // TODO TUNE
 
     // Arm PID constants
     public static final double kP = 0.1; // TODO TUNE
@@ -114,7 +112,6 @@ public final class Constants {
     // Arm Feedforward characterization constants
     public static final double ks = 0.10; // TODO TUNE
     public static final double kv = 0.05; // TODO TUNE
-
 
     public static final double minimumAngle = -1.441;
     public static final double maximumAngle = 1.441;

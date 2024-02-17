@@ -35,7 +35,7 @@ public class ArmCommands {
 
           // Square values, so that it's easier to control at lower speeds
           double sign = Math.copySign(1, stickMagnitude);
-          stickMagnitude = stickMagnitude * stickMagnitude * sign;
+          stickMagnitude = stickMagnitude; // * stickMagnitude * sign;
 
           // Calcaulate new rotational velocity
           double rotationalVelocity = stickMagnitude * MAXRPM;
