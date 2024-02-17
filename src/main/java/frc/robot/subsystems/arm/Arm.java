@@ -89,12 +89,12 @@ public class Arm extends SubsystemBase {
   }
 
   /** Returns the current velocity in RPM. */
-  @AutoLogOutput(key = "ArmState/VelocityRPM")
+  @AutoLogOutput(key = "Arm/VelocityRPM")
   public double getVelocityRPM() {
     return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSec);
   }
 
-  @AutoLogOutput(key = "ArmState/PositionRad")
+  @AutoLogOutput(key = "Arm/PositionRad")
   public double getPosition() {
     return inputs.positionRad;
   }
