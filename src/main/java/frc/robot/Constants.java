@@ -77,8 +77,7 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int kTopIntakeSparkMaxCanId = 7; // ! Change before testing
-    public static final int kBottomIntakeSparkMaxCanId = 101;
+    public static final int kIntakeSparkMaxCanId = 7;
 
     public static final int kCurrentLimit = 30;
 
@@ -171,22 +170,26 @@ public final class Constants {
   }
 
   public static final class ClimberConstants {
-    public static final int kLeftClimberMotorId = 15; // ! Change before testing
-    public static final int kRightClimberMotorId = 16; // ! Change before testing
+    public static final int kLeftClimberMotorId = 16;
+    public static final int kRightClimberMotorId = 15;
 
     public static final int kCurrentLimit = 30;
 
-    public static final int initialExtension = 0; // TODO TUNE
-    public static final int maxExtension = 1; // TODO TUNE
+    public static final int initialPosition = 1; // TODO TUNE
+    public static final int minPosition = 0; // TODO TUNE
+    public static final int maxPosition = 1; // TODO TUNE
 
-    public static final double armElevatorConversion = 1; // TODO TUNE
+    public static final double climberConversion = 1; // TODO TUNE
 
-    // ArmElevator PID constants
+    // in meters, i.e. that many meters per rotation
+    public static final double gearCircumfrence = 0.134032531982;
+
+    // Climber PID constants
     public static final double kP = 0.1; // TODO TUNE
     public static final double kI = 0.0; // TODO TUNE
     public static final double kD = 0.0; // TODO TUNE
 
-    // Arm Elevator Feedforward characterization constants
+    // Climber Feedforward characterization constants
     public static final double ks = 0.10; // TODO TUNE
     public static final double kv = 0.05; // TODO TUNE
   }
