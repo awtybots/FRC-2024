@@ -13,7 +13,6 @@
 
 package frc.robot.subsystems.climber;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.EnvironmentalConstants;
@@ -33,6 +32,7 @@ public class Climber extends SubsystemBase {
     // separate robot with different tuning)
     switch (EnvironmentalConstants.currentMode) {
       case REAL:
+        io.configurePID(ClimberConstants.kP, ClimberConstants.kI, ClimberConstants.kD);
       case REPLAY:
         io.configurePID(ClimberConstants.kP, ClimberConstants.kI, ClimberConstants.kD);
         break;

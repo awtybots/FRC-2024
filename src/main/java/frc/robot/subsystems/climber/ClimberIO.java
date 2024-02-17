@@ -13,9 +13,8 @@
 
 package frc.robot.subsystems.climber;
 
-import org.littletonrobotics.junction.AutoLog;
-
 import frc.robot.Constants.ClimberConstants;
+import org.littletonrobotics.junction.AutoLog;
 
 public interface ClimberIO {
   @AutoLog
