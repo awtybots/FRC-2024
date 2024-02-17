@@ -144,6 +144,14 @@ public class RobotContainer {
                 () -> sFlywheel.runVelocity(flywheelSpeedInput.get()), sFlywheel::stop, sFlywheel)
             .withTimeout(5.0));
 
+    NamedCommands.registerCommand(
+        "Run Intake",
+        Commands.startEnd(
+                () -> sIntake.runVelocity(Constants.IntakeConstants.velocity),
+                sIntake::stop,
+                sIntake)
+            .withTimeout(5.0));
+
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
     // Set up feedforward characterization
@@ -178,10 +186,23 @@ public class RobotContainer {
         .a()
         .whileTrue(
             Commands.startEnd(
-                () -> sFlywheel.runVelocity(flywheelSpeedInput.get()), sFlywheel::stop, sFlywheel));
+                () -> sFlywheel.runVelocity(-flywheelSpeedInput.get()),
+                sFlywheel::stop,
+                sFlywheel));
     driverController // TODO change to operatorController later
         .a()
         .whileFalse(Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop, sFlywheel));
+
+    driverController // TODO change to operatorController later
+        .b()
+        .whileTrue(
+            Commands.startEnd(
+                () -> sIntake.runVelocity(-Constants.IntakeConstants.velocity),
+                sIntake::stop,
+                sIntake));
+    driverController // TODO change to operatorController later
+        .b()
+        .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
   }

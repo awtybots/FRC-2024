@@ -16,6 +16,7 @@ package frc.robot.subsystems.intake;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.EnvironmentalConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -31,15 +32,17 @@ public class Intake extends SubsystemBase {
 
     // Switch constants based on mode (the physics simulator is treated as a
     // separate robot with different tuning)
+
+    io.configurePID(
+        Constants.IntakeConstants.kP, Constants.IntakeConstants.kI, Constants.IntakeConstants.kD);
+
     switch (EnvironmentalConstants.currentMode) {
       case REAL:
       case REPLAY:
         ffModel = new SimpleMotorFeedforward(0.1, 0.05);
-        io.configurePID(1.0, 0.0, 0.0);
         break;
       case SIM:
         ffModel = new SimpleMotorFeedforward(0.0, 0.03);
-        io.configurePID(0.5, 0.0, 0.0);
         break;
       default:
         ffModel = new SimpleMotorFeedforward(0.0, 0.0);
@@ -64,7 +67,7 @@ public class Intake extends SubsystemBase {
     io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
 
     // Log flywheel setpoint
-    Logger.recordOutput("Flywheel/SetpointRPM", velocityRPM);
+    Logger.recordOutput("Intake/SetpointRPM", velocityRPM);
   }
 
   /** Stops the flywheel. */
