@@ -51,8 +51,7 @@ public class ClimberIOSparkMax implements ClimberIO {
     leftRelativeEncoder.setPosition(ClimberConstants.initialPosition);
     rightRelativeEncoder.setPosition(ClimberConstants.initialPosition);
 
-    // leftMotor.setInverted(false);
-    rightMotor.setInverted(true);
+    leftMotor.setInverted(true);
 
     leftMotor.enableVoltageCompensation(12.0);
     rightMotor.enableVoltageCompensation(12.0);
@@ -74,7 +73,7 @@ public class ClimberIOSparkMax implements ClimberIO {
     inputs.leftCurrentAmps = new double[] {leftMotor.getOutputCurrent()};
 
     inputs.rightPosition =
-        ClimberConstants.gearCircumfrence * (leftRelativeEncoder.getPosition() / GEAR_RATIO);
+        ClimberConstants.gearCircumfrence * (rightRelativeEncoder.getPosition() / GEAR_RATIO);
     inputs.rightVelocity =
         ClimberConstants.gearCircumfrence * (rightRelativeEncoder.getVelocity() / GEAR_RATIO);
     inputs.rightAppliedVolts = rightMotor.getAppliedOutput() * rightMotor.getBusVoltage();
