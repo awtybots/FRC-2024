@@ -36,7 +36,8 @@ public class ArmIOSparkMax implements ArmIO {
 
   private final RelativeEncoder leftRelativeEncoder = leftMotor.getEncoder();
 
-  private final SparkAbsoluteEncoder leftAbsoluteEncoder = leftMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+  private final SparkAbsoluteEncoder leftAbsoluteEncoder =
+      leftMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
   private final SparkPIDController pid = leftMotor.getPIDController();
   private final SparkPIDController mLeftArmPIDController;
