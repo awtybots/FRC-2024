@@ -19,6 +19,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.ArmConstants;
 
@@ -42,7 +44,7 @@ public class ArmIOSparkMax implements ArmIO {
   private final SparkPIDController pid = leftMotor.getPIDController();
   private final SparkPIDController mLeftArmPIDController;
 
-  private double targetAngle = 0.9; // Radians, just a default value.
+  private double targetAngle = 0; // Radians, just a default value.
 
   public ArmIOSparkMax() {
     leftMotor.restoreFactoryDefaults();
@@ -64,7 +66,7 @@ public class ArmIOSparkMax implements ArmIO {
     leftMotor.setSmartCurrentLimit(ArmConstants.kCurrentLimit);
     rightMotor.setSmartCurrentLimit(ArmConstants.kCurrentLimit);
 
-    leftMotor.follow(rightMotor, true);
+    rightMotor.follow(leftMotor, true);
 
     // leftMotor.burnFlash();
     // rightMotor.burnFlash();
@@ -80,12 +82,14 @@ public class ArmIOSparkMax implements ArmIO {
     inputs.targetPositionRad = targetAngle;
 
     // FOR TESTING DELETE
-    pid.setReference(
-        Units.radiansPerSecondToRotationsPerMinute(targetAngle) * GEAR_RATIO,
-        ControlType.kPosition,
-        0,
-        0,
-        ArbFFUnits.kVoltage);
+    // pid.setReference(
+    //     Units.radiansPerSecondToRotationsPerMinute(targetAngle) * GEAR_RATIO,
+    //     ControlType.kPosition,
+    //     0,
+    //     0,
+    //     ArbFFUnits.kVoltage);
+
+    // pid.setReference(5, ControlType.kVoltage, 0, 0, ArbFFUnits.kVoltage);
   }
 
   @Override
@@ -113,6 +117,9 @@ public class ArmIOSparkMax implements ArmIO {
         0,
         0,
         ArbFFUnits.kVoltage);
+
+    targetAngle = MathUtil.clamp(targetAngle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
+    
   }
 
   @Override

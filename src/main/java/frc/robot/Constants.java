@@ -62,7 +62,7 @@ public final class Constants {
     // TODO implement the below
     public static final int kCurrentLimit = 30;
 
-    public static final int startingAngle = 30; // TODO TUNE
+    public static final int startingAngle = 0; // TODO TUNE
 
     public static final double armConversion = 1; // TODO TUNE
 
@@ -114,6 +114,10 @@ public final class Constants {
     // Arm Feedforward characterization constants
     public static final double ks = 0.10; // TODO TUNE
     public static final double kv = 0.05; // TODO TUNE
+
+
+    public static final double minimumAngle = -1.441;
+    public static final double maximumAngle = 1.441;
 
     // do not use
     // public static final double kFF = 0.0;
