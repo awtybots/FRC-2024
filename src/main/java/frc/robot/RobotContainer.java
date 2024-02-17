@@ -217,11 +217,11 @@ public class RobotContainer {
     operatorController
         .a()
         .whileTrue(
-            Commands.startEnd(() -> sClimber.runTargetPosition(0.9), sClimber::stop, sClimber));
+            Commands.startEnd(() -> sClimber.runTargetPosition(0.5), sClimber::stop, sClimber));
     operatorController
         .a()
         .whileFalse(
-            Commands.startEnd(() -> sClimber.runTargetPosition(1), sClimber::stop, sClimber));
+            Commands.startEnd(() -> sClimber.runTargetPosition(0.7), sClimber::stop, sClimber));
   }
 
   /**
