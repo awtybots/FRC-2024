@@ -31,6 +31,10 @@ import frc.robot.subsystems.armElevator.ArmElevator;
 import frc.robot.subsystems.armElevator.ArmElevatorIO;
 import frc.robot.subsystems.armElevator.ArmElevatorIOSim;
 import frc.robot.subsystems.armElevator.ArmElevatorIOSparkMax;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberIO;
+import frc.robot.subsystems.climber.ClimberIOSim;
+import frc.robot.subsystems.climber.ClimberIOSparkMax;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -66,6 +70,7 @@ public class RobotContainer {
   private final Arm sArm;
   private final ArmElevator sArmElevator;
   private final Wrist sWrist;
+  private final Climber sClimber;
 
   // Controllers
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -97,6 +102,7 @@ public class RobotContainer {
         sArm = new Arm(new ArmIOSparkMax() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
         sWrist = new Wrist(new WristIOSparkMax() {});
+        sClimber = new Climber(new ClimberIOSparkMax() {});
 
         break;
 
@@ -116,6 +122,7 @@ public class RobotContainer {
         sArm = new Arm(new ArmIOSim() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
         sWrist = new Wrist(new WristIOSim() {});
+        sClimber = new Climber(new ClimberIOSim() {});
 
         break;
 
@@ -133,6 +140,7 @@ public class RobotContainer {
         sArm = new Arm(new ArmIO() {});
         sArmElevator = new ArmElevator(new ArmElevatorIO() {});
         sWrist = new Wrist(new WristIO() {});
+        sClimber = new Climber(new ClimberIO() {});
 
         break;
     }
@@ -184,6 +192,15 @@ public class RobotContainer {
         .whileFalse(Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop, sFlywheel));
 
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
+
+    operatorController
+        .a()
+        .whileTrue(
+            Commands.startEnd(() -> sClimber.runTargetPosition(0.7), sClimber::stop, sClimber));
+    operatorController
+        .a()
+        .whileFalse(
+            Commands.startEnd(() -> sClimber.runTargetPosition(0.5), sClimber::stop, sClimber));
   }
 
   /**

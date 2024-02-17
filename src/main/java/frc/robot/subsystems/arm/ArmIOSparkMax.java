@@ -19,7 +19,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.ArmConstants;
@@ -119,7 +118,6 @@ public class ArmIOSparkMax implements ArmIO {
         ArbFFUnits.kVoltage);
 
     targetAngle = MathUtil.clamp(targetAngle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
-    
   }
 
   @Override

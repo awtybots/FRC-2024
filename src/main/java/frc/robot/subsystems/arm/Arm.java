@@ -69,7 +69,7 @@ public class Arm extends SubsystemBase {
     // Log arm setpoint
   }
   /**
-   * @param position
+   * @param rightPosition
    */
   public void runTargetVelocity(double targetVelocity) {
     io.setTargetAngle(
