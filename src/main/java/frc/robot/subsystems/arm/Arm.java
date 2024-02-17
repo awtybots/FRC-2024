@@ -57,14 +57,28 @@ public class Arm extends SubsystemBase {
     io.setVoltage(volts);
   }
 
-  /** Run closed loop at the specified velocity. */
+  /** 
+   * Run closed loop at the specified velocity. 
+   * @param velocityRPM The velocity in rotations per minute.
+  */
   public void runVelocity(double velocityRPM) {
     var velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
     io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
 
     // Log arm setpoint
   }
+  /**
+   * 
+   * @param position
+   */
+  public void runTargetVelocity(double targetVelocity) {
+    io.setTargetAngle(inputs.targetPositionRad + 0.02 * ArmConstants.armConversion * Units.rotationsToRadians(targetVelocity)); //TODO Constant needed
+  }
 
+  /**
+   * Sets the targeted PID angle.
+   * @param position Angle in radians.
+   */
   public void runTargetAngle(double position) {
     io.setTargetAngle(position);
   }
@@ -75,17 +89,17 @@ public class Arm extends SubsystemBase {
   }
 
   /** Returns the current velocity in RPM. */
-  @AutoLogOutput
+  @AutoLogOutput(key = "ArmState/VelocityRPM")
   public double getVelocityRPM() {
     return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSec);
   }
 
-  @AutoLogOutput
+  @AutoLogOutput(key = "ArmState/PositionRad")
   public double getPosition() {
     return inputs.positionRad;
   }
 
-  @AutoLogOutput
+  @AutoLogOutput(key = "Arm/TargetPositionRad")
   public double getTargetPosition() {
     return inputs.targetPositionRad;
   }
