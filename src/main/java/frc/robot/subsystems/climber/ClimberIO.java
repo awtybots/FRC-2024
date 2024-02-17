@@ -15,20 +15,22 @@ package frc.robot.subsystems.climber;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import frc.robot.Constants.ClimberConstants;
+
 public interface ClimberIO {
   @AutoLog
   public static class ClimberIOInputs {
-    public double leftPosition = 0.0;
+    public double leftPosition = ClimberConstants.initialPosition;
     public double leftVelocity = 0.0;
     public double leftAppliedVolts = 0.0;
     public double[] leftCurrentAmps = new double[] {};
 
-    public double rightPosition = 0.0;
+    public double rightPosition = ClimberConstants.initialPosition;
     public double rightVelocity = 0.0;
     public double rightAppliedVolts = 0.0;
     public double[] rightCurrentAmps = new double[] {};
 
-    public double targetPosition = 0.0;
+    public double targetPosition = ClimberConstants.initialPosition;
   }
 
   /** Updates the set of loggable inputs. */
