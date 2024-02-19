@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
+import frc.robot.commands.ControlCommands.WristCommands;
 import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
@@ -213,6 +214,9 @@ public class RobotContainer {
         .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
+
+    sWrist.setDefaultCommand(
+        WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
 
     operatorController
         .a()

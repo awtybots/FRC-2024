@@ -13,6 +13,7 @@
 
 package frc.robot.subsystems.wrist;
 
+import frc.robot.Constants.WristConstants;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface WristIO {
@@ -22,6 +23,7 @@ public interface WristIO {
     public double velocityRadPerSec = 0.0;
     public double appliedVolts = 0.0;
     public double[] currentAmps = new double[] {};
+    public double targetPositionRad = WristConstants.initialAngle;
   }
 
   /** Updates the set of loggable inputs. */
@@ -32,6 +34,9 @@ public interface WristIO {
 
   /** Run closed loop at the specified velocity. */
   public default void setVelocity(double velocityRadPerSec, double ffVolts) {}
+
+  /** Run closed loop for the specified target angle. */
+  public default void setTargetAngle(double angle) {}
 
   /** Stop in open loop. */
   public default void stop() {}

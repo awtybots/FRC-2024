@@ -154,10 +154,10 @@ public final class Constants {
 
     public static final int kCurrentLimit = 30;
 
-    public static final int initialExtension = 0; // TODO TUNE
-    public static final int maxExtension = 1; // TODO TUNE
+    public static final int initialAngle = 0; // TODO TUNE radians
 
-    public static final double armElevatorConversion = 1; // TODO TUNE
+    public static final int minAngle = -1; // TODO TUNE radians
+    public static final int maxAngle = 1; // TODO TUNE radians
 
     // ArmElevator PID constants
     public static final double kP = 0.1; // TODO TUNE

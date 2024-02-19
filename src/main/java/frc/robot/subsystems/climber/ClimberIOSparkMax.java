@@ -26,7 +26,7 @@ import frc.robot.Constants.ClimberConstants;
  * "CANSparkFlex".
  */
 public class ClimberIOSparkMax implements ClimberIO {
-  private static final double GEAR_RATIO = 50.0; // May be reciprocal 50:1 or 40:1
+  private static final double GEAR_RATIO = 50.0; // 49:1 in reality but too late
 
   private final CANSparkMax leftMotor =
       new CANSparkMax(ClimberConstants.kLeftClimberMotorId, MotorType.kBrushless);

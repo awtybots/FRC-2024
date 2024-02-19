@@ -18,6 +18,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.WristConstants;
 
@@ -26,22 +27,23 @@ import frc.robot.Constants.WristConstants;
  * "CANSparkFlex".
  */
 public class WristIOSparkMax implements WristIO {
-  private static final double GEAR_RATIO = 52.0 / 34.0; // May be reciprocal
+  private static final double GEAR_RATIO = 50; // 50:1
 
   private final CANSparkMax motor =
       new CANSparkMax(WristConstants.kWristMotorId, MotorType.kBrushless);
   private final RelativeEncoder encoder = motor.getEncoder();
   private final SparkPIDController pid = motor.getPIDController();
 
+  private double targetAngle = WristConstants.initialAngle; // Radians, just a default value.
+
   public WristIOSparkMax() {
     motor.restoreFactoryDefaults();
 
     motor.setCANTimeout(250);
 
-    // left.setInverted(false);
-    // right.setInverted(false);
+    encoder.setPosition(WristConstants.initialAngle);
 
-    motor.enableVoltageCompensation(12.0);
+    // motor.enableVoltageCompensation(12.0);
 
     motor.setSmartCurrentLimit(WristConstants.kCurrentLimit);
 
@@ -55,6 +57,7 @@ public class WristIOSparkMax implements WristIO {
         Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
     inputs.appliedVolts = motor.getAppliedOutput() * motor.getBusVoltage();
     inputs.currentAmps = new double[] {motor.getOutputCurrent()};
+    inputs.targetPositionRad = targetAngle;
   }
 
   @Override
@@ -69,6 +72,17 @@ public class WristIOSparkMax implements WristIO {
         ControlType.kVelocity,
         0,
         ffVolts,
+        ArbFFUnits.kVoltage);
+  }
+
+  @Override
+  public void setTargetAngle(double angle) {
+    targetAngle = MathUtil.clamp(angle, WristConstants.minAngle, WristConstants.maxAngle);
+    pid.setReference(
+        Units.radiansToRotations(targetAngle) * GEAR_RATIO,
+        ControlType.kPosition,
+        0,
+        0,
         ArbFFUnits.kVoltage);
   }
 
