@@ -68,6 +68,13 @@ public class Wrist extends SubsystemBase {
     Logger.recordOutput("Wrist/SetpointRPM", velocityRPM);
   }
 
+  public void runTargetVelocity(double targetVelocity) {
+    io.setTargetAngle(
+        inputs.targetPositionRad
+            + 0.02 // TODO correct cycle time here needed
+                * targetVelocity);
+  }
+
   /** Stops the Wrist. */
   public void stop() {
     io.stop();

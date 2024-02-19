@@ -41,7 +41,6 @@ public class ArmIOSparkMax implements ArmIO {
       leftMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
   private final SparkPIDController pid = leftMotor.getPIDController();
-  private final SparkPIDController mLeftArmPIDController;
 
   private double targetAngle = 0; // Radians, just a default value.
 
@@ -52,15 +51,13 @@ public class ArmIOSparkMax implements ArmIO {
     leftMotor.setCANTimeout(250);
     rightMotor.setCANTimeout(250);
 
-    leftRelativeEncoder.setPosition(0.0);
+    // leftRelativeEncoder.setPosition(0.0);
 
     // left.setInverted(false);
     // right.setInverted(false);
 
     leftMotor.enableVoltageCompensation(12.0);
     rightMotor.enableVoltageCompensation(12.0);
-
-    mLeftArmPIDController = leftMotor.getPIDController();
 
     leftMotor.setSmartCurrentLimit(ArmConstants.kCurrentLimit);
     rightMotor.setSmartCurrentLimit(ArmConstants.kCurrentLimit);
@@ -79,16 +76,6 @@ public class ArmIOSparkMax implements ArmIO {
     inputs.appliedVolts = leftMotor.getAppliedOutput() * leftMotor.getBusVoltage();
     inputs.currentAmps = new double[] {leftMotor.getOutputCurrent()};
     inputs.targetPositionRad = targetAngle;
-
-    // FOR TESTING DELETE
-    // pid.setReference(
-    //     Units.radiansPerSecondToRotationsPerMinute(targetAngle) * GEAR_RATIO,
-    //     ControlType.kPosition,
-    //     0,
-    //     0,
-    //     ArbFFUnits.kVoltage);
-
-    // pid.setReference(5, ControlType.kVoltage, 0, 0, ArbFFUnits.kVoltage);
   }
 
   @Override
@@ -109,15 +96,13 @@ public class ArmIOSparkMax implements ArmIO {
 
   @Override
   public void setTargetAngle(double angle) {
-    targetAngle = angle;
+    targetAngle = MathUtil.clamp(angle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
     pid.setReference(
-        Units.radiansToRotations(angle) * GEAR_RATIO,
+        Units.radiansToRotations(targetAngle) * GEAR_RATIO,
         ControlType.kPosition,
         0,
         0,
         ArbFFUnits.kVoltage);
-
-    targetAngle = MathUtil.clamp(targetAngle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
   }
 
   @Override

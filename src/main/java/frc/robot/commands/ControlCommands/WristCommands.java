@@ -16,33 +16,29 @@ package frc.robot.commands.ControlCommands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.subsystems.arm.Arm;
+import frc.robot.subsystems.wrist.Wrist;
 import java.util.function.DoubleSupplier;
 
-public class ArmCommands {
+public class WristCommands {
   private static final double DEADBAND = 0.3;
-  private static final double MAXRPM =
-      5; // TODO idk what a realistic one is so this is roughly 90 degrees per 2 seconds
+  // idk what a realistic one is so this is roughly 90 degrees per 2 seconds
+  private static final double MAXRADIANSPERSECOND = 1.6;
 
-  private ArmCommands() {}
+  private WristCommands() {}
 
-  /** Arm command using one axis of a joystick (controlling arm velocity). */
-  public static Command joystickDrive(Arm arm, DoubleSupplier ySupplier) {
+  /** Wrist command using one axis of a joystick (controlling wrist velocity). */
+  public static Command joystickDrive(Wrist wrist, DoubleSupplier ySupplier) {
     return Commands.run(
         () -> {
-          // Apply deadband (min DEADBAND, max 1.0)
+          // Apply deadband (i.e. min DEADBAND max 1.0)
           double stickMagnitude = MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND);
 
-          // Square values, so that it's easier to control at lower speeds
-          // double sign = Math.copySign(1, stickMagnitude);
-          // stickMagnitude = stickMagnitude * stickMagnitude * sign;
-
           // Calcaulate new rotational velocity
-          double rotationalVelocity = stickMagnitude * MAXRPM;
+          double rotationalVelocity = stickMagnitude * MAXRADIANSPERSECOND;
 
-          // Send command to arm to run arm
-          arm.runTargetVelocity(rotationalVelocity);
+          // Send command to wrist subsystem to run wrist
+          wrist.runTargetVelocity(rotationalVelocity);
         },
-        arm);
+        wrist);
   }
 }
