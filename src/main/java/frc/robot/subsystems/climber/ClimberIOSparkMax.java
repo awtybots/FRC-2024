@@ -48,9 +48,6 @@ public class ClimberIOSparkMax implements ClimberIO {
     leftMotor.setCANTimeout(250);
     rightMotor.setCANTimeout(250);
 
-    leftRelativeEncoder.setPosition(ClimberConstants.initialPosition);
-    rightRelativeEncoder.setPosition(ClimberConstants.initialPosition);
-
     leftMotor.setInverted(true);
 
     leftMotor.enableVoltageCompensation(12.0);

@@ -60,7 +60,6 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
     inputs.targetDistance = targetDistance;
     inputs.currentAmps = new double[] {motor.getOutputCurrent()};
 
-    System.out.println(encoder.getPosition() / GEAR_RATIO * PULLEY_CIRCUMFERENCE);
   }
 
   @Override
@@ -92,7 +91,7 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
   }
 
   @Override
-  public void setTargetDistance(double distanceInches) {
+  public void setTargetDistance(double distanceMeters) {
     targetDistance = distanceMeters;
     pid.setReference(
         distanceMeters / PULLEY_CIRCUMFERENCE * GEAR_RATIO,

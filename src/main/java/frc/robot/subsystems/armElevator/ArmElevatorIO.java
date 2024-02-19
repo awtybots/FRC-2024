@@ -40,6 +40,4 @@ public interface ArmElevatorIO {
   public default void configurePID(double kP, double kI, double kD) {}
 
   public default void setTargetDistance(double distance) {}
-
-  
 }

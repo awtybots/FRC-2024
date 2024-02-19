@@ -57,6 +57,8 @@ import frc.robot.subsystems.wrist.WristIOSparkMax;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
+// import wristcommands
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -221,11 +223,11 @@ public class RobotContainer {
     operatorController
         .a()
         .whileTrue(
-            Commands.startEnd(() -> sClimber.runTargetPosition(0.5), sClimber::stop, sClimber));
+            Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
     operatorController
-        .a()
-        .whileFalse(
-            Commands.startEnd(() -> sClimber.runTargetPosition(0.7), sClimber::stop, sClimber));
+        .b()
+        .whileTrue(
+            Commands.startEnd(() -> sClimber.runTargetPosition(0.55), sClimber::stop, sClimber));
   }
 
   /**
