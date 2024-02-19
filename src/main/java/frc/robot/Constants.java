@@ -128,9 +128,10 @@ public final class Constants {
     public static final int kCurrentLimit = 30;
 
     public static final int initialExtension = 0; // TODO TUNE
-    public static final int maxExtension = 1000; // TODO TUNE
+    public static double minExtension = 0;
+    public static double maxExtension = 16; // Inches
 
-    public static final double armElevatorConversion = 1; // TODO TUNE
+    // public static final double armElevatorConversion = 1; 
 
     // ArmElevator PID constants
     public static final double kP = 0.1; // TODO TUNE
@@ -140,9 +141,6 @@ public final class Constants {
     // Arm Elevator Feedforward characterization constants
     public static final double ks = 0; // TODO TUNE
     public static final double kv = 0; // TODO TUNE
-
-    // public static final double ArmThreshold = 0.1; // TODO TUNE
-
   }
 
   public static final class Presets {

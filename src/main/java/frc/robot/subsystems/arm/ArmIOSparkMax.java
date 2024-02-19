@@ -22,6 +22,7 @@ import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.ControlCommands.ArmCommands;
 
 /**
  * NOTE: To use the Spark Flex / NEO Vortex, replace all instances of "CANSparkMax" with
@@ -42,7 +43,7 @@ public class ArmIOSparkMax implements ArmIO {
 
   private final SparkPIDController pid = leftMotor.getPIDController();
 
-  private double targetAngle = 0; // Radians, just a default value.
+  private double targetAngle = 0.0; // Radians, just a default value.
 
   public ArmIOSparkMax() {
     leftMotor.restoreFactoryDefaults();
@@ -118,52 +119,4 @@ public class ArmIOSparkMax implements ArmIO {
     pid.setD(kD, 0);
     pid.setFF(0, 0);
   }
-
-  // TODO: The following commented code is from the ArmSubsystem - see if it needs to be integrated
-  // here
-  /*
-  public void setRotation(double value) {
-    armHeight = value;
-  }
-
-  public void setDegrees(double degrees) {
-    double encoderunits =
-        Convert.angleToEncoderPos(degrees, kArmGearRatio, Encoder.RevRelativeEncoder);
-    armHeight = encoderunits;
-  }
-
-  public double getAngle() {
-    final double rawRevs = mRightArmEncoder.getPosition();
-    final double theta =
-        Convert.encoderPosToAngle(rawRevs, kArmGearRatio, Encoder.RevRelativeEncoder);
-    return ArmConstants.startingAngle - theta;
-  }
-
-  public void resetEncoderValue() {
-    armHeight = 0;
-    mRightArmEncoder.setPosition(armHeight);
-  }
-
-  public void drive(double pct) {
-
-    // MathUtil.clamp(armHeight, ArmConstants.minimumHeight, getMaximumRotation());
-    armHeight += pct * ArmConstants.armConversion;
-  }
-
-  public boolean isFinished() {
-    return Math.abs(mRightArmEncoder.getPosition() - armHeight) < Presets.ArmThreshold;
-  }
-
-  @Override
-  public void periodic() {
-    mRightArmPIDController.setReference(armHeight, CANSparkMax.ControlType.kPosition, 0);
-    // SmartDashboard.putNumber(
-    //         "Arm Error",
-    //         Convert.encoderPosToAngle(
-    //                 mRightArmEncoder.getPosition() - armHeight, kArmGearRatio,
-    // Encoder.RevRelativeEncoder));
-    // SmartDashboard.putNumber("Arm angle", -(this.getAngle() - Arm.startingAngle));
-  }
-   */
-
 }

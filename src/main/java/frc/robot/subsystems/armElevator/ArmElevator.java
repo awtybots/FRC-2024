@@ -14,7 +14,6 @@
 package frc.robot.subsystems.armElevator;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmElevatorConstants;
 import frc.robot.Constants.EnvironmentalConstants;
@@ -59,13 +58,19 @@ public class ArmElevator extends SubsystemBase {
     io.setVoltage(volts);
   }
 
-  /** Run closed loop at the specified velocity. */
-  public void runVelocity(double velocityRPM) {
-    var velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
-    io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
+  // /** Run closed loop at the specified velocity. */
+  // public void runVelocity(double velocityRPM) {
+  //   var velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
+  //   io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
 
-    // Log ArmElevator setpoint
-    Logger.recordOutput("ArmElevator/SetpointRPM", velocityRPM);
+  //   // Log ArmElevator setpoint
+  //   Logger.recordOutput("ArmElevator/SetpointRPM", velocityRPM);
+  // }
+
+  public void runTargetVelocity(double velocityInchesPerSecond) {
+    io.setTargetDistance(inputs.targetDistance 
+      + 0.02 // TODO cycle time needed
+      * velocityInchesPerSecond);
   }
 
   /** Stops the ArmElevator. */
@@ -79,12 +84,12 @@ public class ArmElevator extends SubsystemBase {
   }
 
   // get the current position of the elevator
-  @AutoLogOutput(key = "ArmElevator/PositionMeters")
+  @AutoLogOutput(key = "ArmElevator/PositionInches")
   public double getPositionMeters() {
-    return inputs.positionMeters;
+    return inputs.positionInches;
   }
 
-  public void setTargetDistance(double distanceMeters) {
-    io.setTargetDistance(distanceMeters);
-  }
+  // public void setTargetDistance(double distanceInches) {
+  //   io.setTargetDistance(distanceInches);
+  // }
 }

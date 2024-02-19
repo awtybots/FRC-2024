@@ -18,6 +18,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
+
+import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants.ArmElevatorConstants;
 
 /**
@@ -42,9 +44,9 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
 
     motor.setCANTimeout(250);
 
-    // motor.setInverted(false);
+    motor.setInverted(true);
 
-    motor.enableVoltageCompensation(12.0);
+    // motor.enableVoltageCompensation(12.0);
 
     motor.setSmartCurrentLimit(ArmElevatorConstants.kCurrentLimit);
 
@@ -55,7 +57,7 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
 
   @Override
   public void updateInputs(ArmElevatorIOInputs inputs) {
-    inputs.positionMeters = encoder.getPosition() / GEAR_RATIO * PULLEY_CIRCUMFERENCE;
+    inputs.positionInches = encoder.getPosition() / GEAR_RATIO * PULLEY_CIRCUMFERENCE;
     inputs.velocityMetersPerSec = encoder.getVelocity() / GEAR_RATIO * PULLEY_CIRCUMFERENCE;
     inputs.targetDistance = targetDistance;
     inputs.currentAmps = new double[] {motor.getOutputCurrent()};
@@ -67,15 +69,15 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
     motor.setVoltage(volts);
   }
 
-  @Override
-  public void setVelocity(double velocityRadPerSec, double ffVolts) {
+  // @Override
+  // public void setVelocity(double velocityRadPerSec, double ffVolts) {
     // pid.setReference(
     //     Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
     //     ControlType.kVelocity,
     //     0,
     //     ffVolts,
     //     ArbFFUnits.kVoltage);
-  }
+  // }
 
   @Override
   public void stop() {
@@ -91,16 +93,13 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
   }
 
   @Override
-  public void setTargetDistance(double distanceMeters) {
-    targetDistance = distanceMeters;
+  public void setTargetDistance(double distanceInches) {
+    targetDistance = MathUtil.clamp(distanceInches, ArmElevatorConstants.minExtension, ArmElevatorConstants.maxExtension);
     pid.setReference(
-        distanceMeters / PULLEY_CIRCUMFERENCE * GEAR_RATIO,
+        targetDistance / PULLEY_CIRCUMFERENCE * GEAR_RATIO,
         ControlType.kPosition,
         0,
         0,
         ArbFFUnits.kVoltage);
-
-    // targetDistance = MathUtil.clamp(targetDistance, ArmConstants.minimumDistance,
-    // ArmConstants.maximumDistance);
   }
 }

@@ -41,7 +41,7 @@ public class ArmElevatorIOSim implements ArmElevatorIO {
     sim.update(0.02);
 
     inputs.targetDistance = 0.0;
-    inputs.positionMeters = sim.getPositionMeters();
+    inputs.positionInches = sim.getPositionMeters();
     inputs.currentAmps = new double[] {sim.getCurrentDrawAmps()};
   }
 
@@ -52,12 +52,12 @@ public class ArmElevatorIOSim implements ArmElevatorIO {
     sim.setInputVoltage(volts);
   }
 
-  @Override
-  public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    closedLoop = true;
-    pid.setSetpoint(velocityRadPerSec);
-    this.ffVolts = ffVolts;
-  }
+  // @Override
+  // public void setVelocity(double velocityRadPerSec, double ffVolts) {
+  //   closedLoop = true;
+  //   pid.setSetpoint(velocityRadPerSec);
+  //   this.ffVolts = ffVolts;
+  // }
 
   @Override
   public void stop() {

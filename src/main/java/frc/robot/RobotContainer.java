@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ControlCommands.ArmCommands;
+import frc.robot.commands.ControlCommands.ArmElevatorCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.WristCommands;
 import frc.robot.commands.FeedForwardCharacterization;
@@ -219,6 +220,9 @@ public class RobotContainer {
 
     sWrist.setDefaultCommand(
         WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
+
+    sArmElevator.setDefaultCommand(
+        ArmElevatorCommands.triggerDrive(sArmElevator, () -> operatorController.getLeftTriggerAxis(), () -> operatorController.getRightTriggerAxis()));
 
     operatorController
         .a()
