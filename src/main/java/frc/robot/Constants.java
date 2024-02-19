@@ -128,7 +128,7 @@ public final class Constants {
     public static final int kCurrentLimit = 30;
 
     public static final int initialExtension = 0; // TODO TUNE
-    public static final int maxExtension = 1; // TODO TUNE
+    public static final int maxExtension = 1000; // TODO TUNE
 
     public static final double armElevatorConversion = 1; // TODO TUNE
 
@@ -138,8 +138,8 @@ public final class Constants {
     public static final double kD = 0.0; // TODO TUNE
 
     // Arm Elevator Feedforward characterization constants
-    public static final double ks = 0.10; // TODO TUNE
-    public static final double kv = 0.05; // TODO TUNE
+    public static final double ks = 0; // TODO TUNE
+    public static final double kv = 0; // TODO TUNE
 
     // public static final double ArmThreshold = 0.1; // TODO TUNE
 

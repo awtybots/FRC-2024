@@ -18,7 +18,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
-import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.ArmElevatorConstants;
 
 /**
@@ -26,9 +25,12 @@ import frc.robot.Constants.ArmElevatorConstants;
  * "CANSparkFlex".
  */
 public class ArmElevatorIOSparkMax implements ArmElevatorIO {
-  private static final double GEAR_RATIO = 52.0 / 34.0; // May be reciprocal
+  private static final double GEAR_RATIO = 40.0; // gear ratio
+  private static final double PULLEY_DIAMETER = 2; // pulley diameter in meters
+  private static final double PULLEY_CIRCUMFERENCE =
+      Math.PI * PULLEY_DIAMETER; // pulley circumference
 
-  public double targetPosition = 0.0;
+  private double targetDistance = 0.0;
 
   private final CANSparkMax motor =
       new CANSparkMax(ArmElevatorConstants.kArmElevatorMotorId, MotorType.kBrushless);
@@ -53,10 +55,12 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
 
   @Override
   public void updateInputs(ArmElevatorIOInputs inputs) {
-    inputs.position = encoder.getPosition() / GEAR_RATIO;
-    inputs.targetPosition = targetPosition;
-    inputs.appliedVolts = motor.getAppliedOutput() * motor.getBusVoltage();
+    inputs.positionMeters = encoder.getPosition() / GEAR_RATIO * PULLEY_CIRCUMFERENCE;
+    inputs.velocityMetersPerSec = encoder.getVelocity() / GEAR_RATIO * PULLEY_CIRCUMFERENCE;
+    inputs.targetDistance = targetDistance;
     inputs.currentAmps = new double[] {motor.getOutputCurrent()};
+
+    System.out.println(encoder.getPosition() / GEAR_RATIO * PULLEY_CIRCUMFERENCE);
   }
 
   @Override
@@ -66,12 +70,12 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
 
   @Override
   public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    pid.setReference(
-        Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
-        ControlType.kVelocity,
-        0,
-        ffVolts,
-        ArbFFUnits.kVoltage);
+    // pid.setReference(
+    //     Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
+    //     ControlType.kVelocity,
+    //     0,
+    //     ffVolts,
+    //     ArbFFUnits.kVoltage);
   }
 
   @Override
@@ -85,5 +89,19 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
     pid.setI(kI, 0);
     pid.setD(kD, 0);
     pid.setFF(0, 0);
+  }
+
+  @Override
+  public void setTargetDistance(double distanceInches) {
+    targetDistance = distanceMeters;
+    pid.setReference(
+        distanceMeters / PULLEY_CIRCUMFERENCE * GEAR_RATIO,
+        ControlType.kPosition,
+        0,
+        0,
+        ArbFFUnits.kVoltage);
+
+    // targetDistance = MathUtil.clamp(targetDistance, ArmConstants.minimumDistance,
+    // ArmConstants.maximumDistance);
   }
 }

@@ -18,10 +18,9 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ArmElevatorIO {
   @AutoLog
   public static class ArmElevatorIOInputs {
-    public double position = 0.0;
-    public double targetPosition = 0.0;
-    public double appliedVolts = 0.0;
-    public double velocityRadPerSec = 0.0;
+    public double positionMeters = 0.0;
+    public double velocityMetersPerSec = 0.0;
+    public double targetDistance = 0.0;
     public double[] currentAmps = new double[] {};
   }
 
@@ -39,4 +38,8 @@ public interface ArmElevatorIO {
 
   /** Set velocity PID constants. */
   public default void configurePID(double kP, double kI, double kD) {}
+
+  public default void setTargetDistance(double distance) {}
+
+  
 }

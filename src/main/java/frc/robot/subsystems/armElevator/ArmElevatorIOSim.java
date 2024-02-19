@@ -40,8 +40,8 @@ public class ArmElevatorIOSim implements ArmElevatorIO {
 
     sim.update(0.02);
 
-    inputs.position = 0.0;
-    inputs.appliedVolts = appliedVolts;
+    inputs.targetDistance = 0.0;
+    inputs.positionMeters = sim.getPositionMeters();
     inputs.currentAmps = new double[] {sim.getCurrentDrawAmps()};
   }
 

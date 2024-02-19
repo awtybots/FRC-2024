@@ -73,14 +73,18 @@ public class ArmElevator extends SubsystemBase {
     io.stop();
   }
 
-  /** Returns the current velocity in RPM. */
-  @AutoLogOutput
-  public double getVelocityRPM() {
-    return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSec);
+  @AutoLogOutput(key = "ArmElevator/TargetDistance")
+  public double getTargetDistance() {
+    return inputs.targetDistance;
   }
 
-  /** Returns the current velocity in radians per second. */
-  public double getCharacterizationVelocity() {
-    return inputs.velocityRadPerSec;
+  // get the current position of the elevator
+  @AutoLogOutput(key = "ArmElevator/PositionMeters")
+  public double getPositionMeters() {
+    return inputs.positionMeters;
+  }
+
+  public void setTargetDistance(double distanceMeters) {
+    io.setTargetDistance(distanceMeters);
   }
 }
