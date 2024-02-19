@@ -33,6 +33,7 @@ public class Arm extends SubsystemBase {
     // separate robot with different tuning)
     switch (EnvironmentalConstants.currentMode) {
       case REAL:
+        io.configurePID(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
       case REPLAY:
         ffModel = new SimpleMotorFeedforward(ArmConstants.ks, ArmConstants.kv);
         io.configurePID(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);

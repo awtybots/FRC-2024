@@ -33,6 +33,7 @@ public class Flywheel extends SubsystemBase {
     // Switch constants based on mode.
     switch (EnvironmentalConstants.currentMode) {
       case REAL:
+        io.configurePID(FlywheelConstants.kP, FlywheelConstants.kI, FlywheelConstants.kD);
       case REPLAY:
         ffModel = new SimpleMotorFeedforward(FlywheelConstants.ks, FlywheelConstants.kv);
         io.configurePID(FlywheelConstants.kP, FlywheelConstants.kI, FlywheelConstants.kD);

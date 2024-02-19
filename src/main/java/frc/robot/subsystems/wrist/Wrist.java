@@ -30,10 +30,9 @@ public class Wrist extends SubsystemBase {
   public Wrist(WristIO io) {
     this.io = io;
 
-    // Switch constants based on mode (the physics simulator is treated as a
-    // separate robot with different tuning)
     switch (EnvironmentalConstants.currentMode) {
       case REAL:
+        io.configurePID(WristConstants.kP, WristConstants.kI, WristConstants.kD);
       case REPLAY:
         ffModel = new SimpleMotorFeedforward(WristConstants.ks, WristConstants.kv);
         io.configurePID(WristConstants.kP, WristConstants.kI, WristConstants.kD);

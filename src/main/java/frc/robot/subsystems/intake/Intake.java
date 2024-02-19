@@ -30,9 +30,6 @@ public class Intake extends SubsystemBase {
   public Intake(IntakeIO io) {
     this.io = io;
 
-    // Switch constants based on mode (the physics simulator is treated as a
-    // separate robot with different tuning)
-
     io.configurePID(
         Constants.IntakeConstants.kP, Constants.IntakeConstants.kI, Constants.IntakeConstants.kD);
 
