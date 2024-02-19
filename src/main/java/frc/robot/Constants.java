@@ -177,7 +177,7 @@ public final class Constants {
 
     public static final double initialPosition = 0.7; // TODO TUNE
     public static final double minPosition = 0.0; // TODO TUNE
-    public static final double maxPosition = 0.7; // TODO TUNE
+    public static final double maxPosition = 0.55; // TODO TUNE
 
     public static final double climberConversion = 1; // TODO TUNE
 

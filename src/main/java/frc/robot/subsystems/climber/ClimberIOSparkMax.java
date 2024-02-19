@@ -59,6 +59,7 @@ public class ClimberIOSparkMax implements ClimberIO {
     leftMotor.setSmartCurrentLimit(ClimberConstants.kCurrentLimit);
     rightMotor.setSmartCurrentLimit(ClimberConstants.kCurrentLimit);
 
+
     // leftMotor.burnFlash();
     // rightMotor.burnFlash();
   }
