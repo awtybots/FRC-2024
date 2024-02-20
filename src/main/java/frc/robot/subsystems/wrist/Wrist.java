@@ -67,6 +67,15 @@ public class Wrist extends SubsystemBase {
     Logger.recordOutput("Wrist/SetpointRPM", velocityRPM);
   }
 
+  /**
+   * Sets the targeted PID angle.
+   *
+   * @param position Angle in radians.
+   */
+  public void runTargetAngle(double position) {
+    io.setTargetAngle(position);
+  }
+
   public void runTargetVelocity(double targetVelocity) {
     io.setTargetAngle(
         inputs.targetPositionRad

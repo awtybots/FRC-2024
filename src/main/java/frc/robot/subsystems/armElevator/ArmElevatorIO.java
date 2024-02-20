@@ -37,5 +37,5 @@ public interface ArmElevatorIO {
   public default void configurePID(double kP, double kI, double kD) {}
 
   /** In inches */
-  public default void setTargetDistance(double distance) {}
+  public default void setTargetPosition(double distance) {}
 }

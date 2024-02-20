@@ -91,7 +91,7 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
   }
 
   @Override
-  public void setTargetDistance(double distanceInches) {
+  public void setTargetPosition(double distanceInches) {
     targetDistance =
         MathUtil.clamp(
             distanceInches, ArmElevatorConstants.minExtension, ArmElevatorConstants.maxExtension);

@@ -70,7 +70,7 @@ public class ArmElevator extends SubsystemBase {
   // }
 
   public void runTargetVelocity(double velocityInchesPerSecond) {
-    io.setTargetDistance(
+    io.setTargetPosition(
         inputs.targetDistance
             + 0.02 // TODO cycle time needed
                 * velocityInchesPerSecond);
@@ -92,7 +92,7 @@ public class ArmElevator extends SubsystemBase {
     return inputs.positionInches;
   }
 
-  // public void setTargetDistance(double distanceInches) {
-  //   io.setTargetDistance(distanceInches);
-  // }
+  public void runTargetPosition(double positionInches) {
+    io.setTargetPosition(positionInches);
+  }
 }
