@@ -22,7 +22,7 @@ import java.util.function.DoubleSupplier;
 public class ArmCommands {
   private static final double DEADBAND = 0.3;
   private static final double MAXRPM =
-      5; // TODO idk what a realistic one is so this is roughly 90 degrees per 2 seconds
+      0.1; // TODO idk what a realistic one is so this is roughly 90 degrees per 2 seconds
 
   private ArmCommands() {}
 

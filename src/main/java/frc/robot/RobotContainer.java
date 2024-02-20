@@ -194,25 +194,26 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
 
-    driverController // TODO change to operatorController later
+    driverController // TODO change to operatorController
         .a()
         .whileTrue(
             Commands.startEnd(
                 () -> sFlywheel.runVelocity(-flywheelSpeedInput.get()),
                 sFlywheel::stop,
                 sFlywheel));
-    driverController // TODO change to operatorController later
+    driverController // TODO change to operatorController
         .a()
         .whileFalse(Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop, sFlywheel));
 
-    driverController // TODO change to operatorController later
+    driverController // TODO Reverse intake needed, also it stops randomly after a bit, get rid of
+        // PID?
         .b()
         .whileTrue(
             Commands.startEnd(
                 () -> sIntake.runVelocity(-Constants.IntakeConstants.velocity),
                 sIntake::stop,
                 sIntake));
-    driverController // TODO change to operatorController later
+    driverController
         .b()
         .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
