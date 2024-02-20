@@ -31,6 +31,7 @@ public class ArmElevator extends SubsystemBase {
 
     // Switch constants based on mode (the physics simulator is treated as a
     // separate robot with different tuning)
+
     switch (EnvironmentalConstants.currentMode) {
       case REAL:
         io.configurePID(ArmElevatorConstants.kP, ArmElevatorConstants.kI, ArmElevatorConstants.kD);
@@ -69,9 +70,10 @@ public class ArmElevator extends SubsystemBase {
   // }
 
   public void runTargetVelocity(double velocityInchesPerSecond) {
-    io.setTargetDistance(inputs.targetDistance 
-      + 0.02 // TODO cycle time needed
-      * velocityInchesPerSecond);
+    io.setTargetDistance(
+        inputs.targetDistance
+            + 0.02 // TODO cycle time needed
+                * velocityInchesPerSecond);
   }
 
   /** Stops the ArmElevator. */

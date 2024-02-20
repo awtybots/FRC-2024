@@ -41,7 +41,7 @@ public class WristIOSparkMax implements WristIO {
 
     motor.setCANTimeout(250);
 
-    encoder.setPosition(WristConstants.initialAngle);
+    // encoder.setPosition(WristConstants.initialAngle);
 
     // motor.enableVoltageCompensation(12.0);
 

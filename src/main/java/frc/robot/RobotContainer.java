@@ -222,7 +222,10 @@ public class RobotContainer {
         WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
 
     sArmElevator.setDefaultCommand(
-        ArmElevatorCommands.triggerDrive(sArmElevator, () -> operatorController.getLeftTriggerAxis(), () -> operatorController.getRightTriggerAxis()));
+        ArmElevatorCommands.triggerDrive(
+            sArmElevator,
+            () -> operatorController.getLeftTriggerAxis(),
+            () -> operatorController.getRightTriggerAxis()));
 
     operatorController
         .a()

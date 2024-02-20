@@ -27,14 +27,15 @@ public class ArmElevatorCommands {
 
   /** Wrist command using one axis of a joystick (controlling wrist velocity). */
   public static Command triggerDrive(
-    ArmElevator armElevator, 
-    DoubleSupplier leftTriggerSupplier,
-    DoubleSupplier rightTriggerSupplier) {
+      ArmElevator armElevator,
+      DoubleSupplier leftTriggerSupplier,
+      DoubleSupplier rightTriggerSupplier) {
     return Commands.run(
         () -> {
           // Apply deadband (i.e. min DEADBAND max 1.0)
-          double stickMagnitude = MathUtil.applyDeadband(leftTriggerSupplier.getAsDouble(), DEADBAND) 
-              + -MathUtil.applyDeadband(rightTriggerSupplier.getAsDouble(), DEADBAND);
+          double stickMagnitude =
+              MathUtil.applyDeadband(leftTriggerSupplier.getAsDouble(), DEADBAND)
+                  + -MathUtil.applyDeadband(rightTriggerSupplier.getAsDouble(), DEADBAND);
 
           // Calcaulate new rotational velocity
           double rotationalVelocity = stickMagnitude * MAXINCHESPERSECOND;

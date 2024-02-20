@@ -131,10 +131,10 @@ public final class Constants {
     public static double minExtension = 0;
     public static double maxExtension = 16; // Inches
 
-    // public static final double armElevatorConversion = 1; 
+    // public static final double armElevatorConversion = 1;
 
     // ArmElevator PID constants
-    public static final double kP = 0.1; // TODO TUNE
+    public static final double kP = 1; // TODO TUNE
     public static final double kI = 0.0; // TODO TUNE
     public static final double kD = 0.0; // TODO TUNE
 

@@ -18,7 +18,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
-
 import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants.ArmElevatorConstants;
 
@@ -28,7 +27,7 @@ import frc.robot.Constants.ArmElevatorConstants;
  */
 public class ArmElevatorIOSparkMax implements ArmElevatorIO {
   private static final double GEAR_RATIO = 40.0; // gear ratio
-  private static final double PULLEY_DIAMETER = 2; // pulley diameter in meters
+  private static final double PULLEY_DIAMETER = 2.0; // pulley diameter in meters
   private static final double PULLEY_CIRCUMFERENCE =
       Math.PI * PULLEY_DIAMETER; // pulley circumference
 
@@ -50,7 +49,7 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
 
     motor.setSmartCurrentLimit(ArmElevatorConstants.kCurrentLimit);
 
-    pid.setOutputRange(0, ArmElevatorConstants.maxExtension);
+    // pid.setOutputRange(0, ArmElevatorConstants.maxExtension);
 
     // motor.burnFlash();
   }
@@ -61,7 +60,6 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
     inputs.velocityMetersPerSec = encoder.getVelocity() / GEAR_RATIO * PULLEY_CIRCUMFERENCE;
     inputs.targetDistance = targetDistance;
     inputs.currentAmps = new double[] {motor.getOutputCurrent()};
-
   }
 
   @Override
@@ -71,12 +69,12 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
 
   // @Override
   // public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    // pid.setReference(
-    //     Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
-    //     ControlType.kVelocity,
-    //     0,
-    //     ffVolts,
-    //     ArbFFUnits.kVoltage);
+  // pid.setReference(
+  //     Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
+  //     ControlType.kVelocity,
+  //     0,
+  //     ffVolts,
+  //     ArbFFUnits.kVoltage);
   // }
 
   @Override
@@ -94,7 +92,9 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
 
   @Override
   public void setTargetDistance(double distanceInches) {
-    targetDistance = MathUtil.clamp(distanceInches, ArmElevatorConstants.minExtension, ArmElevatorConstants.maxExtension);
+    targetDistance =
+        MathUtil.clamp(
+            distanceInches, ArmElevatorConstants.minExtension, ArmElevatorConstants.maxExtension);
     pid.setReference(
         targetDistance / PULLEY_CIRCUMFERENCE * GEAR_RATIO,
         ControlType.kPosition,
