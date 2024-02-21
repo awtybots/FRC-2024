@@ -27,15 +27,15 @@ public class GyroIONavX implements GyroIO {
 
   public GyroIONavX(boolean phoenixDrive) {
 
-    ahrs.reset();
-    ahrs.resetDisplacement();
-    ahrs.zeroYaw();
-
     try {
       ahrs = new AHRS(SPI.Port.kMXP, (byte) Module.ODOMETRY_FREQUENCY);
     } catch (RuntimeException ex) {
       DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
     }
+
+    ahrs.reset();
+    ahrs.resetDisplacement();
+    ahrs.zeroYaw();
 
     yawPositionQueue =
         SparkMaxOdometryThread.getInstance().registerSignal(() -> (double) ahrs.getYaw());
