@@ -1,5 +1,4 @@
-// Copyright 2021-2024 FRC 6328
-// http://github.com/Mechanical-Advantage
+// Copyright 2021-2024 FRC 5829
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -15,34 +14,51 @@ package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.Pigeon2Configuration;
-import com.ctre.phoenix6.hardware.Pigeon2;
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SPI;
+
 import java.util.Queue;
 
-/** IO implementation for Pigeon2 */
-public class GyroIOPigeon2 implements GyroIO {
-  private final Pigeon2 pigeon = new Pigeon2(20);
-  private final StatusSignal<Double> yaw = pigeon.getYaw();
-  private final Queue<Double> yawPositionQueue;
-  private final StatusSignal<Double> yawVelocity = pigeon.getAngularVelocityZWorld();
+/** IO implementation for NavX */
+public class GyroIONavX implements GyroIO {
 
-  public GyroIOPigeon2(boolean phoenixDrive) {
-    pigeon.getConfigurator().apply(new Pigeon2Configuration());
-    pigeon.getConfigurator().setYaw(0.0);
-    yaw.setUpdateFrequency(Module.ODOMETRY_FREQUENCY);
-    yawVelocity.setUpdateFrequency(100.0);
-    pigeon.optimizeBusUtilization();
+  AHRS ahrs;
+  // private final Pigeon2 pigeon = new Pigeon2(20);
+  private final Double yaw;
+  private final Queue<Double> yawPositionQueue;
+  private final Double yawVelocity;
+
+  public GyroIONavX(boolean phoenixDrive) {
+
+    try {
+      ahrs = new AHRS(SPI.Port.kMXP, ); 
+    } catch (RuntimeException ex ) {
+      DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
+    }
+
+    yaw = Units.degreesToRadians((double)ahrs.getYaw() + 180.00);
+    yawVelocity = Units.degreesToRadians((double)ahrs.getRate()); // Degrees to 
+    ahrs.zeroYaw();
+
+    ahrs.
+
+    // pigeon.getConfigurator().apply(new Pigeon2Configuration());
+    // pigeon.getConfigurator().setYaw(0.0);
+    // yaw.setUpdateFrequency(Module.ODOMETRY_FREQUENCY);
+    // yawVelocity.setUpdateFrequency(100.0);
+    // pigeon.optimizeBusUtilization();
     if (phoenixDrive) {
       yawPositionQueue =
           PhoenixOdometryThread.getInstance().registerSignal(pigeon, pigeon.getYaw());
     } else {
       yawPositionQueue =
           SparkMaxOdometryThread.getInstance()
-              .registerSignal(() -> pigeon.getYaw().getValueAsDouble());
-    }
+              .registerSignal(() -> ahrs.getYaw().getValueAsDouble());
+    // }
   }
 
   @Override
