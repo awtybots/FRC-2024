@@ -18,7 +18,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.WristConstants;
 
@@ -77,7 +76,8 @@ public class WristIOSparkMax implements WristIO {
 
   @Override
   public void setTargetAngle(double angle) {
-    targetAngle = MathUtil.clamp(angle, WristConstants.minAngle, WristConstants.maxAngle);
+    // targetAngle = MathUtil.clamp(angle, WristConstants.minAngle, WristConstants.maxAngle);
+    targetAngle = angle;
     pid.setReference(
         Units.radiansToRotations(targetAngle) * GEAR_RATIO,
         ControlType.kPosition,

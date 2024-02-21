@@ -129,13 +129,13 @@ public final class Constants {
 
     public static final int initialExtension = 0; // TODO TUNE
     public static double minExtension = 0;
-    public static double maxExtension = 16; // Inches
+    public static double maxExtension = 2.6; // Inches
 
     // public static final double armElevatorConversion = 1;
 
     // ArmElevator PID constants
     public static final double kP = 1; // TODO TUNE
-    public static final double kI = 0.0; // TODO TUNE
+    public static final double kI = 0; // TODO TUNE
     public static final double kD = 0.0; // TODO TUNE
 
     // Arm Elevator Feedforward characterization constants
