@@ -11,14 +11,14 @@ public class AmpShot {
   public static Command run(Arm arm, ArmElevator armElevator, Wrist wrist) {
     return Commands.run(
         () -> {
-            // Position preset settings
-            double ARMANGLE = 0;
-            double ARMELEVATORPOSITION = 0;
-            double WRISTANGLE = 0;
+          // Position preset settings
+          double ARMANGLE = 0;
+          double ARMELEVATORPOSITION = 0;
+          double WRISTANGLE = 0;
 
-            arm.runTargetAngle(ARMANGLE);
-            armElevator.runTargetPosition(ARMELEVATORPOSITION);
-            wrist.runTargetAngle(WRISTANGLE);
+          arm.runTargetAngle(ARMANGLE);
+          armElevator.runTargetPosition(ARMELEVATORPOSITION);
+          wrist.runTargetAngle(WRISTANGLE);
         },
         arm,
         armElevator,
