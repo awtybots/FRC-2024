@@ -35,7 +35,7 @@ public class GyroIONavX implements GyroIO {
   public GyroIONavX(boolean phoenixDrive) {
 
     try {
-      ahrs = new AHRS(SPI.Port.kMXP, ); 
+      ahrs = new AHRS(SPI.Port.kMXP, (byte) 100); 
     } catch (RuntimeException ex ) {
       DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
     }
