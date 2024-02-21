@@ -12,65 +12,52 @@
 
 package frc.robot.subsystems.drive;
 
-import com.ctre.phoenix6.BaseStatusSignal;
-import com.ctre.phoenix6.StatusCode;
 import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
-
 import java.util.Queue;
 
 /** IO implementation for NavX */
 public class GyroIONavX implements GyroIO {
 
   AHRS ahrs;
-  // private final Pigeon2 pigeon = new Pigeon2(20);
-  private final Double yaw;
   private final Queue<Double> yawPositionQueue;
-  private final Double yawVelocity;
 
   public GyroIONavX(boolean phoenixDrive) {
 
+    ahrs.reset();
+    ahrs.resetDisplacement();
+    ahrs.zeroYaw();
+
     try {
-      ahrs = new AHRS(SPI.Port.kMXP, (byte) 100); 
-    } catch (RuntimeException ex ) {
+      ahrs = new AHRS(SPI.Port.kMXP, (byte) Module.ODOMETRY_FREQUENCY);
+    } catch (RuntimeException ex) {
       DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
     }
 
-    yaw = Units.degreesToRadians((double)ahrs.getYaw() + 180.00);
-    yawVelocity = Units.degreesToRadians((double)ahrs.getRate()); // Degrees to 
-    ahrs.zeroYaw();
-
-    ahrs.
-
-    // pigeon.getConfigurator().apply(new Pigeon2Configuration());
-    // pigeon.getConfigurator().setYaw(0.0);
-    // yaw.setUpdateFrequency(Module.ODOMETRY_FREQUENCY);
-    // yawVelocity.setUpdateFrequency(100.0);
-    // pigeon.optimizeBusUtilization();
-    if (phoenixDrive) {
-      yawPositionQueue =
-          PhoenixOdometryThread.getInstance().registerSignal(pigeon, pigeon.getYaw());
-    } else {
-      yawPositionQueue =
-          SparkMaxOdometryThread.getInstance()
-              .registerSignal(() -> ahrs.getYaw().getValueAsDouble());
-    // }
+    yawPositionQueue =
+        SparkMaxOdometryThread.getInstance().registerSignal(() -> (double) ahrs.getYaw());
   }
 
   @Override
   public void updateInputs(GyroIOInputs inputs) {
-    inputs.connected = BaseStatusSignal.refreshAll(yaw, yawVelocity).equals(StatusCode.OK);
-    inputs.yawPosition = Rotation2d.fromDegrees(yaw.getValueAsDouble());
-    inputs.yawVelocityRadPerSec = Units.degreesToRadians(yawVelocity.getValueAsDouble());
+    // inputs.connected = BaseStatusSignal.refreshAll(yaw, yawVelocity).equals(StatusCode.OK);
+    // inputs.yawPosition = Rotation2d.fromDegrees(yaw.getValueAsDouble());
+    // inputs.yawVelocityRadPerSec = Units.degreesToRadians(yawVelocity.getValueAsDouble());
 
+    // inputs.odometryYawPositions =
+    //     yawPositionQueue.stream()
+    //         .map((Double value) -> Rotation2d.fromDegrees(value))
+    //         .toArray(Rotation2d[]::new);
+    // yawPositionQueue.clear();
+    inputs.connected = ahrs.isConnected();
+    inputs.yawPosition = Rotation2d.fromDegrees(ahrs.getYaw());
+    inputs.yawVelocityRadPerSec = Units.degreesToRadians(ahrs.getRawGyroZ());
     inputs.odometryYawPositions =
-        yawPositionQueue.stream()
-            .map((Double value) -> Rotation2d.fromDegrees(value))
-            .toArray(Rotation2d[]::new);
+        yawPositionQueue.stream().map(Rotation2d::fromDegrees).toArray(Rotation2d[]::new);
+
     yawPositionQueue.clear();
   }
 }

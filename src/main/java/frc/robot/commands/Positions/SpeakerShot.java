@@ -11,18 +11,18 @@ public class SpeakerShot {
   public static Command run(double SpeakerDistance, Arm arm, ArmElevator armElevator, Wrist wrist) {
     return Commands.run(
         () -> {
-            /* Physics calculation for the note:
+          /* Physics calculation for the note:
 
-            */
+          */
 
-            // Position settings
-            double ARMANGLE = 0;
-            double ARMELEVATORPOSITION = 0;
-            double WRISTANGLE = 0;
+          // Position settings
+          double ARMANGLE = 0;
+          double ARMELEVATORPOSITION = 0;
+          double WRISTANGLE = 0;
 
-            arm.runTargetAngle(ARMANGLE);
-            armElevator.runTargetPosition(ARMELEVATORPOSITION);
-            wrist.runTargetAngle(WRISTANGLE);
+          arm.runTargetAngle(ARMANGLE);
+          armElevator.runTargetPosition(ARMELEVATORPOSITION);
+          wrist.runTargetAngle(WRISTANGLE);
         },
         arm,
         armElevator,
