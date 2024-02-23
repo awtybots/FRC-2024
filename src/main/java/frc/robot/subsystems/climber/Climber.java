@@ -19,7 +19,7 @@ import frc.robot.Constants.EnvironmentalConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 // ! TODO Seperate target positions but they're controlled by one so that they can be controlled
-// seperately from smartdashboard
+// ! seperately from smartdashboard
 
 public class Climber extends SubsystemBase {
   private final ClimberIO io;
@@ -62,6 +62,15 @@ public class Climber extends SubsystemBase {
    */
   public void runTargetPosition(double position) {
     io.setTargetPosition(position);
+  }
+
+  /**
+   * Sets the targeted PID position.
+   *
+   * @param position meters.
+   */
+  public void runTargetPosition(double positionLeft, double positionRight) {
+    io.setTargetPosition(positionLeft, positionRight);
   }
 
   /** Stops the Climber. */

@@ -23,7 +23,7 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.FlywheelConstants;
 
 public class FlywheelIOSparkMax implements FlywheelIO {
-  private static final double GEAR_RATIO = 52.0 / 34.0; // TODO May be reciprocal
+  private static final double GEAR_RATIO = 52.0 / 34.0;
 
   /*
    Note: I do not believe there will be any situation where the top motor and the bottom motor
@@ -48,7 +48,7 @@ public class FlywheelIOSparkMax implements FlywheelIO {
     bottomShooterMotor.setCANTimeout(250);
 
     topShooterMotor.setInverted(false);
-    bottomShooterMotor.setInverted(false); // TODO Not sure about this one
+    bottomShooterMotor.setInverted(false); 
 
     topShooterMotor.enableVoltageCompensation(12.0);
     topShooterMotor.setSmartCurrentLimit(30);

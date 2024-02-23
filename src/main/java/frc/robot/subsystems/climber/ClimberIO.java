@@ -41,6 +41,9 @@ public interface ClimberIO {
   /** Run closed loop for the specified position. */
   public default void setTargetPosition(double position) {}
 
+  /** Run closed loop for the specified position. */
+  public default void setTargetPosition(double positionLeft, double positionRight) {}
+
   /** Stop in open loop. */
   public default void stop() {}
 
