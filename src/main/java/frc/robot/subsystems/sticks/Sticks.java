@@ -13,7 +13,6 @@
 
 package frc.robot.subsystems.sticks;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EnvironmentalConstants;
@@ -58,10 +57,7 @@ public class Sticks extends SubsystemBase {
     io.setVoltage(volts);
   }
 
-  /**
-   *  Run closed loop at the specified velocity. 
-   *  Not used.
-   * */
+  /** Run closed loop at the specified velocity. Not used. */
   // public void runVelocity(double velocityRPM) {
   //   var velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
   //   io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
@@ -79,9 +75,7 @@ public class Sticks extends SubsystemBase {
     io.setTargetAngle(position);
   }
 
-  /**
-    Sets a target velocity.
-  */
+  /** Sets a target velocity. */
   // public void runTargetVelocity(double targetVelocity) {
   //   io.setTargetAngle(
   //       inputs.targetPositionRad

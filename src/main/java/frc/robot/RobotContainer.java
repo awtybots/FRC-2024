@@ -207,7 +207,10 @@ public class RobotContainer {
         .a()
         .whileTrue(
             Commands.startEnd(
-                () -> sFlywheel.runVelocity(-flywheelSpeedInput.get()), // ! Is the smartdashboard thing permanent? surely not?
+                () ->
+                    sFlywheel.runVelocity(
+                        -flywheelSpeedInput
+                            .get()), // ! Is the smartdashboard thing permanent? surely not?
                 sFlywheel::stop,
                 sFlywheel));
     driverController
@@ -221,7 +224,7 @@ public class RobotContainer {
                 () -> sIntake.runVelocity(-Constants.IntakeConstants.velocity),
                 sIntake::stop,
                 sIntake));
-                
+
     driverController
         .b()
         .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
@@ -240,20 +243,23 @@ public class RobotContainer {
     operatorController
         .a()
         .whileTrue(
-            Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber)); 
+            Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
     operatorController
         .b()
         .whileTrue(
-        Commands.startEnd(() -> sClimber.runTargetPosition(0.55), sClimber::stop, sClimber)); // !Testing numbers
+            Commands.startEnd(
+                () -> sClimber.runTargetPosition(0.55),
+                sClimber::stop,
+                sClimber)); // !Testing numbers
     operatorController
         .x()
-        .whileTrue(
-            Commands.startEnd(() -> sSticks.runTargetAngle(0.0), sSticks::stop, sSticks));
+        .whileTrue(Commands.startEnd(() -> sSticks.runTargetAngle(0.0), sSticks::stop, sSticks));
     operatorController
         .y()
         .whileTrue(
-            Commands.startEnd(() -> sSticks.runTargetAngle(0.5), sSticks::stop, sSticks)); // !Testing numbers
-}
+            Commands.startEnd(
+                () -> sSticks.runTargetAngle(0.5), sSticks::stop, sSticks)); // !Testing numbers
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
