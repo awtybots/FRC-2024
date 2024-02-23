@@ -86,7 +86,7 @@ public class RobotContainer {
   private final ArmElevator sArmElevator;
   private final Wrist sWrist;
   private final Climber sClimber;
-//   private final Sticks sSticks;
+  //   private final Sticks sSticks;
 
   // Controllers
   private final CommandXboxController driverController = new CommandXboxController(0);

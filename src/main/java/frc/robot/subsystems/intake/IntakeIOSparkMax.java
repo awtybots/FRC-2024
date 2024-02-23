@@ -31,21 +31,32 @@ public class IntakeIOSparkMax implements IntakeIO {
 
   private final CANSparkMax intakeMotor =
       new CANSparkMax(IntakeConstants.kIntakeSparkMaxCanId, MotorType.kBrushless);
+  private final CANSparkMax followerIntakeMotor =
+      new CANSparkMax(IntakeConstants.kFollowerIntakeSparkMaxCanId, MotorType.kBrushless);
 
   private final RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
+  private final RelativeEncoder followerIntakeEncoder = followerIntakeMotor.getEncoder();
+
   private final SparkPIDController intakePID = intakeMotor.getPIDController();
 
   public IntakeIOSparkMax() {
     intakeMotor.restoreFactoryDefaults();
+    followerIntakeMotor.restoreFactoryDefaults();
 
     intakeMotor.setCANTimeout(250);
+    followerIntakeMotor.setCANTimeout(250);
 
-    intakeMotor.setInverted(false);
+    intakeMotor.setInverted(true);
 
     intakeMotor.enableVoltageCompensation(12.0);
     intakeMotor.setSmartCurrentLimit(30);
+    followerIntakeMotor.enableVoltageCompensation(12.0);
+    followerIntakeMotor.setSmartCurrentLimit(30);
+
+    followerIntakeMotor.follow(intakeMotor, false);
 
     intakeMotor.burnFlash();
+    followerIntakeMotor.burnFlash();
   }
 
   @Override
@@ -65,7 +76,7 @@ public class IntakeIOSparkMax implements IntakeIO {
   @Override
   public void setVelocity(double velocityRadPerSec, double ffVolts) {
     intakePID.setReference(
-        (6.0 / 458.0) * Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
+        (1.5 / 458.0) * Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
         ControlType.kVoltage,
         0,
         ffVolts,
