@@ -40,6 +40,9 @@ public class ClimberIOSparkMax implements ClimberIO {
   private final SparkPIDController rightPID = rightMotor.getPIDController();
 
   private double targetPosition = ClimberConstants.initialPosition;
+  
+  private double targetPositionLeft = ClimberConstants.initialPosition;
+  private double targetPositionRight = ClimberConstants.initialPosition;
 
   public ClimberIOSparkMax() {
     leftMotor.restoreFactoryDefaults();
@@ -87,7 +90,8 @@ public class ClimberIOSparkMax implements ClimberIO {
 
   @Override
   public void setTargetPosition(double position) {
-    targetPosition = position;
+    targetPosition =
+    MathUtil.clamp(targetPosition, ClimberConstants.minPosition, ClimberConstants.maxPosition);
 
     leftPID.setReference(
         (position / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
@@ -102,9 +106,26 @@ public class ClimberIOSparkMax implements ClimberIO {
         0,
         0,
         ArbFFUnits.kVoltage);
+  }
 
-    targetPosition =
-        MathUtil.clamp(targetPosition, ClimberConstants.minPosition, ClimberConstants.maxPosition);
+  @Override
+  public void setTargetPosition(double positionLeft, double positionRight) {
+    targetPositionLeft = MathUtil.clamp(positionLeft, ClimberConstants.minPosition, ClimberConstants.maxPosition);;
+    targetPositionRight = MathUtil.clamp(positionRight, ClimberConstants.minPosition, ClimberConstants.maxPosition);;
+
+    leftPID.setReference(
+        (positionLeft / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
+        ControlType.kPosition,
+        0,
+        0,
+        ArbFFUnits.kVoltage);
+
+    rightPID.setReference(
+        (positionRight / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
+        ControlType.kPosition,
+        0,
+        0,
+        ArbFFUnits.kVoltage);
   }
 
   @Override
