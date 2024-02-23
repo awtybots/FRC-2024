@@ -51,10 +51,10 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeIOSparkMax;
-import frc.robot.subsystems.sticks.Sticks;
-import frc.robot.subsystems.sticks.SticksIO;
-import frc.robot.subsystems.sticks.SticksIOSim;
-import frc.robot.subsystems.sticks.SticksIOSparkMax;
+// import frc.robot.subsystems.sticks.Sticks;
+// import frc.robot.subsystems.sticks.SticksIO;
+// import frc.robot.subsystems.sticks.SticksIOSim;
+// import frc.robot.subsystems.sticks.SticksIOSparkMax;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.wrist.WristIO;
 import frc.robot.subsystems.wrist.WristIOSim;
@@ -79,7 +79,7 @@ public class RobotContainer {
   private final ArmElevator sArmElevator;
   private final Wrist sWrist;
   private final Climber sClimber;
-  private final Sticks sSticks;
+//   private final Sticks sSticks;
 
   // Controllers
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -112,7 +112,7 @@ public class RobotContainer {
         sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
         sWrist = new Wrist(new WristIOSparkMax() {});
         sClimber = new Climber(new ClimberIOSparkMax() {});
-        sSticks = new Sticks(new SticksIOSparkMax() {});
+        // sSticks = new Sticks(new SticksIOSparkMax() {});
 
         break;
 
@@ -133,7 +133,7 @@ public class RobotContainer {
         sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
         sWrist = new Wrist(new WristIOSim() {});
         sClimber = new Climber(new ClimberIOSim() {});
-        sSticks = new Sticks(new SticksIOSim() {});
+        // sSticks = new Sticks(new SticksIOSim() {});
 
         break;
 
@@ -152,7 +152,7 @@ public class RobotContainer {
         sArmElevator = new ArmElevator(new ArmElevatorIO() {});
         sWrist = new Wrist(new WristIO() {});
         sClimber = new Climber(new ClimberIO() {});
-        sSticks = new Sticks(new SticksIO() {});
+        // sSticks = new Sticks(new SticksIO() {});
 
         break;
     }
@@ -251,14 +251,14 @@ public class RobotContainer {
                 () -> sClimber.runTargetPosition(0.55),
                 sClimber::stop,
                 sClimber)); // !Testing numbers
-    operatorController
-        .x()
-        .whileTrue(Commands.startEnd(() -> sSticks.runTargetAngle(0.0), sSticks::stop, sSticks));
-    operatorController
-        .y()
-        .whileTrue(
-            Commands.startEnd(
-                () -> sSticks.runTargetAngle(0.5), sSticks::stop, sSticks)); // !Testing numbers
+    // operatorController
+    //     .x()
+    //     .whileTrue(Commands.startEnd(() -> sSticks.runTargetAngle(0.0), sSticks::stop, sSticks));
+    // operatorController
+    //     .y()
+    //     .whileTrue(
+    //         Commands.startEnd(
+    //             () -> sSticks.runTargetAngle(0.5), sSticks::stop, sSticks)); // !Testing numbers
   }
 
   /**
