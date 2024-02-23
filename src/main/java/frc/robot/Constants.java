@@ -66,12 +66,12 @@ public final class Constants {
 
     public static final double armConversion = 1; // TODO TUNE
 
-    // Arm PID constants
+    // Flywheel PID constants
     public static final double kP = 0.0004; // TODO TUNE
     public static final double kI = 0.0; // TODO TUNE
     public static final double kD = 0.01; // TODO TUNE
 
-    // Arm Feedforward characterization constants
+    // Flywheel Feedforward characterization constants
     public static final double ks = 0; // TODO TUNE
     public static final double kv = 0.4; // TODO TUNE
   }
@@ -85,11 +85,12 @@ public final class Constants {
 
     public static final double armConversion = 1; // TODO TUNE
 
+    // Intake PID constants
     public static final double kP = 0.0003; // TODO TUNE
     public static final double kI = 0.0; // TODO TUNE
     public static final double kD = 0.001; // TODO TUNE
 
-    // Arm Feedforward characterization constants
+    // Intake Feedforward characterization constants
     public static final double ks = 0.1; // TODO TUNE
     public static final double kv = 5; // TODO TUNE
     public static double velocity = 300;
@@ -133,7 +134,7 @@ public final class Constants {
 
     // public static final double armElevatorConversion = 1;
 
-    // ArmElevator PID constants
+    // Arm Elevator PID constants
     public static final double kP = 1; // TODO TUNE
     public static final double kI = 0; // TODO TUNE
     public static final double kD = 0.0; // TODO TUNE
@@ -157,12 +158,12 @@ public final class Constants {
     public static final int minAngle = -1; // TODO TUNE radians
     public static final int maxAngle = 1; // TODO TUNE radians
 
-    // ArmElevator PID constants
+    // Wrist PID constants
     public static final double kP = 0.1; // TODO TUNE
     public static final double kI = 0.0; // TODO TUNE
     public static final double kD = 0.0; // TODO TUNE
 
-    // Arm Elevator Feedforward characterization constants
+    // Wrist Feedforward characterization constants
     public static final double ks = 0.10; // TODO TUNE
     public static final double kv = 0.05; // TODO TUNE
   }
@@ -190,5 +191,25 @@ public final class Constants {
     // Climber Feedforward characterization constants
     public static final double ks = 0.10; // TODO TUNE
     public static final double kv = 0.05; // TODO TUNE
+  }
+
+  public static final class SticksConstants {
+    public static final int kSticksMotorId = 10000; // ! Change before testing
+
+    public static final int kCurrentLimit = 30;
+
+    public static final int initialAngle = 0; // TODO TUNE radians
+
+    public static final int minAngle = 0; // TODO TUNE radians
+    public static final int maxAngle = 1; // TODO TUNE radians
+
+    // Sticks PID constants
+    public static final double kP = 0.1; // TODO TUNE
+    public static final double kI = 0.0; // TODO TUNE
+    public static final double kD = 0.0; // TODO TUNE
+
+    // Sticks Feedforward characterization constants
+    // public static final double ks = 0.10; // TODO TUNE
+    // public static final double kv = 0.05; // TODO TUNE
   }
 }

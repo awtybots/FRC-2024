@@ -51,6 +51,10 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeIOSparkMax;
+import frc.robot.subsystems.sticks.Sticks;
+import frc.robot.subsystems.sticks.SticksIO;
+import frc.robot.subsystems.sticks.SticksIOSim;
+import frc.robot.subsystems.sticks.SticksIOSparkMax;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.wrist.WristIO;
 import frc.robot.subsystems.wrist.WristIOSim;
@@ -75,6 +79,7 @@ public class RobotContainer {
   private final ArmElevator sArmElevator;
   private final Wrist sWrist;
   private final Climber sClimber;
+  private final Sticks sSticks;
 
   // Controllers
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -107,6 +112,7 @@ public class RobotContainer {
         sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
         sWrist = new Wrist(new WristIOSparkMax() {});
         sClimber = new Climber(new ClimberIOSparkMax() {});
+        sSticks = new Sticks(new SticksIOSparkMax() {});
 
         break;
 
@@ -127,6 +133,7 @@ public class RobotContainer {
         sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
         sWrist = new Wrist(new WristIOSim() {});
         sClimber = new Climber(new ClimberIOSim() {});
+        sSticks = new Sticks(new SticksIOSim() {});
 
         break;
 
@@ -145,11 +152,13 @@ public class RobotContainer {
         sArmElevator = new ArmElevator(new ArmElevatorIO() {});
         sWrist = new Wrist(new WristIO() {});
         sClimber = new Climber(new ClimberIO() {});
+        sSticks = new Sticks(new SticksIO() {});
 
         break;
     }
 
     // Set up auto routines
+    // TODO these are terrible, fix this
     NamedCommands.registerCommand(
         "Run Flywheel",
         Commands.startEnd(
@@ -194,25 +203,25 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
 
-    driverController // TODO change to operatorController
+    driverController
         .a()
         .whileTrue(
             Commands.startEnd(
-                () -> sFlywheel.runVelocity(-flywheelSpeedInput.get()),
+                () -> sFlywheel.runVelocity(-flywheelSpeedInput.get()), // ! Is the smartdashboard thing permanent? surely not?
                 sFlywheel::stop,
                 sFlywheel));
-    driverController // TODO change to operatorController
+    driverController
         .a()
         .whileFalse(Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop, sFlywheel));
 
     driverController // TODO Reverse intake needed, also it stops randomly after a bit, get rid of
-        // PID?
         .b()
         .whileTrue(
             Commands.startEnd(
                 () -> sIntake.runVelocity(-Constants.IntakeConstants.velocity),
                 sIntake::stop,
                 sIntake));
+                
     driverController
         .b()
         .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
@@ -231,12 +240,20 @@ public class RobotContainer {
     operatorController
         .a()
         .whileTrue(
-            Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
+            Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber)); 
     operatorController
         .b()
         .whileTrue(
-            Commands.startEnd(() -> sClimber.runTargetPosition(0.55), sClimber::stop, sClimber));
-  }
+        Commands.startEnd(() -> sClimber.runTargetPosition(0.55), sClimber::stop, sClimber)); // !Testing numbers
+    operatorController
+        .x()
+        .whileTrue(
+            Commands.startEnd(() -> sSticks.runTargetAngle(0.0), sSticks::stop, sSticks));
+    operatorController
+        .y()
+        .whileTrue(
+            Commands.startEnd(() -> sSticks.runTargetAngle(0.5), sSticks::stop, sSticks)); // !Testing numbers
+}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
