@@ -57,7 +57,7 @@ public final class Constants {
 
     // CAN ID's
     public static final int kTopFlywheelSparkMaxCanId = 3;
-    public static final int kBottomFlywheelSparkMaxCanId = 14;
+    public static final int kBottomFlywheelSparkMaxCanId = 6;
 
     // TODO implement the below
     public static final int kCurrentLimit = 30;
@@ -78,6 +78,7 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int kIntakeSparkMaxCanId = 7;
+    public static final int kFollowerIntakeSparkMaxCanId = 14;
 
     public static final int kCurrentLimit = 30;
 
@@ -113,8 +114,8 @@ public final class Constants {
     public static final double ks = 0.10; // TODO TUNE
     public static final double kv = 0.05; // TODO TUNE
 
-    public static final double minimumAngle = -1.441;
-    public static final double maximumAngle = 1.441;
+    public static final double minimumAngle = -2 * 1.441;
+    public static final double maximumAngle = 2 * 1.441;
 
     // do not use
     // public static final double kFF = 0.0;
@@ -149,7 +150,7 @@ public final class Constants {
   }
 
   public static final class WristConstants {
-    public static final int kWristMotorId = 6; // ! Change before testing
+    public static final int kWristMotorId = 60; // ! Change before testing
 
     public static final int kCurrentLimit = 30;
 

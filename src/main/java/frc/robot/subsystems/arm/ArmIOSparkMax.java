@@ -28,7 +28,7 @@ import frc.robot.Constants.ArmConstants;
  * "CANSparkFlex".
  */
 public class ArmIOSparkMax implements ArmIO {
-  private static final double GEAR_RATIO = 40.0 * (60.0 / 12.0); // May be reciprocal
+  private static final double GEAR_RATIO = 1; // May be reciprocal
 
   private final CANSparkMax leftMotor =
       new CANSparkMax(ArmConstants.kLeftArmMotorId, MotorType.kBrushless);
@@ -63,6 +63,7 @@ public class ArmIOSparkMax implements ArmIO {
     rightMotor.setSmartCurrentLimit(ArmConstants.kCurrentLimit);
 
     rightMotor.follow(leftMotor, true);
+    pid.setFeedbackDevice(leftMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle));
 
     // leftMotor.burnFlash();
     // rightMotor.burnFlash();
@@ -70,9 +71,9 @@ public class ArmIOSparkMax implements ArmIO {
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
-    inputs.positionRad = Units.rotationsToRadians(leftRelativeEncoder.getPosition() / GEAR_RATIO);
+    inputs.positionRad = Units.rotationsToRadians(leftAbsoluteEncoder.getPosition() / GEAR_RATIO);
     inputs.velocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(leftRelativeEncoder.getVelocity() / GEAR_RATIO);
+        Units.rotationsPerMinuteToRadiansPerSecond(leftAbsoluteEncoder.getVelocity() / GEAR_RATIO);
     inputs.appliedVolts = leftMotor.getAppliedOutput() * leftMotor.getBusVoltage();
     inputs.currentAmps = new double[] {leftMotor.getOutputCurrent()};
     inputs.targetPositionRad = targetAngle;
