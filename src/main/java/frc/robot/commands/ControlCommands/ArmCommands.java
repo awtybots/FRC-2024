@@ -21,8 +21,7 @@ import java.util.function.DoubleSupplier;
 
 public class ArmCommands {
   private static final double DEADBAND = 0.3;
-  private static final double MAXRPM =
-      0.1;
+  private static final double MAXRPM = 0.1;
 
   private ArmCommands() {}
 
