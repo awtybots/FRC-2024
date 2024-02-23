@@ -118,5 +118,6 @@ public class ArmIOSparkMax implements ArmIO {
     pid.setI(kI, 0);
     pid.setD(kD, 0);
     pid.setFF(0, 0);
+    pid.setOutputRange(-ArmConstants.kMaxOutput, ArmConstants.kMaxOutput);
   }
 }

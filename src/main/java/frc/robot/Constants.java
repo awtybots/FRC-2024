@@ -105,6 +105,8 @@ public final class Constants {
 
     public static final double armConversion = 0.05; // TODO TUNE
 
+    public static final double kMaxOutput = 1.0; 
+
     // Arm PID constants
     public static final double kP = 0.1; // TODO TUNE
     public static final double kI = 0.0; // TODO TUNE
