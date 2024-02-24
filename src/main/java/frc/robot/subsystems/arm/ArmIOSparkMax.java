@@ -104,6 +104,7 @@ public class ArmIOSparkMax implements ArmIO {
         0,
         0,
         ArbFFUnits.kVoltage);
+    
   }
 
   @Override
