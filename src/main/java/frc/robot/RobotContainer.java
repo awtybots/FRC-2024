@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
-import frc.robot.commands.ControlCommands.WristCommands;
+import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.StowPosition;
@@ -271,7 +271,9 @@ public class RobotContainer {
     //     .b()
     //     .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
-    driverController.start().whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
+    driverController
+        .start()
+        .whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
 
     // Operator controller configurations
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
@@ -310,9 +312,9 @@ public class RobotContainer {
     // run straight forwards position when x is pressed
     operatorController.x().whileTrue(AmpShot.run(sArm, sArmElevator, sWrist));
 
-    operatorController.b().whileTrue(FloorPickup.run(sArm, sArmElevator, sWrist));
+    operatorController.a().whileTrue(FloorPickup.run(sArm, sArmElevator, sWrist));
 
-    operatorController.a().whileTrue(StowPosition.run(sArm, sArmElevator, sWrist));
+    operatorController.b().whileTrue(StowPosition.run(sArm, sArmElevator, sWrist));
 
     // operatorController
     //     .x()

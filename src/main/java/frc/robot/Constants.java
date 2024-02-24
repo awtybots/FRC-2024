@@ -105,10 +105,10 @@ public final class Constants {
 
     public static final double armConversion = 0.05; // TODO TUNE
 
-    public static final double kMaxOutput = 0.45;
+    public static final double kMaxOutput = 0.3;
 
     // Arm PID constants
-    public static final double kP = 1.6; // TODO TUNE
+    public static final double kP = 1; // TODO TUNE
     public static final double kI = 0.0; // TODO TUNE
     public static final double kD = 0.0; // TODO TUNE
     public static final double kWeightBasedFF = 0.0;
@@ -117,7 +117,7 @@ public final class Constants {
     public static final double ks = 0.10; // TODO TUNE
     public static final double kv = 0.05; // TODO TUNE
 
-    public static final double minimumAngle = 0;
+    public static final double minimumAngle = 0.1;
     public static final double maximumAngle = Math.PI;
 
     // do not use

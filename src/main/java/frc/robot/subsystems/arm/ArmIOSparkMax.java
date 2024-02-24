@@ -12,15 +12,15 @@
 
 package frc.robot.subsystems.arm;
 
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
 /**
@@ -42,19 +42,33 @@ public class ArmIOSparkMax implements ArmIO {
 
   private final SparkPIDController pid = leftMotor.getPIDController();
 
-  private double targetAngle = 0.0; // Radians, just a default value.
+  private final PIDController mathPid;
+
+  private double targetAngle = 0.345 * Math.PI * 2.0; // 2.2// Radians, just a default value
+
+  // REMEMBER
 
   public ArmIOSparkMax() {
-    leftMotor.restoreFactoryDefaults();
-    rightMotor.restoreFactoryDefaults();
+    // leftMotor.restoreFactoryDefaults();
+    // rightMotor.restoreFactoryDefaults();
+
+    mathPid =
+        new PIDController(
+            Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
 
     leftMotor.setCANTimeout(250);
     rightMotor.setCANTimeout(250);
 
+    // set wrapping on leftMotorAbsoluteEncoder so it does not go from 0 to 2 pi, causing a jump
+
     // leftRelativeEncoder.setPosition(0.0);
 
-    // left.setInverted(false);
-    // right.setInverted(false);
+    leftMotor.setInverted(false);
+    rightMotor.setInverted(true);
+
+    // set both motors to coast
+    leftMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    rightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     leftMotor.enableVoltageCompensation(12.0);
     rightMotor.enableVoltageCompensation(12.0);
@@ -63,7 +77,12 @@ public class ArmIOSparkMax implements ArmIO {
     rightMotor.setSmartCurrentLimit(ArmConstants.kCurrentLimit);
 
     rightMotor.follow(leftMotor, true);
-    pid.setFeedbackDevice(leftMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle));
+    // pid.setFeedbackDevice(leftAbsoluteEncoder);
+    // pid.setPositionPIDWrappingEnabled(true);
+    // pid.setPositionPIDWrappingMaxInput(1);
+    // pid.setPositionPIDWrappingMinInput(0);
+
+    // set ranges for pid and absolutencoders to - pi and pi
 
     // leftMotor.burnFlash();
     // rightMotor.burnFlash();
@@ -71,7 +90,7 @@ public class ArmIOSparkMax implements ArmIO {
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
-    inputs.positionRad = Units.rotationsToRadians(leftAbsoluteEncoder.getPosition() / GEAR_RATIO);
+    inputs.positionRad = leftAbsoluteEncoder.getPosition() * Math.PI * 2.0;
     inputs.velocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(leftAbsoluteEncoder.getVelocity() / GEAR_RATIO);
     inputs.appliedVolts = leftMotor.getAppliedOutput() * leftMotor.getBusVoltage();
@@ -87,24 +106,32 @@ public class ArmIOSparkMax implements ArmIO {
 
   @Override
   public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    pid.setReference(
-        Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
-        ControlType.kVelocity,
-        0,
-        ffVolts,
-        ArbFFUnits.kVoltage);
+    // pid.setReference(
+    //     Units.rotationsToRadians(velocityRadPerSec) * GEAR_RATIO,
+    //     ControlType.kVelocity,
+    //     0,
+    //     ffVolts,
+    //     ArbFFUnits.kVoltage);
   }
 
   @Override
   public void setTargetAngle(double angle) {
     targetAngle = MathUtil.clamp(angle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
-    pid.setReference(
-        Units.radiansToRotations(targetAngle) * GEAR_RATIO,
-        ControlType.kPosition,
-        0,
-        ArmConstants.kWeightBasedFF
-            * Math.sin(Units.rotationsToRadians(leftAbsoluteEncoder.getPosition() / GEAR_RATIO)),
-        ArbFFUnits.kVoltage);
+    //   pid.setReference(
+    //       targetAngle * Math.PI * 2.0,
+    //       ControlType.kPosition,
+    //       0,
+    //       ArmConstants.kWeightBasedFF
+    //           * Math.sin(Units.rotationsToRadians(leftAbsoluteEncoder.getPosition() /
+    // GEAR_RATIO))
+    //           * 0,
+    //       ArbFFUnits.kVoltage);
+
+    leftMotor.set(
+        MathUtil.clamp(
+            mathPid.calculate(leftAbsoluteEncoder.getPosition() * Math.PI * 2.0, targetAngle),
+            -ArmConstants.kMaxOutput,
+            ArmConstants.kMaxOutput));
   }
 
   @Override
@@ -115,10 +142,8 @@ public class ArmIOSparkMax implements ArmIO {
 
   @Override
   public void configurePID(double kP, double kI, double kD) {
-    pid.setP(kP, 0);
-    pid.setI(kI, 0);
-    pid.setD(kD, 0);
-    pid.setFF(0, 0);
-    pid.setOutputRange(-ArmConstants.kMaxOutput, ArmConstants.kMaxOutput);
+    mathPid.setP(Constants.ArmConstants.kP);
+    mathPid.setI(Constants.ArmConstants.kI);
+    mathPid.setD(Constants.ArmConstants.kD);
   }
 }

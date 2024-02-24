@@ -38,7 +38,7 @@ public class IntakeShooterControls {
     return Commands.run(
         () -> {
           if (rightBumperSupplier.getAsBoolean()) {
-            flywheel.runVelocity(Constants.IntakeConstants.velocity);
+            flywheel.runVelocity(-Constants.IntakeConstants.velocity);
           } else {
             flywheel.runVelocity(0);
           }
