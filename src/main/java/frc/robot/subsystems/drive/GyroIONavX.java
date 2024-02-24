@@ -60,4 +60,8 @@ public class GyroIONavX implements GyroIO {
 
     yawPositionQueue.clear();
   }
+
+  public void resetRotation() {
+    ahrs.zeroYaw();
+  }
 }

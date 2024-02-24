@@ -24,8 +24,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
-import frc.robot.commands.ControlCommands.IntakeShooterControls;
-import frc.robot.commands.FeedForwardCharacterization;
+import frc.robot.commands.ControlCommands.WristCommands;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.StowPosition;
@@ -271,6 +270,9 @@ public class RobotContainer {
     //     .b()
     //     .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
+    driverController.start().whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
+
+    // Operator controller configurations
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
 
     // sWrist.setDefaultCommand(
