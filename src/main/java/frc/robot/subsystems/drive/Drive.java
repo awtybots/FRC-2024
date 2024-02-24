@@ -39,9 +39,9 @@ import org.littletonrobotics.junction.Logger;
 public class Drive extends SubsystemBase {
 
   private static final double TRACK_WIDTH_X =
-      Units.inchesToMeters(22.0); // Units.inchesToMeters(25.0);
+      Units.inchesToMeters(22.5); // Units.inchesToMeters(25.0);
   private static final double TRACK_WIDTH_Y =
-      Units.inchesToMeters(22.0); // Units.inchesToMeters(25.0);
+      Units.inchesToMeters(22.5); // Units.inchesToMeters(25.0);
   private static final double DRIVE_BASE_RADIUS =
       Math.hypot(TRACK_WIDTH_X / 2.0, TRACK_WIDTH_Y / 2.0);
 

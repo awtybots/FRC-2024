@@ -53,6 +53,7 @@ public class GyroIONavX implements GyroIO {
     //         .toArray(Rotation2d[]::new);
     // yawPositionQueue.clear();
     inputs.connected = ahrs.isConnected();
+    inputs.calibrating = ahrs.isCalibrating();
     inputs.yawPosition = Rotation2d.fromDegrees(ahrs.getYaw());
     inputs.yawVelocityRadPerSec = Units.degreesToRadians(ahrs.getRawGyroZ());
     inputs.odometryYawPositions =
