@@ -12,7 +12,7 @@ public class StraightForwards {
     return Commands.run(
         () -> {
           // Position preset settings
-          double ARMANGLE = -Math.PI / 2;
+          double ARMANGLE = 0.111 * Math.PI * 2.0;
           double ARMELEVATORPOSITION = 0;
           double WRISTANGLE = 0;
 

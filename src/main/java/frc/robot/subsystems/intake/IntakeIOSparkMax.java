@@ -13,12 +13,10 @@
 
 package frc.robot.subsystems.intake;
 
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.IntakeConstants;
 
@@ -46,7 +44,7 @@ public class IntakeIOSparkMax implements IntakeIO {
     intakeMotor.setCANTimeout(250);
     followerIntakeMotor.setCANTimeout(250);
 
-    intakeMotor.setInverted(true);
+    intakeMotor.setInverted(false);
 
     intakeMotor.enableVoltageCompensation(12.0);
     intakeMotor.setSmartCurrentLimit(30);
@@ -75,14 +73,15 @@ public class IntakeIOSparkMax implements IntakeIO {
 
   @Override
   public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    intakePID.setReference(
-        (1.5 / 458.0) * Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
-        ControlType.kVoltage,
-        0,
-        ffVolts,
-        ArbFFUnits.kVoltage);
+    // intakePID.setReference(
+    //     (6 / 458.0) * Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
+    //     ControlType.kPercent,
+    //     0,
+    //     ffVolts,
+    //     ArbFFUnits.kVoltage);
 
-    // intakeMotor.run(velocityRadPerSec);
+    intakeMotor.set(
+        (0.3 / 458.0) * Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO);
   }
 
   @Override

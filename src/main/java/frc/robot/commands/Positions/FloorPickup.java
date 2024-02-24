@@ -12,7 +12,7 @@ public class FloorPickup {
     return Commands.run(
         () -> {
           // Position preset settings
-          double ARMANGLE = 0;
+          double ARMANGLE = 0.11;
           double ARMELEVATORPOSITION = 0;
           double WRISTANGLE = 0;
 

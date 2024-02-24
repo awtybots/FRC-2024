@@ -24,7 +24,9 @@ import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.ArmElevatorCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.WristCommands;
-import frc.robot.commands.Positions.StraightForwards;
+import frc.robot.commands.Positions.AmpShot;
+import frc.robot.commands.Positions.FloorPickup;
+import frc.robot.commands.Positions.StowPosition;
 import frc.robot.commands.Positions.Upwards;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
@@ -246,6 +248,18 @@ public class RobotContainer {
         .b()
         .whileTrue(
             Commands.startEnd(
+                () -> sIntake.runVelocity(Constants.IntakeConstants.velocity),
+                sIntake::stop,
+                sIntake));
+
+    driverController
+        .b()
+        .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
+
+    driverController // TODO Reverse intake needed, also it stops randomly after a bit, get rid of
+        .x()
+        .whileTrue(
+            Commands.startEnd(
                 () -> sIntake.runVelocity(-Constants.IntakeConstants.velocity),
                 sIntake::stop,
                 sIntake));
@@ -265,23 +279,27 @@ public class RobotContainer {
             () -> operatorController.getLeftTriggerAxis(),
             () -> operatorController.getRightTriggerAxis()));
 
-    operatorController
-        .a()
-        .whileTrue(
-            Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
-    operatorController
-        .b()
-        .whileTrue(
-            Commands.startEnd(
-                () -> sClimber.runTargetPosition(0.55),
-                sClimber::stop,
-                sClimber)); // !Testing numbers
+    // operatorController
+    //     .a()
+    //     .whileTrue(
+    //         Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
+    // operatorController
+    //     .b()
+    //     .whileTrue(
+    //         Commands.startEnd(
+    //             () -> sClimber.runTargetPosition(0.55),
+    //             sClimber::stop,
+    //             sClimber)); // !Testing numbers
 
     // run straight up position when y is pressed on operator. Using command Upwards
     operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));
 
     // run straight forwards position when x is pressed
-    operatorController.x().whileTrue(StraightForwards.run(sArm, sArmElevator, sWrist));
+    operatorController.x().whileTrue(AmpShot.run(sArm, sArmElevator, sWrist));
+
+    operatorController.b().whileTrue(FloorPickup.run(sArm, sArmElevator, sWrist));
+
+    operatorController.a().whileTrue(StowPosition.run(sArm, sArmElevator, sWrist));
 
     // operatorController
     //     .x()
