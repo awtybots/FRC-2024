@@ -263,6 +263,10 @@ public class Drive extends SubsystemBase {
     }
   }
 
+  public boolean isSlowMode() {
+    return SlowMode;
+  }
+
   /** Returns an array of module translations. */
   public static Translation2d[] getModuleTranslations() {
     return new Translation2d[] {

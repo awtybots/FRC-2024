@@ -39,16 +39,33 @@ public class DriveCommands {
       DoubleSupplier omegaSupplier) {
     return Commands.run(
         () -> {
-          // Apply deadband
-          double linearMagnitude =
-              MathUtil.applyDeadband(
-                  Math.hypot(xSupplier.getAsDouble(), ySupplier.getAsDouble()), DEADBAND);
-          Rotation2d linearDirection =
-              new Rotation2d(
-                  -MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND),
-                  -MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND));
-          double omega = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND);
+        
+          double linearMagnitude;
+          Rotation2d linearDirection;
+          double omega;
+          boolean SlowMode = drive.isSlowMode();
 
+          // Apply deadband
+          if (!SlowMode) {
+            linearMagnitude =
+                MathUtil.applyDeadband(
+                    Math.hypot(xSupplier.getAsDouble(), ySupplier.getAsDouble()), DEADBAND);
+            linearDirection =
+                new Rotation2d(
+                    -MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND),
+                    -MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND));
+            omega = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND);
+          } else {
+            linearMagnitude =
+            (MathUtil.applyDeadband(
+                Math.hypot(xSupplier.getAsDouble(), ySupplier.getAsDouble()), DEADBAND)) / 2;
+            linearDirection =
+                new Rotation2d(
+                    -MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND),
+                    -MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND));
+            omega = (MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND)) / 2;
+          }
+          
           // Square values
           linearMagnitude = linearMagnitude * linearMagnitude;
           omega = -Math.copySign(omega * omega, omega);
