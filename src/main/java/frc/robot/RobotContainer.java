@@ -16,7 +16,6 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -24,12 +23,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ControlCommands.ArmCommands;
-import frc.robot.commands.ControlCommands.ArmElevatorCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
-import frc.robot.commands.ControlCommands.WristCommands;
+import frc.robot.commands.ControlCommands.IntakeShooterControls;
+import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
-import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.Positions.StowPosition;
 import frc.robot.commands.Positions.Upwards;
 import frc.robot.subsystems.arm.Arm;
@@ -66,10 +64,8 @@ import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.wrist.WristIO;
 import frc.robot.subsystems.wrist.WristIOSim;
 import frc.robot.subsystems.wrist.WristIOSparkMax;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -234,55 +230,65 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
 
-    driverController
-        .a()
-        .whileTrue(
-            Commands.startEnd(
-                () ->
-                    sFlywheel.runVelocity(
-                        -flywheelSpeedInput
-                            .get()), // ! Is the smartdashboard thing permanent? surely not?
-                sFlywheel::stop,
-                sFlywheel));
-    driverController
-        .a()
-        .whileFalse(Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop, sFlywheel));
+    // driverController
+    //     .a()
+    //     .whileTrue(
+    //         Commands.startEnd(
+    //             () ->
+    //                 sFlywheel.runVelocity(
+    //                     -flywheelSpeedInput
+    //                         .get()), // ! Is the smartdashboard thing permanent? surely not?
+    //             sFlywheel::stop,
+    //             sFlywheel));
+    // driverController
+    //     .a()
+    //     .whileFalse(Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop,
+    // sFlywheel));
 
-    driverController // TODO Reverse intake needed, also it stops randomly after a bit, get rid of
-        .b()
-        .whileTrue(
-            Commands.startEnd(
-                () -> sIntake.runVelocity(Constants.IntakeConstants.velocity),
-                sIntake::stop,
-                sIntake));
+    // driverController // TODO Reverse intake needed, also it stops randomly after a bit, get rid
+    // of
+    //     .b()
+    //     .whileTrue(
+    //         Commands.startEnd(
+    //             () -> sIntake.runVelocity(Constants.IntakeConstants.velocity),
+    //             sIntake::stop,
+    //             sIntake));
 
-    driverController
-        .b()
-        .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
+    // driverController
+    //     .b()
+    //     .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
-    driverController // TODO Reverse intake needed, also it stops randomly after a bit, get rid of
-        .x()
-        .whileTrue(
-            Commands.startEnd(
-                () -> sIntake.runVelocity(-Constants.IntakeConstants.velocity),
-                sIntake::stop,
-                sIntake));
+    // driverController // TODO Reverse intake needed, also it stops randomly after a bit, get rid
+    // of
+    //     .x()
+    //     .whileTrue(
+    //         Commands.startEnd(
+    //             () -> sIntake.runVelocity(-Constants.IntakeConstants.velocity),
+    //             sIntake::stop,
+    //             sIntake));
 
-    driverController
-        .b()
-        .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
+    // driverController
+    //     .b()
+    //     .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
 
-    sWrist.setDefaultCommand(
-        WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
+    // sWrist.setDefaultCommand(
+    //     WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
 
-    sArmElevator.setDefaultCommand(
-        ArmElevatorCommands.triggerDrive(
-            sArmElevator,
+    // sArmElevator.setDefaultCommand(
+    //     ArmElevatorCommands.triggerDrive(
+    //         sArmElevator,
+    //         () -> operatorController.getLeftTriggerAxis(),
+    //         () -> operatorController.getRightTriggerAxis()));
+
+    sIntake.setDefaultCommand(
+        IntakeShooterControls.intakeShooterDrive(
+            sIntake,
+            sFlywheel,
             () -> operatorController.getLeftTriggerAxis(),
-            () -> operatorController.getRightTriggerAxis()));
-
+            () -> operatorController.getRightTriggerAxis(),
+            operatorController.leftBumper()));
     // operatorController
     //     .a()
     //     .whileTrue(
