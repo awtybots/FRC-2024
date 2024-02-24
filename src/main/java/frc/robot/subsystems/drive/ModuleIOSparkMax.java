@@ -41,7 +41,7 @@ public class ModuleIOSparkMax implements ModuleIO {
   // Gear ratios for SDS MK4i L2, adjust as necessary
   private static final double DRIVE_GEAR_RATIO = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
   private static final double TURN_GEAR_RATIO = 1.0; // 46.42/1.0;
-  private static final double RELATIVE_ENCODER_TURN_GEAR_RATIO = 46.42/1.0;
+  private static final double RELATIVE_ENCODER_TURN_GEAR_RATIO = 46.42 / 1.0;
 
   private final CANSparkMax driveSparkMax;
   private final CANSparkMax turnSparkMax;
@@ -117,10 +117,9 @@ public class ModuleIOSparkMax implements ModuleIO {
     driveEncoder.setMeasurementPeriod(10);
     driveEncoder.setAverageDepth(2);
 
-    turnRelativeEncoder.setPosition(turnAbsoluteEncoderNew.getPosition() *  RELATIVE_ENCODER_TURN_GEAR_RATIO);
+    turnRelativeEncoder.setPosition(0.0);
     turnRelativeEncoder.setMeasurementPeriod(10);
     turnRelativeEncoder.setAverageDepth(2);
-    
 
     driveSparkMax.setCANTimeout(0);
     turnSparkMax.setCANTimeout(0);
@@ -156,7 +155,7 @@ public class ModuleIOSparkMax implements ModuleIO {
     //         .minus(absoluteEncoderOffset);
 
     inputs.turnAbsolutePosition =
-        Rotation2d.fromRotations(turnAbsoluteEncoderNew.getPosition())
+        Rotation2d.fromRotations(turnAbsoluteEncoderNew.getPosition() / TURN_GEAR_RATIO)
             .minus(absoluteEncoderOffset);
 
     // New code to get the absolute encoder with the CTRE through bore absolute encoder
