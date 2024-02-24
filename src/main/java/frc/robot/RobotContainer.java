@@ -16,7 +16,6 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -27,9 +26,9 @@ import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.ArmElevatorCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.WristCommands;
+import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
-import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.Positions.StowPosition;
 import frc.robot.commands.Positions.Upwards;
 import frc.robot.subsystems.arm.Arm;
@@ -66,10 +65,8 @@ import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.wrist.WristIO;
 import frc.robot.subsystems.wrist.WristIOSim;
 import frc.robot.subsystems.wrist.WristIOSparkMax;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -272,6 +269,9 @@ public class RobotContainer {
         .b()
         .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
+    driverController.start().whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
+
+    // Operator controller configurations
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
 
     sWrist.setDefaultCommand(
@@ -283,17 +283,17 @@ public class RobotContainer {
             () -> operatorController.getLeftTriggerAxis(),
             () -> operatorController.getRightTriggerAxis()));
 
-    // operatorController
-    //     .a()
-    //     .whileTrue(
-    //         Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
-    // operatorController
-    //     .b()
-    //     .whileTrue(
-    //         Commands.startEnd(
-    //             () -> sClimber.runTargetPosition(0.55),
-    //             sClimber::stop,
-    //             sClimber)); // !Testing numbers
+    operatorController
+        .a()
+        .whileTrue(
+            Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
+    operatorController
+        .b()
+        .whileTrue(
+            Commands.startEnd(
+                () -> sClimber.runTargetPosition(0.55), // !Testing numbers
+                sClimber::stop,
+                sClimber)); 
 
     // run straight up position when y is pressed on operator. Using command Upwards
     operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));
