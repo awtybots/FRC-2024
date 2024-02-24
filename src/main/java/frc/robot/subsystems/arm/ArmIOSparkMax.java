@@ -102,7 +102,8 @@ public class ArmIOSparkMax implements ArmIO {
         Units.radiansToRotations(targetAngle) * GEAR_RATIO,
         ControlType.kPosition,
         0,
-        0,
+        ArmConstants.kWeightBasedFF
+            * Math.sin(Units.rotationsToRadians(leftAbsoluteEncoder.getPosition() / GEAR_RATIO)),
         ArbFFUnits.kVoltage);
   }
 
