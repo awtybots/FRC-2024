@@ -48,7 +48,7 @@ public class FlywheelIOSparkMax implements FlywheelIO {
     bottomShooterMotor.setCANTimeout(250);
 
     topShooterMotor.setInverted(false);
-    bottomShooterMotor.setInverted(false); 
+    bottomShooterMotor.setInverted(false);
 
     topShooterMotor.enableVoltageCompensation(12.0);
     topShooterMotor.setSmartCurrentLimit(30);
