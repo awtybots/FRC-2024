@@ -74,6 +74,7 @@ public final class Constants {
     // Flywheel Feedforward characterization constants
     public static final double ks = 0; // TODO TUNE
     public static final double kv = 0.4; // TODO TUNE
+    public static final double shootingVelocity = 1000;
   }
 
   public static final class IntakeConstants {

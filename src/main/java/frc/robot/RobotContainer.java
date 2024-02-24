@@ -26,7 +26,6 @@ import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.FeedForwardCharacterization;
-import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.StowPosition;
