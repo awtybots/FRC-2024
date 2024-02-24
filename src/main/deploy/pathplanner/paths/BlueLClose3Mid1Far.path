@@ -159,7 +159,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Plans",
   "previewStartingState": {
     "rotation": -57.35739066548767,
     "velocity": 0
