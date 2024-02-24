@@ -37,14 +37,24 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
-  private static final double MAX_LINEAR_SPEED = Units.feetToMeters(14.5);
+
   private static final double TRACK_WIDTH_X =
       Units.inchesToMeters(22.0); // Units.inchesToMeters(25.0);
   private static final double TRACK_WIDTH_Y =
       Units.inchesToMeters(22.0); // Units.inchesToMeters(25.0);
   private static final double DRIVE_BASE_RADIUS =
       Math.hypot(TRACK_WIDTH_X / 2.0, TRACK_WIDTH_Y / 2.0);
-  private static final double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED / DRIVE_BASE_RADIUS;
+
+  private static boolean SlowMode = false;
+
+  private static final double FAST_MAX_LINEAR_SPEED = Units.feetToMeters(14.5);
+  private static final double FAST_MAX_ANGULAR_SPEED = FAST_MAX_LINEAR_SPEED / DRIVE_BASE_RADIUS;
+
+  private static final double SLOW_MAX_LINEAR_SPEED = Units.feetToMeters(14.5);
+  private static final double SLOW_MAX_ANGULAR_SPEED = SLOW_MAX_LINEAR_SPEED / DRIVE_BASE_RADIUS;
+
+  private static double CurrentMaxAngularSpeed = FAST_MAX_ANGULAR_SPEED;
+  private static double CurrentMaxLinearSpeed = FAST_MAX_LINEAR_SPEED;
 
   public static final Lock odometryLock = new ReentrantLock();
   private final GyroIO gyroIO;
@@ -74,7 +84,7 @@ public class Drive extends SubsystemBase {
         () -> kinematics.toChassisSpeeds(getModuleStates()),
         this::runVelocity,
         new HolonomicPathFollowerConfig(
-            MAX_LINEAR_SPEED, DRIVE_BASE_RADIUS, new ReplanningConfig()),
+            CurrentMaxLinearSpeed, DRIVE_BASE_RADIUS, new ReplanningConfig()),
         () ->
             DriverStation.getAlliance().isPresent()
                 && DriverStation.getAlliance().get() == Alliance.Red,
@@ -153,7 +163,7 @@ public class Drive extends SubsystemBase {
     // Calculate module setpoints
     ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
     SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, MAX_LINEAR_SPEED);
+    SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, CurrentMaxLinearSpeed);
 
     // Send setpoints to modules
     SwerveModuleState[] optimizedSetpointStates = new SwerveModuleState[4];
@@ -233,12 +243,24 @@ public class Drive extends SubsystemBase {
 
   /** Returns the maximum linear speed in meters per sec. */
   public double getMaxLinearSpeedMetersPerSec() {
-    return MAX_LINEAR_SPEED;
+    return CurrentMaxLinearSpeed;
   }
 
   /** Returns the maximum angular speed in radians per sec. */
   public double getMaxAngularSpeedRadPerSec() {
-    return MAX_ANGULAR_SPEED;
+    return CurrentMaxAngularSpeed;
+  }
+
+  public void toggleSlowMode() {
+    if (SlowMode) {
+      CurrentMaxLinearSpeed = SLOW_MAX_LINEAR_SPEED;
+      CurrentMaxAngularSpeed = SLOW_MAX_ANGULAR_SPEED;
+      SlowMode = false;
+    } else {
+      CurrentMaxLinearSpeed = FAST_MAX_LINEAR_SPEED;
+      CurrentMaxAngularSpeed = FAST_MAX_ANGULAR_SPEED;
+      SlowMode = true;
+    }
   }
 
   /** Returns an array of module translations. */

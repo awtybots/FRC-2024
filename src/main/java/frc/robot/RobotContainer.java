@@ -269,7 +269,11 @@ public class RobotContainer {
         .b()
         .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
-    driverController.start().whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
+    driverController
+        .start()
+        .whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
+
+    driverController.rightTrigger().whileTrue(Commands.startEnd(() -> sDrive.toggleSlowMode(), sDrive::stop, sDrive));
 
     // Operator controller configurations
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
@@ -293,7 +297,7 @@ public class RobotContainer {
             Commands.startEnd(
                 () -> sClimber.runTargetPosition(0.55), // !Testing numbers
                 sClimber::stop,
-                sClimber)); 
+                sClimber));
 
     // run straight up position when y is pressed on operator. Using command Upwards
     operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));
