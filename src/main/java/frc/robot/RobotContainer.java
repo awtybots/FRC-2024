@@ -26,6 +26,7 @@ import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.FeedForwardCharacterization;
+import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.StowPosition;
@@ -275,6 +276,10 @@ public class RobotContainer {
         .start()
         .whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
 
+    driverController
+        .rightTrigger()
+        .whileTrue(Commands.startEnd(() -> sDrive.toggleSlowMode(), sDrive::stop, sDrive));
+
     // Operator controller configurations
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
 
@@ -294,17 +299,17 @@ public class RobotContainer {
             () -> operatorController.getLeftTriggerAxis(),
             () -> operatorController.getRightTriggerAxis(),
             operatorController.leftBumper()));
-    // operatorController
-    //     .a()
-    //     .whileTrue(
-    //         Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
-    // operatorController
-    //     .b()
-    //     .whileTrue(
-    //         Commands.startEnd(
-    //             () -> sClimber.runTargetPosition(0.55),
-    //             sClimber::stop,
-    //             sClimber)); // !Testing numbers
+    operatorController
+        .a()
+        .whileTrue(
+            Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
+    operatorController
+        .b()
+        .whileTrue(
+            Commands.startEnd(
+                () -> sClimber.runTargetPosition(0.55), // !Testing numbers
+                sClimber::stop,
+                sClimber));
 
     // run straight up position when y is pressed on operator. Using command Upwards
     operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));
