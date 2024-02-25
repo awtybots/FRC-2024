@@ -3,6 +3,7 @@
   "robotLength": 0.826,
   "holonomicMode": true,
   "pathFolders": [
+    "SpinShoot",
     "Plans",
     "PointPaths",
     "StartPaths"
