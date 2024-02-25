@@ -38,7 +38,7 @@ public class GyroIONavX implements GyroIO {
     ahrs.zeroYaw();
 
     yawPositionQueue =
-        SparkMaxOdometryThread.getInstance().registerSignal(() -> (double) ahrs.getYaw());
+        SparkMaxOdometryThread.getInstance().registerSignal(() -> (double) ahrs.getYaw() * -1);
   }
 
   @Override
@@ -54,10 +54,12 @@ public class GyroIONavX implements GyroIO {
     // yawPositionQueue.clear();
     inputs.connected = ahrs.isConnected();
     inputs.calibrating = ahrs.isCalibrating();
-    inputs.yawPosition = Rotation2d.fromDegrees(ahrs.getYaw());
+    inputs.yawPosition = Rotation2d.fromDegrees(ahrs.getYaw() * -1);
     inputs.yawVelocityRadPerSec = Units.degreesToRadians(ahrs.getRawGyroZ());
     inputs.odometryYawPositions =
-        yawPositionQueue.stream().map(Rotation2d::fromDegrees).toArray(Rotation2d[]::new);
+        yawPositionQueue.stream()
+            .map((Double value) -> Rotation2d.fromDegrees(value))
+            .toArray(Rotation2d[]::new);
 
     yawPositionQueue.clear();
   }
