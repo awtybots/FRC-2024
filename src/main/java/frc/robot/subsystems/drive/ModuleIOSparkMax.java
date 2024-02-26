@@ -111,7 +111,6 @@ public class ModuleIOSparkMax implements ModuleIO {
     driveSparkMax.setSmartCurrentLimit(30);
     turnSparkMax.setSmartCurrentLimit(20);
 
-
     driveEncoder.setPosition(0.0);
     driveEncoder.setMeasurementPeriod(10);
     driveEncoder.setAverageDepth(2);
