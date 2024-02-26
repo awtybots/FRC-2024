@@ -173,7 +173,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "RunIntake",
         Commands.startEnd(
-                () -> sIntake.runVelocity(Constants.IntakeConstants.velocity),
+                () -> sIntake.runVelocity(Constants.IntakeConstants.percentPower),
                 sIntake::stop,
                 sIntake)
             .withTimeout(5.0));
