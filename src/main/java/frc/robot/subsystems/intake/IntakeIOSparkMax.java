@@ -46,9 +46,7 @@ public class IntakeIOSparkMax implements IntakeIO {
 
     intakeMotor.setInverted(false);
 
-    intakeMotor.enableVoltageCompensation(12.0);
     intakeMotor.setSmartCurrentLimit(30);
-    followerIntakeMotor.enableVoltageCompensation(12.0);
     followerIntakeMotor.setSmartCurrentLimit(30);
 
     followerIntakeMotor.follow(intakeMotor, false);

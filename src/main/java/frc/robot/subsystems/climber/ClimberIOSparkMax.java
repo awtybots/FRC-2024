@@ -53,9 +53,6 @@ public class ClimberIOSparkMax implements ClimberIO {
 
     leftMotor.setInverted(true);
 
-    leftMotor.enableVoltageCompensation(12.0);
-    rightMotor.enableVoltageCompensation(12.0);
-
     leftMotor.setSmartCurrentLimit(ClimberConstants.kCurrentLimit);
     rightMotor.setSmartCurrentLimit(ClimberConstants.kCurrentLimit);
 
