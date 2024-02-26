@@ -70,8 +70,6 @@ public class ArmIOSparkMax implements ArmIO {
     leftMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     rightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-    leftMotor.enableVoltageCompensation(12.0);
-    rightMotor.enableVoltageCompensation(12.0);
 
     leftMotor.setSmartCurrentLimit(ArmConstants.kCurrentLimit);
     rightMotor.setSmartCurrentLimit(ArmConstants.kCurrentLimit);
