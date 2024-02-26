@@ -73,15 +73,7 @@ public class IntakeIOSparkMax implements IntakeIO {
 
   @Override
   public void setVelocity(double percentRun, double ffVolts) {
-    // intakePID.setReference(
-    //     (6 / 458.0) * Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
-    //     ControlType.kPercent,
-    //     0,
-    //     ffVolts,
-    //     ArbFFUnits.kVoltage);
-
-    intakeMotor.set(
-        percentRun);
+    intakeMotor.set(percentRun);
   }
 
   @Override
