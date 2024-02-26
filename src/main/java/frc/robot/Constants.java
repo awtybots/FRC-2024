@@ -62,18 +62,18 @@ public final class Constants {
     // TODO implement the below
     public static final int kCurrentLimit = 30;
 
-    public static final int startingAngle = 0; // TODO TUNE
+    public static final int startingAngle = 0;
 
-    public static final double armConversion = 1; // TODO TUNE
+    public static final double armConversion = 1;
 
     // Flywheel PID constants
-    public static final double kP = 0.0004; // TODO TUNE
-    public static final double kI = 0.0; // TODO TUNE
-    public static final double kD = 0.01; // TODO TUNE
+    public static final double kP = 0.0004;
+    public static final double kI = 0.0;
+    public static final double kD = 0.01;
 
     // Flywheel Feedforward characterization constants
-    public static final double ks = 0; // TODO TUNE
-    public static final double kv = 0.4; // TODO TUNE
+    public static final double ks = 0;
+    public static final double kv = 0.4;
     public static final double shootingVelocity = 1000;
   }
 
@@ -83,19 +83,19 @@ public final class Constants {
 
     public static final int kCurrentLimit = 30;
 
-    public static final int startingAngle = 30; // TODO TUNE
+    public static final int startingAngle = 30;
 
-    public static final double armConversion = 1; // TODO TUNE
+    public static final double armConversion = 1;
 
     // Intake PID constants
-    public static final double kP = 0.0003; // TODO TUNE
-    public static final double kI = 0.0; // TODO TUNE
-    public static final double kD = 0.001; // TODO TUNE
+    public static final double kP = 0.0003;
+    public static final double kI = 0.0;
+    public static final double kD = 0.001;
 
     // Intake Feedforward characterization constants
-    public static final double ks = 0.1; // TODO TUNE
-    public static final double kv = 5; // TODO TUNE
-    public static double velocity = 300;
+    public static final double ks = 0.1;
+    public static final double kv = 5;
+    public static double percentPower = 0.5;
   }
 
   public static final class ArmConstants {
@@ -104,19 +104,19 @@ public final class Constants {
 
     public static final int kCurrentLimit = 30;
 
-    public static final double armConversion = 0.05; // TODO TUNE
+    public static final double armConversion = 0.05;
 
     public static final double kMaxOutput = 0.3;
 
     // Arm PID constants
-    public static final double kP = 1; // TODO TUNE
-    public static final double kI = 0.0; // TODO TUNE
-    public static final double kD = 0.0; // TODO TUNE
+    public static final double kP = 1;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
     public static final double kWeightBasedFF = 0.0;
 
     // Arm Feedforward characterization constants
-    public static final double ks = 0.10; // TODO TUNE
-    public static final double kv = 0.05; // TODO TUNE
+    public static final double ks = 0.10;
+    public static final double kv = 0.05;
 
     public static final double minimumAngle = 0.1;
     public static final double maximumAngle = Math.PI;
@@ -133,24 +133,24 @@ public final class Constants {
 
     public static final int kCurrentLimit = 30;
 
-    public static final int initialExtension = 0; // TODO TUNE
+    public static final int initialExtension = 0;
     public static double minExtension = 0;
     public static double maxExtension = 2.6; // Inches
 
     // public static final double armElevatorConversion = 1;
 
     // Arm Elevator PID constants
-    public static final double kP = 1; // TODO TUNE
-    public static final double kI = 0; // TODO TUNE
-    public static final double kD = 0.0; // TODO TUNE
+    public static final double kP = 1;
+    public static final double kI = 0;
+    public static final double kD = 0.0;
 
     // Arm Elevator Feedforward characterization constants
-    public static final double ks = 0; // TODO TUNE
-    public static final double kv = 0; // TODO TUNE
+    public static final double ks = 0;
+    public static final double kv = 0;
   }
 
   public static final class Presets {
-    public static final double ArmThreshold = 0.1; // TODO TUNE
+    public static final double ArmThreshold = 0.1;
   }
 
   public static final class WristConstants {
@@ -158,19 +158,19 @@ public final class Constants {
 
     public static final int kCurrentLimit = 30;
 
-    public static final int initialAngle = 0; // TODO TUNE radians
+    public static final int initialAngle = 0; // radians
 
-    public static final int minAngle = -1; // TODO TUNE radians
-    public static final int maxAngle = 1; // TODO TUNE radians
+    public static final int minAngle = -1; // radians
+    public static final int maxAngle = 1; // radians
 
     // Wrist PID constants
-    public static final double kP = 0.1; // TODO TUNE
-    public static final double kI = 0.0; // TODO TUNE
-    public static final double kD = 0.0; // TODO TUNE
+    public static final double kP = 0.1;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
 
     // Wrist Feedforward characterization constants
-    public static final double ks = 0.10; // TODO TUNE
-    public static final double kv = 0.05; // TODO TUNE
+    public static final double ks = 0.10;
+    public static final double kv = 0.05;
   }
 
   public static final class ClimberConstants {
@@ -179,23 +179,23 @@ public final class Constants {
 
     public static final int kCurrentLimit = 30;
 
-    public static final double initialPosition = 0.7; // TODO TUNE
-    public static final double minPosition = 0.0; // TODO TUNE
-    public static final double maxPosition = 0.55; // TODO TUNE
+    public static final double initialPosition = 0.7;
+    public static final double minPosition = 0.0;
+    public static final double maxPosition = 0.55;
 
-    public static final double climberConversion = 1; // TODO TUNE
+    public static final double climberConversion = 1;
 
     // in meters, i.e. that many meters per rotation
     public static final double gearCircumfrence = 0.134032531982;
 
     // Climber PID constants
-    public static final double kP = 0.1; // TODO TUNE
-    public static final double kI = 0.0; // TODO TUNE
-    public static final double kD = 0.0; // TODO TUNE
+    public static final double kP = 0.1;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
 
     // Climber Feedforward characterization constants
-    public static final double ks = 0.10; // TODO TUNE
-    public static final double kv = 0.05; // TODO TUNE
+    public static final double ks = 0.10;
+    public static final double kv = 0.05;
   }
 
   public static final class SticksConstants {
@@ -203,18 +203,18 @@ public final class Constants {
 
     public static final int kCurrentLimit = 30;
 
-    public static final int initialAngle = 0; // TODO TUNE radians
+    public static final int initialAngle = 0; // radians
 
-    public static final int minAngle = 0; // TODO TUNE radians
-    public static final int maxAngle = 1; // TODO TUNE radians
+    public static final int minAngle = 0; // radians
+    public static final int maxAngle = 1; // radians
 
     // Sticks PID constants
-    public static final double kP = 0.1; // TODO TUNE
-    public static final double kI = 0.0; // TODO TUNE
-    public static final double kD = 0.0; // TODO TUNE
+    public static final double kP = 0.1;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
 
     // Sticks Feedforward characterization constants
-    // public static final double ks = 0.10; // TODO TUNE
-    // public static final double kv = 0.05; // TODO TUNE
+    // public static final double ks = 0.10;
+    // public static final double kv = 0.05;
   }
 }

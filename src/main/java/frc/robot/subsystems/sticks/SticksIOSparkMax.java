@@ -42,8 +42,6 @@ public class SticksIOSparkMax implements SticksIO {
 
     // encoder.setPosition(SticksConstants.initialAngle);
 
-    // motor.enableVoltageCompensation(12.0);
-
     motor.setSmartCurrentLimit(SticksConstants.kCurrentLimit);
 
     // motor.burnFlash();

@@ -46,9 +46,7 @@ public class IntakeIOSparkMax implements IntakeIO {
 
     intakeMotor.setInverted(false);
 
-    intakeMotor.enableVoltageCompensation(12.0);
     intakeMotor.setSmartCurrentLimit(30);
-    followerIntakeMotor.enableVoltageCompensation(12.0);
     followerIntakeMotor.setSmartCurrentLimit(30);
 
     followerIntakeMotor.follow(intakeMotor, false);
@@ -72,16 +70,8 @@ public class IntakeIOSparkMax implements IntakeIO {
   }
 
   @Override
-  public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    // intakePID.setReference(
-    //     (6 / 458.0) * Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
-    //     ControlType.kPercent,
-    //     0,
-    //     ffVolts,
-    //     ArbFFUnits.kVoltage);
-
-    intakeMotor.set(
-        (0.3 / 458.0) * Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO);
+  public void setVelocity(double percentRun, double ffVolts) {
+    intakeMotor.set(percentRun);
   }
 
   public void runFull(double pct) {

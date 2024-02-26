@@ -3,12 +3,15 @@
   "robotLength": 0.826,
   "holonomicMode": true,
   "pathFolders": [
+    "TestPaths",
     "Plans",
     "PointPaths",
+    "SpinShoot",
     "StartPaths"
   ],
   "autoFolders": [
-    "Blue"
+    "Blue",
+    "TestAutos"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

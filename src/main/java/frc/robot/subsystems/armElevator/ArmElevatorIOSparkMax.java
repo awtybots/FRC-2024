@@ -45,8 +45,6 @@ public class ArmElevatorIOSparkMax implements ArmElevatorIO {
 
     motor.setInverted(true);
 
-    // motor.enableVoltageCompensation(12.0);
-
     motor.setSmartCurrentLimit(ArmElevatorConstants.kCurrentLimit);
 
     // pid.setOutputRange(0, ArmElevatorConstants.maxExtension);

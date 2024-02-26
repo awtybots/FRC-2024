@@ -52,11 +52,6 @@ public class FlywheelIOSparkMax implements FlywheelIO {
 
     topShooterMotor.setSmartCurrentLimit(30);
     bottomShooterMotor.setSmartCurrentLimit(30);
-
-    topShooterMotor.enableVoltageCompensation(12.0);
-    topShooterMotor.setSmartCurrentLimit(30);
-    bottomShooterMotor.enableVoltageCompensation(12.0);
-    bottomShooterMotor.setSmartCurrentLimit(30);
   }
 
   @Override

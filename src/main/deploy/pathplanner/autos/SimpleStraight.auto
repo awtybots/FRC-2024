@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2374500156986428,
-      "y": 6.716950296892492
+      "x": 2.0,
+      "y": 7.0
     },
-    "rotation": 124.31563576910831
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueLFirst"
+            "pathName": "1Meter"
           }
         }
       ]
     }
   },
-  "folder": "Blue",
+  "folder": "TestAutos",
   "choreoAuto": false
 }

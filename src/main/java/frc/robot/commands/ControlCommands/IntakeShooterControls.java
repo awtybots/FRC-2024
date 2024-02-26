@@ -40,17 +40,23 @@ public class IntakeShooterControls {
           if (rightBumperSupplier.getAsBoolean()) {
             flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
 
-            if (Math.abs(flywheel.getVelocityRPMBottom())
-                > Math.abs(Constants.FlywheelConstants.shootingVelocity + 2000)) {
-              intake.runVelocity(Constants.IntakeConstants.velocity * 5);
+            double flywheelRPM = flywheel.getVelocityRPMBottom();
+            double targetRPM = Constants.FlywheelConstants.shootingVelocity + 2000;
+
+            if (flywheelRPM > targetRPM) {
+              intake.runVelocity(1);
             }
 
           } else {
-            flywheel.runVelocity(0);
-            double stickMagnitude =
-                MathUtil.applyDeadband(leftTriggerSupplier.getAsDouble(), DEADBAND)
-                    + -MathUtil.applyDeadband(rightTriggerSupplier.getAsDouble(), DEADBAND);
-            intake.runVelocity(Constants.IntakeConstants.velocity * stickMagnitude);
+            flywheel.stop();
+
+            double fwdSpeed = leftTriggerSupplier.getAsDouble();
+            double revSpeed = rightTriggerSupplier.getAsDouble();
+            fwdSpeed = MathUtil.applyDeadband(fwdSpeed, DEADBAND);
+            revSpeed = MathUtil.applyDeadband(revSpeed, DEADBAND);
+
+            double stickMagnitude = fwdSpeed - revSpeed;
+            intake.runVelocity(Constants.IntakeConstants.percentPower * stickMagnitude);
           }
         },
         intake,
