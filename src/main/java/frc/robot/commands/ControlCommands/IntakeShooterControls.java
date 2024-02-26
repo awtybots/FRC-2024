@@ -42,7 +42,7 @@ public class IntakeShooterControls {
 
             if (Math.abs(flywheel.getVelocityRPMBottom())
                 > Math.abs(Constants.FlywheelConstants.shootingVelocity + 2000)) {
-              intake.runVelocity(Constants.IntakeConstants.velocity * 5);
+              intake.runVelocity(1);
             }
 
           } else {
@@ -50,7 +50,7 @@ public class IntakeShooterControls {
             double stickMagnitude =
                 MathUtil.applyDeadband(leftTriggerSupplier.getAsDouble(), DEADBAND)
                     + -MathUtil.applyDeadband(rightTriggerSupplier.getAsDouble(), DEADBAND);
-            intake.runVelocity(Constants.IntakeConstants.velocity * stickMagnitude);
+            intake.runVelocity(Constants.IntakeConstants.percentPower * stickMagnitude);
           }
         },
         intake,
