@@ -275,6 +275,10 @@ public class RobotContainer {
         .start()
         .whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
 
+    operatorController
+        .start()
+        .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
+
     driverController
         .rightTrigger()
         .whileTrue(Commands.startEnd(() -> sDrive.toggleSlowMode(), sDrive::stop, sDrive));

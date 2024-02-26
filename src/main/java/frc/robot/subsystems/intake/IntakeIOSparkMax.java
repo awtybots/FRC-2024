@@ -84,6 +84,10 @@ public class IntakeIOSparkMax implements IntakeIO {
         (0.3 / 458.0) * Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO);
   }
 
+  public void runFull(double pct) {
+    intakeMotor.set(1);
+  }
+
   @Override
   public void stop() {
     intakeMotor.stopMotor();
