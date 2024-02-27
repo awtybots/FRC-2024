@@ -66,8 +66,8 @@ public class GyroIONavX implements GyroIO {
   }
 
   public void resetRotation() {
-    ahrs.zeroYaw();
-    // ahrs.setAngleAdjustment(ahrs.getAngle());
+    // ahrs.zeroYaw();
+    ahrs.setAngleAdjustment(ahrs.getAngle());
   }
 
   @AutoLogOutput(key = "Test/NavXAngleAdjustment")
@@ -75,3 +75,4 @@ public class GyroIONavX implements GyroIO {
     return ahrs.getAngleAdjustment();
   }
 }
+//test push
