@@ -18,7 +18,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import java.util.Queue;
-
 import org.littletonrobotics.junction.AutoLogOutput;
 
 /** IO implementation for NavX */
@@ -71,9 +70,8 @@ public class GyroIONavX implements GyroIO {
     // ahrs.setAngleAdjustment(ahrs.getAngleAdjustment());
   }
 
-  @AutoLogOutput(key="Test/NavXAngleAdjustment")
+  @AutoLogOutput(key = "Test/NavXAngleAdjustment")
   public double getAngleAdjustment() {
     return ahrs.getAngleAdjustment();
   }
-
 }

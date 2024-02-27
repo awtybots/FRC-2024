@@ -95,7 +95,7 @@ public final class Constants {
     // Intake Feedforward characterization constants
     public static final double ks = 0.1;
     public static final double kv = 5;
-    public static double percentPower = 1;
+    public static double percentPower = 2;
   }
 
   public static final class ArmConstants {
