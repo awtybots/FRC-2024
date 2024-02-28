@@ -53,6 +53,8 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
+import frc.robot.subsystems.intake.ColorSensorIO;
+import frc.robot.subsystems.intake.ColorSensorIOReal;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
@@ -113,7 +115,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
         sFlywheel = new Flywheel(new FlywheelIOSparkMax());
-        sIntake = new Intake(new IntakeIOSparkMax() {});
+        sIntake = new Intake(new IntakeIOSparkMax() {}, new ColorSensorIOReal() {});
         sArm = new Arm(new ArmIOSparkMax() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
         sWrist = new Wrist(new WristIOSparkMax() {});
@@ -134,7 +136,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         sFlywheel = new Flywheel(new FlywheelIOSim());
-        sIntake = new Intake(new IntakeIOSim() {});
+        sIntake = new Intake(new IntakeIOSim() {}, new ColorSensorIO() {});
         sArm = new Arm(new ArmIOSim() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
         sWrist = new Wrist(new WristIOSim() {});
@@ -153,7 +155,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         sFlywheel = new Flywheel(new FlywheelIO() {});
-        sIntake = new Intake(new IntakeIO() {});
+        sIntake = new Intake(new IntakeIO() {}, new ColorSensorIO() {});
         sArm = new Arm(new ArmIO() {});
         sArmElevator = new ArmElevator(new ArmElevatorIO() {});
         sWrist = new Wrist(new WristIO() {});
