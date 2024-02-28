@@ -197,7 +197,7 @@ public class RobotContainer {
     // the chache of the RoboRIO.
     String[] autoNames =
         new String[] {
-          "BlueLClose3", "SimpleStraight", "Spin180" /*, "BlueLMid3", "BlueLClose3Far1"*/
+          "BlueLClose3", "SimpleStraight", "Spin180", "BiggerTestAuto" /*, "BlueLMid3", "BlueLClose3Far1"*/
         };
 
     chooser.setDefaultOption("None", Commands.none());
