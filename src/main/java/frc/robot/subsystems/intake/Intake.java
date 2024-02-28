@@ -18,6 +18,10 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.EnvironmentalConstants;
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -25,10 +29,15 @@ public class Intake extends SubsystemBase {
   private final IntakeIO io;
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
   private final SimpleMotorFeedforward ffModel;
+  public static final Lock odometryLock = new ReentrantLock();
+
+  private final ColorSensorIO colorSensorIO;
+  private final ColorSensorIOInputsAutoLogged colorSensorInputs = new ColorSensorIOInputsAutoLogged();
 
   /** Creates a new Flywheel. */
-  public Intake(IntakeIO io) {
+  public Intake(IntakeIO io, ColorSensorIO colorSensorIO) {
     this.io = io;
+    this.colorSensorIO = colorSensorIO;
 
     io.configurePID(
         Constants.IntakeConstants.kP, Constants.IntakeConstants.kI, Constants.IntakeConstants.kD);
@@ -49,8 +58,13 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
+    odometryLock.lock(); // Prevents odometry updates while reading data
+    colorSensorIO.updateInputs(colorSensorInputs);
     io.updateInputs(inputs);
+    odometryLock.unlock();
+
     Logger.processInputs("Intake", inputs);
+    Logger.processInputs("Color", colorSensorInputs);
   }
 
   /** Run open loop at the specified voltage. */
