@@ -18,10 +18,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.EnvironmentalConstants;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -32,7 +30,8 @@ public class Intake extends SubsystemBase {
   public static final Lock odometryLock = new ReentrantLock();
 
   private final ColorSensorIO colorSensorIO;
-  private final ColorSensorIOInputsAutoLogged colorSensorInputs = new ColorSensorIOInputsAutoLogged();
+  private final ColorSensorIOInputsAutoLogged colorSensorInputs =
+      new ColorSensorIOInputsAutoLogged();
 
   /** Creates a new Flywheel. */
   public Intake(IntakeIO io, ColorSensorIO colorSensorIO) {

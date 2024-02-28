@@ -15,13 +15,13 @@ package frc.robot.subsystems.intake;
 
 import org.littletonrobotics.junction.AutoLog;
 
-import edu.wpi.first.wpilibj.util.Color;
-
 public interface ColorSensorIO {
   @AutoLog
   public static class ColorSensorIOInputs {
     public boolean connected = false;
-    public Color detectedColor;
+    public double red;
+    public double blue;
+    public double green;
     public double rawDetectedColor;
     public int proximity;
   }

@@ -33,7 +33,9 @@ public class ColorSensorIOReal implements ColorSensorIO {
   @Override
   public void updateInputs(ColorSensorIOInputs inputs) {
     inputs.connected = colorSensor.isConnected();
-    inputs.detectedColor = colorSensor.getColor();
+    inputs.red = colorSensor.getColor().red;
+    inputs.blue = colorSensor.getColor().blue;
+    inputs.green = colorSensor.getColor().green;
     inputs.rawDetectedColor = colorSensor.getIR();
     inputs.proximity = colorSensor.getProximity();
   }
