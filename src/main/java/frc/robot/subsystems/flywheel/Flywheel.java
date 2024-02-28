@@ -14,7 +14,6 @@
 package frc.robot.subsystems.flywheel;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EnvironmentalConstants;
 import frc.robot.Constants.FlywheelConstants;
@@ -60,12 +59,12 @@ public class Flywheel extends SubsystemBase {
   }
 
   /** Run closed loop at the specified velocity. */
-  public void runVelocity(double velocityRPM) {
-    var velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
-    io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
+  public void runVelocity(double velocityRPS) {
+
+    io.setVelocity(velocityRPS, ffModel.calculate(velocityRPS));
 
     // Log flywheel setpoint
-    Logger.recordOutput("Flywheel/SetpointRPM", velocityRPM);
+    Logger.recordOutput("Flywheel/SetpointRPM", velocityRPS);
   }
 
   /** Stops the flywheel. */
@@ -76,12 +75,12 @@ public class Flywheel extends SubsystemBase {
   /** Returns the current velocity in RPM. */
   @AutoLogOutput
   public double getVelocityRPMTop() {
-    return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSecTop);
+    return inputs.velocityRadPerSecTop;
   }
 
   @AutoLogOutput
   public double getVelocityRPMBottom() {
-    return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSecBottom);
+    return inputs.velocityRadPerSecBottom;
   }
 
   /**

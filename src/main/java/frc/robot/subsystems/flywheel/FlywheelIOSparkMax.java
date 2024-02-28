@@ -18,12 +18,11 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.SparkPIDController.ArbFFUnits;
-import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.FlywheelConstants;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class FlywheelIOSparkMax implements FlywheelIO {
-  private static final double GEAR_RATIO = 52.0 / 34.0;
+  private static final double GEAR_RATIO = 2;
 
   /*
    Note: I do not believe there will be any situation where the top motor and the bottom motor
@@ -39,6 +38,8 @@ public class FlywheelIOSparkMax implements FlywheelIO {
       new CANSparkMax(FlywheelConstants.kBottomFlywheelSparkMaxCanId, MotorType.kBrushless);
   private final RelativeEncoder bottomShooterEncoder = bottomShooterMotor.getEncoder();
   private final SparkPIDController bottomShooterPID = bottomShooterMotor.getPIDController();
+
+  private double targetVelocity;
 
   public FlywheelIOSparkMax() {
     topShooterMotor.restoreFactoryDefaults();
@@ -56,16 +57,13 @@ public class FlywheelIOSparkMax implements FlywheelIO {
 
   @Override
   public void updateInputs(FlywheelIOInputs inputs) {
-    inputs.positionRadTop = Units.rotationsToRadians(topShooterEncoder.getPosition() / GEAR_RATIO);
-    inputs.velocityRadPerSecTop =
-        Units.rotationsPerMinuteToRadiansPerSecond(topShooterEncoder.getVelocity() / GEAR_RATIO);
+    inputs.positionRadTop = topShooterEncoder.getPosition() / GEAR_RATIO;
+    inputs.velocityRadPerSecTop = topShooterEncoder.getVelocity() / GEAR_RATIO;
     inputs.appliedVoltsTop = topShooterMotor.getAppliedOutput() * topShooterMotor.getBusVoltage();
     inputs.currentAmpsTop = new double[] {topShooterMotor.getOutputCurrent()};
 
-    inputs.positionRadBottom =
-        Units.rotationsToRadians(bottomShooterEncoder.getPosition() / GEAR_RATIO);
-    inputs.velocityRadPerSecBottom =
-        Units.rotationsPerMinuteToRadiansPerSecond(bottomShooterEncoder.getVelocity() / GEAR_RATIO);
+    inputs.positionRadBottom = bottomShooterEncoder.getPosition() / GEAR_RATIO;
+    inputs.velocityRadPerSecBottom = bottomShooterEncoder.getVelocity() / GEAR_RATIO;
     inputs.appliedVoltsBottom =
         bottomShooterMotor.getAppliedOutput() * bottomShooterMotor.getBusVoltage();
     inputs.currentAmpsBottom = new double[] {bottomShooterMotor.getOutputCurrent()};
@@ -77,20 +75,21 @@ public class FlywheelIOSparkMax implements FlywheelIO {
     bottomShooterMotor.setVoltage(volts);
   }
 
+  @AutoLogOutput(key = "Flywheel/targetVelocity")
+  public double getTargetVelocity() {
+    return targetVelocity;
+  }
+
+  @AutoLogOutput(key = "Flywheel/TopVelocity")
+  public double getTopVelocity() {
+    return topShooterEncoder.getVelocity();
+  }
+
   @Override
-  public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    topShooterPID.setReference(
-        Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
-        ControlType.kVelocity,
-        0,
-        ffVolts,
-        ArbFFUnits.kVoltage);
-    bottomShooterPID.setReference(
-        Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
-        ControlType.kVelocity,
-        0,
-        ffVolts,
-        ArbFFUnits.kVoltage);
+  public void setVelocity(double velocityRevPerSec, double ffVolts) {
+    targetVelocity = velocityRevPerSec * GEAR_RATIO;
+    topShooterPID.setReference(targetVelocity, ControlType.kVelocity, 0, ffVolts);
+    bottomShooterPID.setReference(targetVelocity, ControlType.kVelocity, 0, ffVolts);
   }
 
   @Override

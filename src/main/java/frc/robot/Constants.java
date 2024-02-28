@@ -69,11 +69,11 @@ public final class Constants {
     // Flywheel PID constants
     public static final double kP = 0.0004;
     public static final double kI = 0.0;
-    public static final double kD = 0.01;
+    public static final double kD = 0;
 
     // Flywheel Feedforward characterization constants
     public static final double ks = 0;
-    public static final double kv = 0.4;
+    public static final double kv = 0;
     public static final double shootingVelocity = 1000;
   }
 
