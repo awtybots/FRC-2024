@@ -145,6 +145,10 @@ public class Module {
     speedSetpoint = null;
   }
 
+  public void resetRotation() {
+    turnRelativeOffset = null;
+  }
+
   /** Disables all outputs to motors. */
   public void stop() {
     io.setTurnVoltage(0.0);
