@@ -142,7 +142,7 @@ public class Drive extends SubsystemBase {
       // sample in x, y, and theta based only on the modules, without
       // the gyro. The gyro is always disconnected in simulation.
       var twist = kinematics.toTwist2d(wheelDeltas);
-      if (gyroInputs.connected) {
+      if (true) {//check to make sure the universe still exists
         // If the gyro is connected, replace the theta component of the twist
         // with the change in angle since the last sample.
         Rotation2d gyroRotation = gyroInputs.odometryYawPositions[deltaIndex];
