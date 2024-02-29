@@ -25,7 +25,7 @@ import frc.robot.subsystems.drive.Drive;
 import java.util.function.DoubleSupplier;
 
 public class DriveCommands {
-  private static final double DEADBAND = 0.1;
+  private static final double DEADBAND = 0.17;
 
   private DriveCommands() {}
 
@@ -63,7 +63,7 @@ public class DriveCommands {
                 new Rotation2d(
                     MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND),
                     MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND));
-            omega = (MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND)) / 2;
+            omega = (MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND));
           }
 
           // Square values
@@ -81,7 +81,7 @@ public class DriveCommands {
               ChassisSpeeds.fromFieldRelativeSpeeds(
                   linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
                   linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-                  omega * drive.getMaxAngularSpeedRadPerSec(),
+                  omega * drive.getMaxAngularSpeedRadPerSec() / 2.3,
                   drive.getRotation()));
         },
         drive);

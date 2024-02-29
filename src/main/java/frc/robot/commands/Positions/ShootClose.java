@@ -6,13 +6,13 @@ import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.armElevator.ArmElevator;
 import frc.robot.subsystems.wrist.Wrist;
 
-public class FloorPickup {
+public class ShootClose { // bumper pressed against the wall
 
   public static Command run(Arm arm, ArmElevator armElevator, Wrist wrist) {
     return Commands.run(
         () -> {
           // Position preset settings
-          double ARMANGLE = 0.205;
+          double ARMANGLE = 0.4342;
           double ARMELEVATORPOSITION = 0;
           double WRISTANGLE = 0;
 
