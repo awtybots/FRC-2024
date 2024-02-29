@@ -28,6 +28,9 @@ import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
+import frc.robot.commands.Positions.ShootClose;
+import frc.robot.commands.Positions.ShootFar;
+import frc.robot.commands.Positions.ShootMedium;
 import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.commands.Positions.StowPosition;
 import frc.robot.commands.Positions.Upwards;
@@ -327,6 +330,10 @@ public class RobotContainer {
                 () -> sClimber.runTargetPosition(0.55), // !Testing numbers
                 sClimber::stop,
                 sClimber));
+
+    operatorController.povDown().whileTrue(ShootFar.run(sArm, sArmElevator, sWrist));
+    operatorController.povRight().whileTrue(ShootMedium.run(sArm, sArmElevator, sWrist));
+    operatorController.povUp().whileTrue(ShootClose.run(sArm, sArmElevator, sWrist));
 
     // run straight up position when y is pressed on operator. Using command Upwards
     operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));

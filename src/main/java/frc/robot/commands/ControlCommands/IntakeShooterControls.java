@@ -59,14 +59,19 @@ public class IntakeShooterControls {
             revSpeed = MathUtil.applyDeadband(revSpeed, DEADBAND);
 
             double stickMagnitude = fwdSpeed - revSpeed;
+            stickMagnitude =
+                stickMagnitude * stickMagnitude * stickMagnitude; // more control over lower speeds
 
             int proximity = intake.getProximity();
-            boolean noteDetected = proximity < 2047 && proximity > 1000;
-            // ! An educated guess, may cause problems. It's at its highest when
-            // ! close and the smallest when far.
+            boolean noteDetected = proximity > 50;
 
             if (noteDetected) {
-              intake.runPercentSpeed(0);
+              if (stickMagnitude > 0.15) {
+                intake.runPercentSpeed(0);
+              } else {
+                intake.runPercentSpeed(
+                    Constants.IntakeConstants.percentPower * stickMagnitude); // allow for extake
+              }
             } else {
               intake.runPercentSpeed(Constants.IntakeConstants.percentPower * stickMagnitude);
             }

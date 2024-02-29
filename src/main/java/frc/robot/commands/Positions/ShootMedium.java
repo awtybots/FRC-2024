@@ -6,13 +6,13 @@ import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.armElevator.ArmElevator;
 import frc.robot.subsystems.wrist.Wrist;
 
-public class FloorPickup {
+public class ShootMedium { // one robot length away
 
   public static Command run(Arm arm, ArmElevator armElevator, Wrist wrist) {
     return Commands.run(
         () -> {
           // Position preset settings
-          double ARMANGLE = 0.205;
+          double ARMANGLE = 0.6429;
           double ARMELEVATORPOSITION = 0;
           double WRISTANGLE = 0;
 
