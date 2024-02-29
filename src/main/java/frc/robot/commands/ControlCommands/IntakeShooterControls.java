@@ -62,8 +62,9 @@ public class IntakeShooterControls {
             double stickMagnitude = fwdSpeed - revSpeed;
 
             int proximity = intake.getProximity();
-            boolean noteDetected =
-                proximity < 2047 && proximity > 1000; // ! An educated guess, may cause problems. It's at its highest when close and the smallest when far.
+            boolean noteDetected = proximity < 2047 && proximity > 1000;
+            // ! An educated guess, may cause problems. It's at its highest when
+            // ! close and the smallest when far.
 
             if (noteDetected) {
               intake.runPercentSpeed(0);
