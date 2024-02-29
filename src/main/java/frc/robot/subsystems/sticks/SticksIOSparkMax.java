@@ -28,7 +28,8 @@
 // public class SticksIOSparkMax implements SticksIO {
 //   private static final double GEAR_RATIO = 50; // 50:1 //TODO ratio needed
 
-//   private final CANSparkMax motor =     // ! Seems like the sticks won't have motors so this is pointless
+//   private final CANSparkMax motor =     // ! Seems like the sticks won't have motors so this is
+// pointless
 //       new CANSparkMax(SticksConstants.kSticksMotorId, MotorType.kBrushless);
 //   private final RelativeEncoder encoder = motor.getEncoder();
 //   private final SparkPIDController pid = motor.getPIDController();

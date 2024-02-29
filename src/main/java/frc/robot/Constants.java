@@ -200,9 +200,8 @@ public final class Constants {
 
   public static final class SticksConstants {
     // ! Seems like the sticks won't have motors.
-    // public static final int kLeftStickMotorId = 19; 
-    // public static final int kRightStickMotorId = 18; 
-
+    // public static final int kLeftStickMotorId = 19;
+    // public static final int kRightStickMotorId = 18;
 
     public static final int kCurrentLimit = 30;
 
