@@ -1,4 +1,4 @@
-// Copyright 2021-2024 FRC 6328, FRC 5829
+// Copyright 2021-2024 FRC 5829
 // http://github.com/Mechanical-Advantage
 //
 // This program is free software; you can redistribute it and/or
@@ -24,7 +24,6 @@ import java.util.function.DoubleSupplier;
 
 public class IntakeShooterControls {
   private static final double DEADBAND = 0.3;
-  private static final double MAXINCHESPERSECOND = 3;
 
   private IntakeShooterControls() {}
 
@@ -42,8 +41,10 @@ public class IntakeShooterControls {
           if (rightBumperSupplier.getAsBoolean()) {
             flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
 
-            double flywheelRPM = -flywheel.getVelocityRPMBottom();
-            double targetRPM = Constants.FlywheelConstants.shootingVelocity * 0.9;
+            double flywheelRPM = flywheel.getVelocityRPMBottom();
+            double targetRPM =
+                Constants.FlywheelConstants.shootingVelocity
+                    + 2000; // TODO find actual max velocity
 
             if (flywheelRPM > targetRPM) {
               intake.runPercentSpeed(1);
