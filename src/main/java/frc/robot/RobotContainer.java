@@ -175,7 +175,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "RunIntake",
         Commands.startEnd(
-                () -> sIntake.runVelocity(Constants.IntakeConstants.percentPower),
+                () -> sIntake.runPercentSpeed(Constants.IntakeConstants.percentPower),
                 sIntake::stop,
                 sIntake)
             .withTimeout(5.0));
@@ -315,7 +315,7 @@ public class RobotContainer {
             sFlywheel,
             () -> operatorController.getLeftTriggerAxis(),
             () -> operatorController.getRightTriggerAxis(),
-            operatorController.leftBumper()));
+            () -> operatorController.leftBumper().getAsBoolean()));
     operatorController
         .a()
         .whileTrue(

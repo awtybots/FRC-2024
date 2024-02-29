@@ -71,13 +71,16 @@ public class Intake extends SubsystemBase {
     io.setVoltage(volts);
   }
 
-  /** Run closed loop at the specified velocity. */
-  public void runVelocity(double velocityRPM) {
-    var velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
-    io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
+  /** Run closed loop at the percent speed. */
+  public void runPercentSpeed(double percentSpeed) {
+    io.setPercentSpeed(percentSpeed);
 
     // Log flywheel setpoint
-    Logger.recordOutput("Intake/SetpointRPM", velocityRPM);
+    Logger.recordOutput("Intake/PercentSpeed", percentSpeed);
+  }
+
+  public int getProximity() {
+    return colorSensorInputs.proximity;
   }
 
   /** Stops the flywheel. */

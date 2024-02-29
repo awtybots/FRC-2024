@@ -70,7 +70,7 @@ public class IntakeIOSparkMax implements IntakeIO {
   }
 
   @Override
-  public void setVelocity(double percentRun, double ffVolts) {
+  public void setPercentSpeed(double percentRun) {
     intakeMotor.set(percentRun);
   }
 
