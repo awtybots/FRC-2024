@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
 import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.intake.Intake;
-
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -35,15 +34,18 @@ public class IntakeShooterControls {
       DoubleSupplier leftTriggerSupplier,
       DoubleSupplier rightTriggerSupplier,
       BooleanSupplier rightBumperSupplier) {
-    // Left trigger runs outtake, right trigger triggers intake, and right bumper triggers the shooter.
-    // Intake stops on detection of 
+    // Left trigger runs outtake, right trigger triggers intake, and right bumper triggers the
+    // shooter.
+    // Intake stops on detection of
     return Commands.run(
         () -> {
           if (rightBumperSupplier.getAsBoolean()) {
             flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
 
             double flywheelRPM = flywheel.getVelocityRPMBottom();
-            double targetRPM = Constants.FlywheelConstants.shootingVelocity + 2000; // TODO find actual max velocity
+            double targetRPM =
+                Constants.FlywheelConstants.shootingVelocity
+                    + 2000; // TODO find actual max velocity
 
             if (flywheelRPM > targetRPM) {
               intake.runPercentSpeed(1);
@@ -60,14 +62,14 @@ public class IntakeShooterControls {
             double stickMagnitude = fwdSpeed - revSpeed;
 
             int proximity = intake.getProximity();
-            boolean noteDetected = proximity < 1 && proximity > 0; // ! An educated guess, may cause problems
-            
+            boolean noteDetected =
+                proximity < 1 && proximity > 0.1; // ! An educated guess, may cause problems
+
             if (noteDetected) {
               intake.runPercentSpeed(0);
             } else {
               intake.runPercentSpeed(Constants.IntakeConstants.percentPower * stickMagnitude);
             }
-
           }
         },
         intake,
