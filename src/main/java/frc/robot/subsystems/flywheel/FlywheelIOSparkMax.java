@@ -18,6 +18,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import edu.wpi.first.math.controller.PIDController;
+import frc.robot.Constants;
 import frc.robot.Constants.FlywheelConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -38,6 +40,8 @@ public class FlywheelIOSparkMax implements FlywheelIO {
       new CANSparkMax(FlywheelConstants.kBottomFlywheelSparkMaxCanId, MotorType.kBrushless);
   private final RelativeEncoder bottomShooterEncoder = bottomShooterMotor.getEncoder();
   private final SparkPIDController bottomShooterPID = bottomShooterMotor.getPIDController();
+  private final PIDController topMotorPID;
+  private final PIDController bottomMotorPID;
 
   private double targetVelocity;
 
@@ -53,17 +57,28 @@ public class FlywheelIOSparkMax implements FlywheelIO {
 
     topShooterMotor.setSmartCurrentLimit(30);
     bottomShooterMotor.setSmartCurrentLimit(30);
+
+    topMotorPID =
+        new PIDController(
+            Constants.FlywheelConstants.kP,
+            Constants.FlywheelConstants.kI,
+            Constants.FlywheelConstants.kD);
+    bottomMotorPID =
+        new PIDController(
+            Constants.FlywheelConstants.kP,
+            Constants.FlywheelConstants.kI,
+            Constants.FlywheelConstants.kD);
   }
 
   @Override
   public void updateInputs(FlywheelIOInputs inputs) {
-    inputs.positionRadTop = topShooterEncoder.getPosition() / GEAR_RATIO;
-    inputs.velocityRadPerSecTop = topShooterEncoder.getVelocity() / GEAR_RATIO;
+    inputs.positionRadTop = topShooterEncoder.getPosition();
+    inputs.velocityRadPerSecTop = topShooterEncoder.getVelocity();
     inputs.appliedVoltsTop = topShooterMotor.getAppliedOutput() * topShooterMotor.getBusVoltage();
     inputs.currentAmpsTop = new double[] {topShooterMotor.getOutputCurrent()};
 
     inputs.positionRadBottom = bottomShooterEncoder.getPosition() / GEAR_RATIO;
-    inputs.velocityRadPerSecBottom = bottomShooterEncoder.getVelocity() / GEAR_RATIO;
+    inputs.velocityRadPerSecBottom = bottomShooterEncoder.getVelocity();
     inputs.appliedVoltsBottom =
         bottomShooterMotor.getAppliedOutput() * bottomShooterMotor.getBusVoltage();
     inputs.currentAmpsBottom = new double[] {bottomShooterMotor.getOutputCurrent()};
@@ -71,8 +86,8 @@ public class FlywheelIOSparkMax implements FlywheelIO {
 
   @Override
   public void setVoltage(double volts) {
-    topShooterMotor.setVoltage(volts);
-    bottomShooterMotor.setVoltage(volts);
+    // topShooterMotor.setVoltage(volts);
+    // bottomShooterMotor.setVoltage(volts);
   }
 
   @AutoLogOutput(key = "Flywheel/targetVelocity")
@@ -85,11 +100,28 @@ public class FlywheelIOSparkMax implements FlywheelIO {
     return topShooterEncoder.getVelocity();
   }
 
+  @AutoLogOutput(key = "Flywheel/BottomVelocity")
+  public double getBottomVelocity() {
+    return bottomShooterEncoder.getVelocity();
+  }
+
   @Override
-  public void setVelocity(double velocityRevPerSec, double ffVolts) {
-    targetVelocity = velocityRevPerSec * GEAR_RATIO;
+  public void setVelocity(double velocityRevPerSec, double ffVolts) { // DO NOT TRUST UNITS
+    targetVelocity = velocityRevPerSec;
     topShooterPID.setReference(targetVelocity, ControlType.kVelocity, 0, ffVolts);
     bottomShooterPID.setReference(targetVelocity, ControlType.kVelocity, 0, ffVolts);
+    double topShooterVelocity = topShooterEncoder.getVelocity();
+    double bottomShooterVelocity = topShooterEncoder.getVelocity();
+
+    topShooterMotor.set(
+        topMotorPID.calculate(topShooterVelocity, velocityRevPerSec)
+            + Constants.FlywheelConstants.kv * velocityRevPerSec
+            + Constants.FlywheelConstants.ks);
+
+    bottomShooterMotor.set(
+        bottomMotorPID.calculate(bottomShooterVelocity, velocityRevPerSec)
+            + Constants.FlywheelConstants.kv * velocityRevPerSec
+            + Constants.FlywheelConstants.ks);
   }
 
   @Override
@@ -100,14 +132,12 @@ public class FlywheelIOSparkMax implements FlywheelIO {
 
   @Override
   public void configurePID(double kP, double kI, double kD) {
-    topShooterPID.setP(kP, 0);
-    topShooterPID.setI(kI, 0);
-    topShooterPID.setD(kD, 0);
-    topShooterPID.setFF(0, 0);
+    topMotorPID.setP(kP);
+    topMotorPID.setI(kI);
+    topMotorPID.setD(kD);
 
-    bottomShooterPID.setP(kP, 0);
-    bottomShooterPID.setI(kI, 0);
-    bottomShooterPID.setD(kD, 0);
-    bottomShooterPID.setFF(0, 0);
+    bottomMotorPID.setP(kP);
+    bottomMotorPID.setI(kI);
+    bottomMotorPID.setD(kD);
   }
 }

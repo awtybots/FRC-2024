@@ -42,10 +42,8 @@ public class IntakeShooterControls {
           if (rightBumperSupplier.getAsBoolean()) {
             flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
 
-            double flywheelRPM = flywheel.getVelocityRPMBottom();
-            double targetRPM =
-                Constants.FlywheelConstants.shootingVelocity
-                    + 2000; // TODO find actual max velocity
+            double flywheelRPM = -flywheel.getVelocityRPMBottom();
+            double targetRPM = Constants.FlywheelConstants.shootingVelocity * 0.9;
 
             if (flywheelRPM > targetRPM) {
               intake.runPercentSpeed(1);
