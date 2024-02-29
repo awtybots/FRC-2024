@@ -16,10 +16,10 @@ package frc.robot.commands.ControlCommands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.intake.Intake;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class IntakeShooterControls {
@@ -33,8 +33,10 @@ public class IntakeShooterControls {
       Flywheel flywheel,
       DoubleSupplier leftTriggerSupplier,
       DoubleSupplier rightTriggerSupplier,
-      Trigger rightBumperSupplier) {
-    // left trigger runs outtake, right trigger triggers intake, right bumper triggers the shooter
+      BooleanSupplier rightBumperSupplier) {
+    // Left trigger runs outtake, right trigger triggers intake, and right bumper triggers the
+    // shooter.
+    // Intake stops on detection of
     return Commands.run(
         () -> {
           if (rightBumperSupplier.getAsBoolean()) {
@@ -44,7 +46,7 @@ public class IntakeShooterControls {
             double targetRPM = Constants.FlywheelConstants.shootingVelocity * 0.9;
 
             if (flywheelRPM > targetRPM) {
-              intake.runVelocity(1);
+              intake.runPercentSpeed(1);
             }
 
           } else {
@@ -56,7 +58,16 @@ public class IntakeShooterControls {
             revSpeed = MathUtil.applyDeadband(revSpeed, DEADBAND);
 
             double stickMagnitude = fwdSpeed - revSpeed;
-            intake.runVelocity(Constants.IntakeConstants.percentPower * stickMagnitude);
+
+            int proximity = intake.getProximity();
+            boolean noteDetected =
+                proximity < 1 && proximity > 0.1; // ! An educated guess, may cause problems
+
+            if (noteDetected) {
+              intake.runPercentSpeed(0);
+            } else {
+              intake.runPercentSpeed(Constants.IntakeConstants.percentPower * stickMagnitude);
+            }
           }
         },
         intake,

@@ -17,12 +17,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 
 /** IO implementation for NavX */
-public class ColorSensorIOReal implements ColorSensorIO {
+public class ColorSensorIOV3 implements ColorSensorIO {
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private ColorSensorV3 colorSensor;
 
-  public ColorSensorIOReal() {
+  public ColorSensorIOV3() {
     try {
       colorSensor = new ColorSensorV3(i2cPort);
     } catch (RuntimeException ex) {
@@ -33,10 +33,10 @@ public class ColorSensorIOReal implements ColorSensorIO {
   @Override
   public void updateInputs(ColorSensorIOInputs inputs) {
     inputs.connected = colorSensor.isConnected();
-    inputs.red = colorSensor.getColor().red;
-    inputs.blue = colorSensor.getColor().blue;
-    inputs.green = colorSensor.getColor().green;
-    inputs.rawDetectedColor = colorSensor.getIR();
+    inputs.red = colorSensor.getRed();
+    inputs.blue = colorSensor.getBlue();
+    inputs.green = colorSensor.getGreen();
+    inputs.IR = colorSensor.getIR();
     inputs.proximity = colorSensor.getProximity();
   }
 }

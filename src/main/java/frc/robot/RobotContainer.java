@@ -54,7 +54,7 @@ import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
 import frc.robot.subsystems.intake.ColorSensorIO;
-import frc.robot.subsystems.intake.ColorSensorIOReal;
+import frc.robot.subsystems.intake.ColorSensorIOV3;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
@@ -115,7 +115,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
         sFlywheel = new Flywheel(new FlywheelIOSparkMax());
-        sIntake = new Intake(new IntakeIOSparkMax() {}, new ColorSensorIOReal() {});
+        sIntake = new Intake(new IntakeIOSparkMax() {}, new ColorSensorIOV3() {});
         sArm = new Arm(new ArmIOSparkMax() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
         sWrist = new Wrist(new WristIOSparkMax() {});
@@ -175,7 +175,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "RunIntake",
         Commands.startEnd(
-                () -> sIntake.runVelocity(Constants.IntakeConstants.percentPower),
+                () -> sIntake.runPercentSpeed(Constants.IntakeConstants.percentPower),
                 sIntake::stop,
                 sIntake)
             .withTimeout(5.0));
@@ -315,7 +315,7 @@ public class RobotContainer {
             sFlywheel,
             () -> operatorController.getLeftTriggerAxis(),
             () -> operatorController.getRightTriggerAxis(),
-            operatorController.leftBumper()));
+            () -> operatorController.leftBumper().getAsBoolean()));
     operatorController
         .a()
         .whileTrue(

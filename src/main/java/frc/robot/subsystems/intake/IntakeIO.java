@@ -30,8 +30,8 @@ public interface IntakeIO {
   /** Run open loop at the specified voltage. */
   public default void setVoltage(double volts) {}
 
-  /** Run closed loop at the specified velocity. */
-  public default void setVelocity(double velocityRadPerSec, double ffVolts) {}
+  /** Run closed loop at the specified percentage speed. */
+  public default void setPercentSpeed(double percentSpeed) {}
 
   /** Stop in open loop. */
   public default void stop() {}

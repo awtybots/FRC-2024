@@ -19,10 +19,10 @@ public interface ColorSensorIO {
   @AutoLog
   public static class ColorSensorIOInputs {
     public boolean connected = false;
-    public double red;
-    public double blue;
-    public double green;
-    public double rawDetectedColor;
+    public int red;
+    public int blue;
+    public int green;
+    public double IR;
     public int proximity;
   }
 
