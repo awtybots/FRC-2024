@@ -35,8 +35,8 @@ public class IntakeShooterControls {
       DoubleSupplier rightTriggerSupplier,
       BooleanSupplier rightBumperSupplier) {
     // Left trigger runs outtake, right trigger triggers intake, and right bumper triggers the
-    // shooter.
-    // Intake stops on detection of
+    // shooter (and the intake once at velocity).
+    // Intake stops on detection of note in first mode.
     return Commands.run(
         () -> {
           if (rightBumperSupplier.getAsBoolean()) {
@@ -63,7 +63,7 @@ public class IntakeShooterControls {
 
             int proximity = intake.getProximity();
             boolean noteDetected =
-                proximity < 1 && proximity > 0.1; // ! An educated guess, may cause problems
+                proximity < 2047 && proximity > 1000; // ! An educated guess, may cause problems. It's at its highest when close and the smallest when far.
 
             if (noteDetected) {
               intake.runPercentSpeed(0);
