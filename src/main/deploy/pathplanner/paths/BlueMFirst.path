@@ -57,7 +57,7 @@
   "reversed": false,
   "folder": "StartPaths",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": -0.4094096899026568,
     "velocity": 0
   },
   "useDefaultConstraints": true

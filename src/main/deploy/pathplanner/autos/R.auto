@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 4.4
+    },
+    "rotation": -59.325844507495816
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNoteStart"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "RealAutons",
+  "choreoAuto": false
+}

@@ -3,14 +3,15 @@
   "robotLength": 0.826,
   "holonomicMode": true,
   "pathFolders": [
-    "TestPaths",
+    "MoveOutPaths",
     "Plans",
     "PointPaths",
     "SpinShoot",
-    "StartPaths"
+    "StartPaths",
+    "TestPaths"
   ],
   "autoFolders": [
-    "Blue",
+    "RealAutons",
     "TestAutos"
   ],
   "defaultMaxVel": 3.0,

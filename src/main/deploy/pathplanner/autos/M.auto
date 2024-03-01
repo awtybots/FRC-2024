@@ -2,24 +2,24 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2374500156986428,
-      "y": 6.716950296892492
+      "x": 0.75,
+      "y": 4.4
     },
-    "rotation": 124.31563576910831
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "BlueLFirst"
+            "name": "ShootNoteStart"
           }
         }
       ]
     }
   },
-  "folder": "Blue",
+  "folder": "RealAutons",
   "choreoAuto": false
 }
