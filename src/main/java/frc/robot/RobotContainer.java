@@ -28,6 +28,7 @@ import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.ClimberCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
+import frc.robot.commands.ControlCommands.WristCommands;
 import frc.robot.commands.Positions.AmpShotPosition;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.ShootClosePosition;
@@ -292,7 +293,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  private void configureButtonBindings() { // Driver controller left and right joystick
     sDrive.setDefaultCommand(
         DriveCommands.joystickDrive(
             sDrive,
@@ -300,8 +301,16 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
 
+    sIntake.setDefaultCommand(
+        IntakeShooterControls.intakeShooterDrive(
+            sIntake,
+            sFlywheel,
+            () -> driverController.getLeftTriggerAxis(),
+            () -> driverController.getRightTriggerAxis(),
+            () -> false));
+    // # Alternate
     // driverController
-    //     .a()
+    //     .rightTrigger()
     //     .whileTrue(
     //         Commands.startEnd(
     //             () ->
@@ -311,7 +320,18 @@ public class RobotContainer {
     //             sFlywheel::stop,
     //             sFlywheel));
     // driverController
-    //     .a()
+    // .leftTrigger()
+    // .whileTrue(
+    //     Commands.startEnd(
+    //         () ->
+    //             sFlywheel.runVelocity(
+    //                 -flywheelSpeedInput
+    //                     .get()), // ! Is the smartdashboard thing permanent? surely not?
+    //         sFlywheel::stop,
+    //         sFlywheel));
+    // Alternate #2
+    // driverController
+    //     .leftTrigger()
     //     .whileFalse(Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop,
     // sFlywheel));
 
@@ -341,30 +361,43 @@ public class RobotContainer {
     //     .b()
     //     .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
-    driverController
+    driverController // Reset Gyro
         .start()
         .whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
 
-    driverController
-        .rightTrigger()
-        .whileTrue(Commands.startEnd(() -> sDrive.toggleSlowMode(), sDrive::stop, sDrive));
+    driverController // Slowmode
+        .rightBumper()
+        .toggleOnTrue(Commands.run(() -> sDrive.toggleSlowMode(), sDrive));
 
+    // Climber Movement
     driverController
-        .povUp()
+        .a()
         .whileTrue(
             Commands.startEnd(
                 () -> ClimberCommands.buttonDrive(sClimber, () -> 1), sClimber::stop, sClimber));
     driverController
-        .povDown()
+        .b()
         .whileTrue(
             Commands.startEnd(
                 () -> ClimberCommands.buttonDrive(sClimber, () -> -1), sClimber::stop, sClimber));
+    // Alternate for the above
+    // operatorController
+    //     .a()
+    //     .whileTrue(
+    //         Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
+    // operatorController
+    //     .b()
+    //     .whileTrue(
+    //         Commands.startEnd(
+    //             () -> sClimber.runTargetPosition(0.55), // !Testing numbers
+    //             sClimber::stop,
+    //             sClimber));
 
     // Operator controller configurations
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
 
-    // sWrist.setDefaultCommand(
-    //     WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
+    sWrist.setDefaultCommand(
+        WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
 
     // sArmElevator.setDefaultCommand(
     //     ArmElevatorCommands.triggerDrive(
@@ -379,17 +412,6 @@ public class RobotContainer {
             () -> operatorController.getLeftTriggerAxis(),
             () -> operatorController.getRightTriggerAxis(),
             () -> operatorController.leftBumper().getAsBoolean()));
-    operatorController
-        .a()
-        .whileTrue(
-            Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
-    operatorController
-        .b()
-        .whileTrue(
-            Commands.startEnd(
-                () -> sClimber.runTargetPosition(0.55), // !Testing numbers
-                sClimber::stop,
-                sClimber));
 
     // operatorController
     //     .start()
