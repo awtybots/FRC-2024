@@ -13,32 +13,38 @@
 
 package frc.robot.commands.ControlCommands;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.climber.Climber;
-import java.util.function.DoubleSupplier;
 
 public class ClimberCommands {
-  private static final double DEADBAND = 0.3;
-  // idk what a realistic one is so this is roughly 90 degrees per 2 seconds
-  private static final double MAX_RPM = 0.33;
+  // private static final double DEADBAND = 0.3;
+
+  private static final double MAX_MS = 0.33;
 
   private ClimberCommands() {}
 
   /** Wrist command using one axis of a joystick (controlling wrist velocity). */
-  public static Command buttonDrive(Climber climber, DoubleSupplier ySupplier) {
+  public static Command buttonDrive(Climber climber, Trigger leftTrigger, Trigger rightTrigger) {
     return Commands.run(
         () -> {
-          double value = ySupplier.getAsDouble();
+          boolean left = leftTrigger.getAsBoolean();
+          boolean right = rightTrigger.getAsBoolean();
+          double magnitude = 0;
 
-          // Apply deadband (i.e. min DEADBAND max 1.0)
-          double stickMagnitude = MathUtil.applyDeadband(Math.abs(value), DEADBAND);
-          stickMagnitude = Math.copySign(stickMagnitude, value);
+          if (left && right) { // there's probably a better way of doing this
+            magnitude = 0;
+          } else if ((left) && (!right)) {
+            magnitude = 1;
+          } else if ((!left) && (right)) {
+            magnitude = -1;
+          } else if ((!left) && (!right)) {
+            magnitude = 0;
+          }
 
           // Calcaulate new rotational velocity
-          double position = climber.getTargetPosition() + stickMagnitude * MAX_RPM;
-          System.out.println("value" + stickMagnitude);
+          double position = climber.getTargetPosition() + magnitude * MAX_MS;
 
           // Send command to wrist subsystem to run wrist
           climber.runTargetPosition(position);

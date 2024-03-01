@@ -18,7 +18,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
-import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants.ClimberConstants;
 
 /**
@@ -41,8 +40,8 @@ public class ClimberIOSparkMax implements ClimberIO {
 
   private double targetPosition = 0;
 
-  private double targetPositionLeft = ClimberConstants.initialPosition;
-  private double targetPositionRight = ClimberConstants.initialPosition;
+  // private double targetPositionLeft = ClimberConstants.initialPosition;
+  // private double targetPositionRight = ClimberConstants.initialPosition;
 
   public ClimberIOSparkMax() {
     leftMotor.restoreFactoryDefaults();
@@ -87,7 +86,9 @@ public class ClimberIOSparkMax implements ClimberIO {
 
   @Override
   public void setTargetPosition(double position) {
-    targetPosition = MathUtil.clamp(targetPosition, -2, 2);
+    // targetPosition = MathUtil.clamp(targetPosition, -2, 2);
+    targetPosition = position;
+    System.out.println("TargetPosition" + targetPosition);
 
     leftPID.setReference(
         (position / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
@@ -104,29 +105,29 @@ public class ClimberIOSparkMax implements ClimberIO {
         ArbFFUnits.kVoltage);
   }
 
-  @Override
-  public void setTargetPosition(double positionLeft, double positionRight) {
-    targetPositionLeft =
-        MathUtil.clamp(positionLeft, ClimberConstants.minPosition, ClimberConstants.maxPosition);
-    ;
-    targetPositionRight =
-        MathUtil.clamp(positionRight, ClimberConstants.minPosition, ClimberConstants.maxPosition);
-    ;
+  // @Override
+  // public void setTargetPosition(double positionLeft, double positionRight) {
+  //   targetPositionLeft =
+  //       MathUtil.clamp(positionLeft, ClimberConstants.minPosition, ClimberConstants.maxPosition);
 
-    leftPID.setReference(
-        (positionLeft / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
-        ControlType.kPosition,
-        0,
-        0,
-        ArbFFUnits.kVoltage);
+  //   targetPositionRight =
+  //       MathUtil.clamp(positionRight, ClimberConstants.minPosition,
+  // ClimberConstants.maxPosition);
 
-    rightPID.setReference(
-        (positionRight / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
-        ControlType.kPosition,
-        0,
-        0,
-        ArbFFUnits.kVoltage);
-  }
+  //   leftPID.setReference(
+  //       (positionLeft / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
+  //       ControlType.kPosition,
+  //       0,
+  //       0,
+  //       ArbFFUnits.kVoltage);
+
+  //   rightPID.setReference(
+  //       (positionRight / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
+  //       ControlType.kPosition,
+  //       0,
+  //       0,
+  //       ArbFFUnits.kVoltage);
+  // }
 
   @Override
   public void stop() {

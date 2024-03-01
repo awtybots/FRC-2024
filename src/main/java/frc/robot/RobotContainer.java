@@ -380,12 +380,16 @@ public class RobotContainer {
         .toggleOnTrue(Commands.run(() -> sDrive.toggleSlowMode(), sDrive));
 
     // Climber Movement
-    operatorController.leftTrigger().whileTrue(ClimberCommands.buttonDrive(sClimber, () -> 1));
+    // operatorController.leftTrigger().whileTrue(ClimberCommands.buttonDrive(sClimber, () -> 1));
     // Commands.startEnd(
     //     () -> ClimberCommands.buttonDrive(sClimber, () -> 0.1), sClimber::stop, sClimber));
-    operatorController.rightTrigger().whileTrue(ClimberCommands.buttonDrive(sClimber, () -> -1));
+    // operatorController.rightTrigger().whileTrue(ClimberCommands.buttonDrive(sClimber, () -> -1));
     // Commands.startEnd(
     //     () -> ClimberCommands.buttonDrive(sClimber, () -> -0.1), sClimber::stop, sClimber));
+
+    sClimber.setDefaultCommand(
+        ClimberCommands.buttonDrive(
+            sClimber, operatorController.leftBumper(), operatorController.rightBumper()));
     // Alternate for the above
     // operatorController
     //     .a()
