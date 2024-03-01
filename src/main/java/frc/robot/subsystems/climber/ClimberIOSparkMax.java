@@ -18,6 +18,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
+
+import edu.wpi.first.math.controller.PIDController;
+import frc.robot.Constants;
 import frc.robot.Constants.ClimberConstants;
 
 /**
@@ -38,6 +41,9 @@ public class ClimberIOSparkMax implements ClimberIO {
   private final SparkPIDController leftPID = leftMotor.getPIDController();
   private final SparkPIDController rightPID = rightMotor.getPIDController();
 
+  private final PIDController leftMathPID;
+  private final PIDController rightMathPID;
+
   private double targetPosition = 0;
 
   // private double targetPositionLeft = ClimberConstants.initialPosition;
@@ -57,6 +63,17 @@ public class ClimberIOSparkMax implements ClimberIO {
 
     // leftMotor.burnFlash();
     // rightMotor.burnFlash();
+
+    leftMathPID =
+        new PIDController(
+            Constants.ClimberConstants.kP,
+            Constants.ClimberConstants.kI,
+            Constants.ClimberConstants.kD);
+    rightMathPID =
+        new PIDController(
+            Constants.ClimberConstants.kP,
+            Constants.ClimberConstants.kI,
+            Constants.ClimberConstants.kD);
   }
 
   @Override
@@ -84,25 +101,44 @@ public class ClimberIOSparkMax implements ClimberIO {
     rightMotor.setVoltage(volts);
   }
 
-  @Override
+  // @Override
+  // public void setTargetPosition(double position) {
+  //   // targetPosition = MathUtil.clamp(targetPosition, -2, 2);
+  //   targetPosition = position;
+  //   System.out.println("TargetPosition" + targetPosition);
+
+    // leftPID.setReference(
+    //     (position / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
+    //     ControlType.kPosition,
+    //     0,
+    //     0,
+    //     ArbFFUnits.kVoltage);
+
+    // rightPID.setReference(
+    //     (position / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
+    //     ControlType.kPosition,
+    //     0,
+    //     0,
+    //     ArbFFUnits.kVoltage);
+  // }
+
+  @Override 
   public void setTargetPosition(double position) {
-    // targetPosition = MathUtil.clamp(targetPosition, -2, 2);
     targetPosition = position;
-    System.out.println("TargetPosition" + targetPosition);
+    leftPID.setReference(targetPosition, ControlType.kPosition, 0, 0);
+    rightPID.setReference(targetPosition, ControlType.kPosition, 0, 0);
 
-    leftPID.setReference(
-        (position / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
-        ControlType.kPosition,
-        0,
-        0,
-        ArbFFUnits.kVoltage);
+    double topShooterPosition = leftRelativeEncoder.getPosition();
+    double bottomShooterPosition = rightRelativeEncoder.getPosition();
 
-    rightPID.setReference(
-        (position / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
-        ControlType.kPosition,
-        0,
-        0,
-        ArbFFUnits.kVoltage);
+    leftMotor.set(
+      leftMathPID.calculate(topShooterPosition, targetPosition));
+          // + Constants.FlywheelConstants.kv * targetPosition
+          // + Constants.FlywheelConstants.ks);
+    rightMotor.set(
+      leftMathPID.calculate(bottomShooterPosition, targetPosition));
+          // + Constants.FlywheelConstants.kv * velocityRevPerSec
+          // + Constants.FlywheelConstants.ks);
   }
 
   // @Override
