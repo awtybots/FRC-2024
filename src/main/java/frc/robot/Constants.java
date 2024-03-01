@@ -27,6 +27,45 @@ public final class Constants {
     ! convinence, but we shouldn't do that as that would mess with the REPLAY mode.
     */
     public static final Mode currentMode = Mode.REAL;
+
+    // 2x8 matrix of note positions (x,y)
+    public static final double[][] notePositions = {
+      // Close row
+      {2.90, 6.99},
+      {2.90, 5.55},
+      {2.90, 4.11},
+      // Far row
+      {8.30, 7.44},
+      {8.30, 5.78},
+      {8.30, 4.10},
+      {8.30, 2.43},
+      {8.30, 0.77}
+    };
+    // Close row
+    // notePositions[0][0] = 2.90; // x
+    // notePositions[1][0] = 6.99; // y
+
+    // notePositions[0][1] = 2.90; // x
+    // notePositions[1][1] = 5.55; // y
+
+    // notePositions[0][2] = 2.90; // x
+    // notePositions[1][2] = 4.11; // y
+
+    // // Far row
+    // notePositions[0][3] = 8.30; // x
+    // notePositions[1][3] = 7.44; // y
+
+    // notePositions[0][4] = 8.30; // x
+    // notePositions[1][4] = 5.78; // y
+
+    // notePositions[0][5] = 8.30; // x
+    // notePositions[1][5] = 4.10; // y
+
+    // notePositions[0][6] = 8.30; // x
+    // notePositions[1][6] = 2.43; // y
+
+    // notePositions[0][7] = 8.30; // x
+    // notePositions[1][7] = 0.77; // y
   }
 
   public static enum Mode {

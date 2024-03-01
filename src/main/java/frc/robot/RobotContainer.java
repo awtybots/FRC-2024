@@ -22,13 +22,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.CombinedCommands.ShootNoteClose;
 import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
-import frc.robot.commands.FeedForwardCharacterization;
-import frc.robot.commands.Positions.AmpShot;
+import frc.robot.commands.Positions.AmpShotPosition;
 import frc.robot.commands.Positions.FloorPickup;
-import frc.robot.commands.Positions.ShootClose;
+import frc.robot.commands.Positions.ShootClosePosition;
 import frc.robot.commands.Positions.ShootFar;
 import frc.robot.commands.Positions.ShootMedium;
 import frc.robot.commands.Positions.SpeakerShot;
@@ -191,6 +191,11 @@ public class RobotContainer {
         SpeakerShot.run(1, sArm, sArmElevator, sWrist)
             .withTimeout(5.0)); // TODO Replace SpeakerDistance
 
+    NamedCommands.registerCommand(
+        "ShootNoteClose",
+        ShootNoteClose.run(sIntake, sArm, sArmElevator, sWrist, sFlywheel, sDrive)
+            .withTimeout(5.0));
+
     // Build SmartDashboard auto chooser
     if (!AutoBuilder.isConfigured()) {
       throw new RuntimeException(
@@ -220,14 +225,14 @@ public class RobotContainer {
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", chooser);
 
     // Set up feedforward characterization
-    autoChooser.addOption(
-        "Drive FF Characterization",
-        new FeedForwardCharacterization(
-            sDrive, sDrive::runCharacterizationVolts, sDrive::getCharacterizationVelocity));
-    autoChooser.addOption(
-        "Flywheel FF Characterization",
-        new FeedForwardCharacterization(
-            sFlywheel, sFlywheel::runVolts, sFlywheel::getCharacterizationVelocity));
+    // autoChooser.addOption(
+    //     "Drive FF Characterization",
+    //     new FeedForwardCharacterization(
+    //         sDrive, sDrive::runCharacterizationVolts, sDrive::getCharacterizationVelocity));
+    // autoChooser.addOption(
+    //     "Flywheel FF Characterization",
+    //     new FeedForwardCharacterization(
+    //         sFlywheel, sFlywheel::runVolts, sFlywheel::getCharacterizationVelocity));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -333,13 +338,13 @@ public class RobotContainer {
 
     operatorController.povDown().whileTrue(ShootFar.run(sArm, sArmElevator, sWrist));
     operatorController.povRight().whileTrue(ShootMedium.run(sArm, sArmElevator, sWrist));
-    operatorController.povUp().whileTrue(ShootClose.run(sArm, sArmElevator, sWrist));
+    operatorController.povUp().whileTrue(ShootClosePosition.run(sArm, sArmElevator, sWrist));
 
     // run straight up position when y is pressed on operator. Using command Upwards
     operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));
 
     // run straight forwards position when x is pressed
-    operatorController.x().whileTrue(AmpShot.run(sArm, sArmElevator, sWrist));
+    operatorController.x().whileTrue(AmpShotPosition.run(sArm, sArmElevator, sWrist));
 
     operatorController.a().whileTrue(FloorPickup.run(sArm, sArmElevator, sWrist));
 

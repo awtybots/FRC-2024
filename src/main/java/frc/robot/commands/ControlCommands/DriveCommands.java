@@ -23,7 +23,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.EnvironmentalConstants;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.flywheel.Flywheel;
+import frc.robot.subsystems.intake.Intake;
 import java.util.function.DoubleSupplier;
 
 public class DriveCommands {
@@ -44,7 +47,7 @@ public class DriveCommands {
           double linearMagnitude;
           Rotation2d linearDirection;
           double omega;
-          boolean SlowMode = drive.isSlowMode();
+          boolean SlowMode = drive.isSlowMode(); // bandaid solution
 
           // Apply deadband
           if (!SlowMode) {
@@ -65,7 +68,7 @@ public class DriveCommands {
                 new Rotation2d(
                     MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND),
                     MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND));
-            omega = (MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND));
+            omega = (MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND)) / 2;
           }
 
           // Square values
@@ -93,5 +96,57 @@ public class DriveCommands {
                       : drive.getRotation()));
         },
         drive);
+  }
+
+  public static Command runOverClosestNote(Drive sDrive, Intake sIntake, Flywheel sFlywheel) {
+    return Commands.run(
+        () -> {
+          double[][] notePositions = EnvironmentalConstants.notePositions;
+          Translation2d closestNotePosition = new Translation2d();
+
+          Translation2d currentPostition =
+              new Translation2d(sDrive.getPose().getX(), sDrive.getPose().getY());
+          double distance = 0;
+
+          for (int i = 0; i < notePositions.length; i++) {
+            double x = notePositions[i][0];
+            double y = notePositions[i][1];
+            Translation2d checkingNotePostition = new Translation2d(x, y);
+            double newDistance = currentPostition.getDistance(checkingNotePostition);
+
+            if (newDistance < distance || distance == 0) {
+              distance = currentPostition.getDistance(checkingNotePostition);
+              closestNotePosition = new Translation2d(x, y);
+            }
+          }
+
+          boolean isFlipped =
+              DriverStation.getAlliance().isPresent()
+                  && DriverStation.getAlliance().get() == Alliance.Red;
+
+          sDrive.runVelocity(
+              ChassisSpeeds.fromFieldRelativeSpeeds(
+                  closestNotePosition.getX() * sDrive.getMaxLinearSpeedMetersPerSec(),
+                  closestNotePosition.getY() * sDrive.getMaxLinearSpeedMetersPerSec(),
+                  0,
+                  isFlipped
+                      ? sDrive.getRotation().plus(new Rotation2d(Math.PI))
+                      : sDrive.getRotation()));
+
+          IntakeShooterControls.intakeShooterDrive(sIntake, sFlywheel, () -> 0, () -> 1, () -> true)
+              .withTimeout(3);
+
+          sDrive.runVelocity(
+              ChassisSpeeds.fromFieldRelativeSpeeds(
+                  currentPostition.getX() * sDrive.getMaxLinearSpeedMetersPerSec(),
+                  currentPostition.getY() * sDrive.getMaxLinearSpeedMetersPerSec(),
+                  0,
+                  isFlipped
+                      ? sDrive.getRotation().plus(new Rotation2d(Math.PI))
+                      : sDrive.getRotation()));
+        },
+        sDrive,
+        sIntake,
+        sFlywheel);
   }
 }

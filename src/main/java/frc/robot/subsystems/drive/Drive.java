@@ -47,14 +47,9 @@ public class Drive extends SubsystemBase {
 
   private static boolean SlowMode = false;
 
-  private static final double FAST_MAX_LINEAR_SPEED = Units.feetToMeters(14.5);
-  private static final double FAST_MAX_ANGULAR_SPEED = FAST_MAX_LINEAR_SPEED / DRIVE_BASE_RADIUS;
-
-  private static final double SLOW_MAX_LINEAR_SPEED = Units.feetToMeters(14.5);
-  private static final double SLOW_MAX_ANGULAR_SPEED = SLOW_MAX_LINEAR_SPEED / DRIVE_BASE_RADIUS;
-
-  private static double CurrentMaxAngularSpeed = FAST_MAX_ANGULAR_SPEED;
-  private static double CurrentMaxLinearSpeed = FAST_MAX_LINEAR_SPEED;
+  private static double MAX_LINEAR_SPEED = Units.feetToMeters(14.5);
+  ;
+  private static double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED / DRIVE_BASE_RADIUS;
 
   public static final Lock odometryLock = new ReentrantLock();
   private final GyroIO gyroIO;
@@ -84,7 +79,7 @@ public class Drive extends SubsystemBase {
         () -> kinematics.toChassisSpeeds(getModuleStates()),
         this::runVelocity,
         new HolonomicPathFollowerConfig(
-            CurrentMaxLinearSpeed, DRIVE_BASE_RADIUS, new ReplanningConfig()),
+            MAX_LINEAR_SPEED, DRIVE_BASE_RADIUS, new ReplanningConfig()),
         () ->
             DriverStation.getAlliance().isPresent()
                 && DriverStation.getAlliance().get() == Alliance.Red,
@@ -163,7 +158,7 @@ public class Drive extends SubsystemBase {
     // Calculate module setpoints
     ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
     SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, CurrentMaxLinearSpeed);
+    SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, MAX_LINEAR_SPEED);
 
     // Send setpoints to modules
     SwerveModuleState[] optimizedSetpointStates = new SwerveModuleState[4];
@@ -243,22 +238,18 @@ public class Drive extends SubsystemBase {
 
   /** Returns the maximum linear speed in meters per sec. */
   public double getMaxLinearSpeedMetersPerSec() {
-    return CurrentMaxLinearSpeed;
+    return MAX_LINEAR_SPEED;
   }
 
   /** Returns the maximum angular speed in radians per sec. */
   public double getMaxAngularSpeedRadPerSec() {
-    return CurrentMaxAngularSpeed;
+    return MAX_ANGULAR_SPEED;
   }
 
   public void toggleSlowMode() {
     if (SlowMode) {
-      CurrentMaxLinearSpeed = SLOW_MAX_LINEAR_SPEED;
-      CurrentMaxAngularSpeed = SLOW_MAX_ANGULAR_SPEED;
       SlowMode = false;
     } else {
-      CurrentMaxLinearSpeed = FAST_MAX_LINEAR_SPEED;
-      CurrentMaxAngularSpeed = FAST_MAX_ANGULAR_SPEED;
       SlowMode = true;
     }
   }

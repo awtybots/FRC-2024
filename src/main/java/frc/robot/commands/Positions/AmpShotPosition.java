@@ -6,7 +6,7 @@ import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.armElevator.ArmElevator;
 import frc.robot.subsystems.wrist.Wrist;
 
-public class AmpShot {
+public class AmpShotPosition {
 
   public static Command run(Arm arm, ArmElevator armElevator, Wrist wrist) {
     return Commands.run(
