@@ -43,10 +43,6 @@ import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
 import frc.robot.subsystems.arm.ArmIOSparkMax;
-import frc.robot.subsystems.armElevator.ArmElevator;
-import frc.robot.subsystems.armElevator.ArmElevatorIO;
-import frc.robot.subsystems.armElevator.ArmElevatorIOSim;
-import frc.robot.subsystems.armElevator.ArmElevatorIOSparkMax;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIO;
 import frc.robot.subsystems.climber.ClimberIOSim;
@@ -92,7 +88,7 @@ public class RobotContainer {
   private final Flywheel sFlywheel;
   private final Intake sIntake;
   private final Arm sArm;
-  private final ArmElevator sArmElevator;
+//   private final ArmElevator sArmElevator;
   private final Wrist sWrist;
   private final Climber sClimber;
   //   private final Sticks sSticks;
@@ -125,7 +121,7 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIOSparkMax());
         sIntake = new Intake(new IntakeIOSparkMax() {}, new ColorSensorIOV3() {});
         sArm = new Arm(new ArmIOSparkMax() {});
-        sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
+        // sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
         sWrist = new Wrist(new WristIOSparkMax() {});
         sClimber = new Climber(new ClimberIOSparkMax() {});
         // sSticks = new Sticks(new SticksIOSparkMax() {});
@@ -146,7 +142,7 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIOSim());
         sIntake = new Intake(new IntakeIOSim() {}, new ColorSensorIO() {});
         sArm = new Arm(new ArmIOSim() {});
-        sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
+        // sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
         sWrist = new Wrist(new WristIOSim() {});
         sClimber = new Climber(new ClimberIOSim() {});
         // sSticks = new Sticks(new SticksIOSim() {});
@@ -165,7 +161,7 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIO() {});
         sIntake = new Intake(new IntakeIO() {}, new ColorSensorIO() {});
         sArm = new Arm(new ArmIO() {});
-        sArmElevator = new ArmElevator(new ArmElevatorIO() {});
+        // sArmElevator = new ArmElevator(new ArmElevatorIO() {});
         sWrist = new Wrist(new WristIO() {});
         sClimber = new Climber(new ClimberIO() {});
         // sSticks = new Sticks(new SticksIO() {});
@@ -189,20 +185,20 @@ public class RobotContainer {
             .withTimeout(5.0));
 
     NamedCommands.registerCommand(
-        "FloorPickup", FloorPickup.run(sArm, sArmElevator, sWrist).withTimeout(5.0));
+        "FloorPickup", FloorPickup.run(sArm, sWrist).withTimeout(5.0));
 
     NamedCommands.registerCommand(
         "SpeakerShot",
-        SpeakerShot.run(1, sArm, sArmElevator, sWrist)
+        SpeakerShot.run(1, sArm, sWrist)
             .withTimeout(5.0)); // TODO Replace SpeakerDistance
 
     NamedCommands.registerCommand(
         "ShootNoteStart",
-        ShootNoteStart.run(sIntake, sArm, sArmElevator, sWrist, sFlywheel).withTimeout(5.0));
+        ShootNoteStart.run(sIntake, sArm, sWrist, sFlywheel).withTimeout(5.0));
 
     NamedCommands.registerCommand(
         "ShootNoteClose",
-        ShootNoteClose.run(sIntake, sArm, sArmElevator, sWrist, sFlywheel, sDrive)
+        ShootNoteClose.run(sIntake, sArm, sWrist, sFlywheel, sDrive)
             .withTimeout(5.0));
 
     // Build SmartDashboard auto chooser
@@ -436,19 +432,19 @@ public class RobotContainer {
     //     .start()
     //     .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
 
-    operatorController.povDown().whileTrue(ShootFar.run(sArm, sArmElevator, sWrist));
-    operatorController.povRight().whileTrue(ShootMedium.run(sArm, sArmElevator, sWrist));
-    operatorController.povUp().whileTrue(ShootClosePosition.run(sArm, sArmElevator, sWrist));
+    operatorController.povDown().whileTrue(ShootFar.run(sArm, sWrist));
+    operatorController.povRight().whileTrue(ShootMedium.run(sArm, sWrist));
+    operatorController.povUp().whileTrue(ShootClosePosition.run(sArm, sWrist));
 
     // run straight up position when y is pressed on operator. Using command Upwards
-    operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));
+    operatorController.y().whileTrue(Upwards.run(sArm, sWrist));
 
     // run straight forwards position when x is pressed
-    operatorController.x().whileTrue(AmpShotPosition.run(sArm, sArmElevator, sWrist));
+    operatorController.x().whileTrue(AmpShotPosition.run(sArm, sWrist));
 
-    operatorController.a().whileTrue(FloorPickup.run(sArm, sArmElevator, sWrist));
+    operatorController.a().whileTrue(FloorPickup.run(sArm, sWrist));
 
-    operatorController.b().whileTrue(StowPosition.run(sArm, sArmElevator, sWrist));
+    operatorController.b().whileTrue(StowPosition.run(sArm, sWrist));
 
     // operatorController
     //     .x()

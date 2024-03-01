@@ -193,7 +193,7 @@ public final class Constants {
   }
 
   public static final class WristConstants {
-    public static final int kWristMotorId = 15; // ! Change before testing
+    public static final int kWristMotorId = 25; // ! Change before testing
 
     public static final int kCurrentLimit = 30;
 
