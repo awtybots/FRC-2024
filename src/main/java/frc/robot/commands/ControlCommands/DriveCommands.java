@@ -116,7 +116,10 @@ public class DriveCommands {
 
             if (newDistance < distance || distance == 0) {
               distance = currentPostition.getDistance(checkingNotePostition);
-              closestNotePosition = new Translation2d(x, y);
+              closestNotePosition =
+                  new Translation2d(
+                      currentPostition.getX() + (x - currentPostition.getX()) / 2,
+                      currentPostition.getY() + (y - currentPostition.getY()) / 2);
             }
           }
 

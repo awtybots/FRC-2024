@@ -20,13 +20,7 @@
         {
           "type": "named",
           "data": {
-            "name": "FloorPickup"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "RunIntake"
+            "name": "ShootNoteClose"
           }
         },
         {
@@ -42,12 +36,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "RunIntake"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Blue2-3"
@@ -56,13 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "FloorPickup"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "RunIntake"
+            "name": "ShootNoteClose"
           }
         }
       ]
