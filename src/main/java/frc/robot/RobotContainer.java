@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CombinedCommands.ShootNoteClose;
 import frc.robot.commands.CombinedCommands.ShootNoteStart;
 import frc.robot.commands.ControlCommands.ArmCommands;
+import frc.robot.commands.ControlCommands.ClimberCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.Positions.AmpShotPosition;
@@ -344,13 +345,20 @@ public class RobotContainer {
         .start()
         .whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
 
-    operatorController
-        .start()
-        .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
-
     driverController
         .rightTrigger()
         .whileTrue(Commands.startEnd(() -> sDrive.toggleSlowMode(), sDrive::stop, sDrive));
+
+    driverController
+        .povUp()
+        .whileTrue(
+            Commands.startEnd(
+                () -> ClimberCommands.buttonDrive(sClimber, () -> 1), sClimber::stop, sClimber));
+    driverController
+        .povDown()
+        .whileTrue(
+            Commands.startEnd(
+                () -> ClimberCommands.buttonDrive(sClimber, () -> -1), sClimber::stop, sClimber));
 
     // Operator controller configurations
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
@@ -382,6 +390,10 @@ public class RobotContainer {
                 () -> sClimber.runTargetPosition(0.55), // !Testing numbers
                 sClimber::stop,
                 sClimber));
+
+    // operatorController
+    //     .start()
+    //     .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
 
     operatorController.povDown().whileTrue(ShootFar.run(sArm, sArmElevator, sWrist));
     operatorController.povRight().whileTrue(ShootMedium.run(sArm, sArmElevator, sWrist));
