@@ -316,7 +316,7 @@ public class RobotContainer {
     //             () ->
     //                 sFlywheel.runVelocity(
     //                     -flywheelSpeedInput
-    //                         .get()), // ! Is the smartdashboard thing permanent? surely not?
+    //                         .get()), 
     //             sFlywheel::stop,
     //             sFlywheel));
     // driverController
@@ -326,7 +326,7 @@ public class RobotContainer {
     //         () ->
     //             sFlywheel.runVelocity(
     //                 -flywheelSpeedInput
-    //                     .get()), // ! Is the smartdashboard thing permanent? surely not?
+    //                     .get()), 
     //         sFlywheel::stop,
     //         sFlywheel));
     // Alternate #2
@@ -335,7 +335,7 @@ public class RobotContainer {
     //     .whileFalse(Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop,
     // sFlywheel));
 
-    // driverController // TODO Reverse intake needed, also it stops randomly after a bit, get rid
+    // driverController 
     // of
     //     .b()
     //     .whileTrue(
@@ -348,7 +348,7 @@ public class RobotContainer {
     //     .b()
     //     .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
-    // driverController // TODO Reverse intake needed, also it stops randomly after a bit, get rid
+    // driverController
     // of
     //     .x()
     //     .whileTrue(
@@ -393,9 +393,9 @@ public class RobotContainer {
     //             sClimber::stop,
     //             sClimber));
 
-    // Operator controller configurations
+    // ## Operator controller configurations
+    // Arm/wrist controls
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
-
     sWrist.setDefaultCommand(
         WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
 
