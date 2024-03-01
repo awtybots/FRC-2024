@@ -34,14 +34,17 @@
 
 //     switch (EnvironmentalConstants.currentMode) {
 //       case REAL:
-//         io.configurePID(ArmElevatorConstants.kP, ArmElevatorConstants.kI, ArmElevatorConstants.kD);
+//         io.configurePID(ArmElevatorConstants.kP, ArmElevatorConstants.kI,
+// ArmElevatorConstants.kD);
 //       case REPLAY:
 //         ffModel = new SimpleMotorFeedforward(ArmElevatorConstants.ks, ArmElevatorConstants.kv);
-//         io.configurePID(ArmElevatorConstants.kP, ArmElevatorConstants.kI, ArmElevatorConstants.kD);
+//         io.configurePID(ArmElevatorConstants.kP, ArmElevatorConstants.kI,
+// ArmElevatorConstants.kD);
 //         break;
 //       case SIM:
 //         ffModel = new SimpleMotorFeedforward(ArmElevatorConstants.ks, ArmElevatorConstants.kv);
-//         io.configurePID(ArmElevatorConstants.kP, ArmElevatorConstants.kI, ArmElevatorConstants.kD);
+//         io.configurePID(ArmElevatorConstants.kP, ArmElevatorConstants.kI,
+// ArmElevatorConstants.kD);
 //         break;
 //       default:
 //         ffModel = new SimpleMotorFeedforward(ArmElevatorConstants.ks, ArmElevatorConstants.kv);

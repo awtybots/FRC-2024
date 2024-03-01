@@ -15,8 +15,7 @@ public class ShootNoteStart {
 
   public ShootNoteStart() {}
 
-  public static Command run(
-      Intake sIntake, Arm sArm, Wrist sWrist, Flywheel sFlywheel) {
+  public static Command run(Intake sIntake, Arm sArm, Wrist sWrist, Flywheel sFlywheel) {
     return Commands.run(
         () -> {
           ShootClosePosition.run(sArm, sWrist);

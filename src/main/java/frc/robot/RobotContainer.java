@@ -88,7 +88,7 @@ public class RobotContainer {
   private final Flywheel sFlywheel;
   private final Intake sIntake;
   private final Arm sArm;
-//   private final ArmElevator sArmElevator;
+  //   private final ArmElevator sArmElevator;
   private final Wrist sWrist;
   private final Climber sClimber;
   //   private final Sticks sSticks;
@@ -184,22 +184,18 @@ public class RobotContainer {
                 sIntake)
             .withTimeout(5.0));
 
-    NamedCommands.registerCommand(
-        "FloorPickup", FloorPickup.run(sArm, sWrist).withTimeout(5.0));
+    NamedCommands.registerCommand("FloorPickup", FloorPickup.run(sArm, sWrist).withTimeout(5.0));
 
     NamedCommands.registerCommand(
         "SpeakerShot",
-        SpeakerShot.run(1, sArm, sWrist)
-            .withTimeout(5.0)); // TODO Replace SpeakerDistance
+        SpeakerShot.run(1, sArm, sWrist).withTimeout(5.0)); // TODO Replace SpeakerDistance
 
     NamedCommands.registerCommand(
-        "ShootNoteStart",
-        ShootNoteStart.run(sIntake, sArm, sWrist, sFlywheel).withTimeout(5.0));
+        "ShootNoteStart", ShootNoteStart.run(sIntake, sArm, sWrist, sFlywheel).withTimeout(5.0));
 
     NamedCommands.registerCommand(
         "ShootNoteClose",
-        ShootNoteClose.run(sIntake, sArm, sWrist, sFlywheel, sDrive)
-            .withTimeout(5.0));
+        ShootNoteClose.run(sIntake, sArm, sWrist, sFlywheel, sDrive).withTimeout(5.0));
 
     // Build SmartDashboard auto chooser
     if (!AutoBuilder.isConfigured()) {

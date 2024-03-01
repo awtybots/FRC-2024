@@ -24,7 +24,8 @@
 //   private ElevatorSim sim =
 //       new ElevatorSim(DCMotor.getNEO(1), 1.5, 0.004, 1, 0, 1.047, true, 0.524);
 //   private PIDController pid =
-//       new PIDController(ArmElevatorConstants.kP, ArmElevatorConstants.kI, ArmElevatorConstants.kD);
+//       new PIDController(ArmElevatorConstants.kP, ArmElevatorConstants.kI,
+// ArmElevatorConstants.kD);
 
 //   private boolean closedLoop = false;
 //   private double ffVolts = 0.0;

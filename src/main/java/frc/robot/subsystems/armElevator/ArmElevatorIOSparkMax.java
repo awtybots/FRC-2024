@@ -92,7 +92,8 @@
 //   public void setTargetPosition(double distanceInches) {
 //     targetDistance =
 //         MathUtil.clamp(
-//             distanceInches, ArmElevatorConstants.minExtension, ArmElevatorConstants.maxExtension);
+//             distanceInches, ArmElevatorConstants.minExtension,
+// ArmElevatorConstants.maxExtension);
 //     pid.setReference(
 //         targetDistance / PULLEY_CIRCUMFERENCE * GEAR_RATIO,
 //         ControlType.kPosition,
