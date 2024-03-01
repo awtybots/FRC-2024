@@ -375,9 +375,9 @@ public class RobotContainer {
         .start()
         .whileTrue(Commands.run(() -> sDrive.resetRotation(), sDrive));
 
-    driverController // Slowmode
-        .a()
-        .toggleOnTrue(Commands.run(() -> sDrive.toggleSlowMode(), sDrive));
+    // driverController // Slowmode
+    //     .a()
+    //     .toggleOnTrue(Commands.run(() -> sDrive.toggleSlowMode(), sDrive));
 
     // Climber Movement
     // operatorController.leftTrigger().whileTrue(ClimberCommands.buttonDrive(sClimber, () -> 1));
@@ -450,7 +450,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.get();
-    // return Commands.none();
+    // return autoChooser.get();
+    return Commands.none();
   }
 }

@@ -21,7 +21,7 @@ import frc.robot.subsystems.climber.Climber;
 public class ClimberCommands {
   // private static final double DEADBAND = 0.3;
 
-  private static final double MAX_MS = 0.33;
+  private static final double MAX_MS = 0.01;
 
   private ClimberCommands() {}
 
