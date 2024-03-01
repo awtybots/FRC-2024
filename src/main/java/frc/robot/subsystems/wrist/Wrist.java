@@ -100,6 +100,11 @@ public class Wrist extends SubsystemBase {
     return inputs.positionRad;
   }
 
+  @AutoLogOutput(key = "Wrist/TargetAngle")
+  public double getTargetAngle() {
+    return inputs.targetPositionRad;
+  }
+
   /** Returns the current velocity in radians per second. */
   public double getCharacterizationVelocity() {
     return inputs.velocityRadPerSec;

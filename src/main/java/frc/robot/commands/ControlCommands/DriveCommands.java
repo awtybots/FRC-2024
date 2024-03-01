@@ -53,21 +53,21 @@ public class DriveCommands {
           if (!SlowMode) {
             linearMagnitude =
                 MathUtil.applyDeadband(
-                    Math.hypot(xSupplier.getAsDouble(), ySupplier.getAsDouble()), DEADBAND);
+                    Math.hypot(-xSupplier.getAsDouble(), -ySupplier.getAsDouble()), DEADBAND);
             linearDirection =
                 new Rotation2d(
-                    MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND),
-                    MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND));
-            omega = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND);
+                    MathUtil.applyDeadband(-xSupplier.getAsDouble(), DEADBAND),
+                    MathUtil.applyDeadband(-ySupplier.getAsDouble(), DEADBAND));
+            omega = MathUtil.applyDeadband(-omegaSupplier.getAsDouble(), DEADBAND);
           } else {
             linearMagnitude =
                 (MathUtil.applyDeadband(
-                        Math.hypot(xSupplier.getAsDouble(), ySupplier.getAsDouble()), DEADBAND))
+                        Math.hypot(-xSupplier.getAsDouble(), -ySupplier.getAsDouble()), DEADBAND))
                     / 2;
             linearDirection =
                 new Rotation2d(
-                    MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND),
-                    MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND));
+                    MathUtil.applyDeadband(-xSupplier.getAsDouble(), DEADBAND),
+                    MathUtil.applyDeadband(-ySupplier.getAsDouble(), DEADBAND));
             omega = (MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND)) / 2;
           }
 

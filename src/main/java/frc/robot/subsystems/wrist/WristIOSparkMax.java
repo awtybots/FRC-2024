@@ -38,6 +38,8 @@ public class WristIOSparkMax implements WristIO {
   public WristIOSparkMax() {
     motor.restoreFactoryDefaults();
 
+    motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
     motor.setCANTimeout(250);
 
     // encoder.setPosition(WristConstants.initialAngle);

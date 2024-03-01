@@ -14,9 +14,7 @@ package frc.robot.subsystems.arm;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkPIDController;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
@@ -35,16 +33,16 @@ public class ArmIOSparkMax implements ArmIO {
   private final CANSparkMax rightMotor =
       new CANSparkMax(ArmConstants.kRightArmMotorId, MotorType.kBrushless);
 
-  private final RelativeEncoder leftRelativeEncoder = leftMotor.getEncoder();
+  // private final RelativeEncoder leftRelativeEncoder = leftMotor.getEncoder();
 
   private final SparkAbsoluteEncoder leftAbsoluteEncoder =
       leftMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
-  private final SparkPIDController pid = leftMotor.getPIDController();
+  // private final SparkPIDController pid = leftMotor.getPIDController();
 
   private final PIDController mathPid;
 
-  private double targetAngle = 0.345 * Math.PI * 2.0; // 2.2// Radians, just a default value
+  private double targetAngle = 0; // 0.345 * Math.PI * 2.0; // 2.2// Radians, just a default value
 
   // REMEMBER
 
@@ -66,7 +64,7 @@ public class ArmIOSparkMax implements ArmIO {
     leftMotor.setInverted(false);
     rightMotor.setInverted(true);
 
-    // set both motors to coast
+    // set both motors to brake
     leftMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     rightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 

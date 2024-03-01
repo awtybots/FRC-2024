@@ -22,7 +22,7 @@ import java.util.function.DoubleSupplier;
 public class ClimberCommands {
   private static final double DEADBAND = 0.3;
   // idk what a realistic one is so this is roughly 90 degrees per 2 seconds
-  private static final double MAX_VOLTAGE = 5;
+  private static final double MAX_RPM = 0.33;
 
   private ClimberCommands() {}
 
@@ -33,15 +33,15 @@ public class ClimberCommands {
           double value = ySupplier.getAsDouble();
 
           // Apply deadband (i.e. min DEADBAND max 1.0)
-          double stickMagnitude =
-              MathUtil.applyDeadband(Math.abs(ySupplier.getAsDouble()), DEADBAND);
+          double stickMagnitude = MathUtil.applyDeadband(Math.abs(value), DEADBAND);
           stickMagnitude = Math.copySign(stickMagnitude, value);
 
           // Calcaulate new rotational velocity
-          double voltage = stickMagnitude * MAX_VOLTAGE;
+          double position = climber.getTargetPosition() + stickMagnitude * MAX_RPM;
+          System.out.println("value" + stickMagnitude);
 
           // Send command to wrist subsystem to run wrist
-          climber.runVolts(voltage);
+          climber.runTargetPosition(position);
         },
         climber);
   }

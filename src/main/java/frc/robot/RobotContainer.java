@@ -20,25 +20,16 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CombinedCommands.ShootNoteClose;
 import frc.robot.commands.CombinedCommands.ShootNoteStart;
-import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.ClimberCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.ControlCommands.WristCommands;
-import frc.robot.commands.Positions.AmpShotPosition;
 import frc.robot.commands.Positions.FloorPickup;
-import frc.robot.commands.Positions.ShootClosePosition;
-import frc.robot.commands.Positions.ShootFar;
-import frc.robot.commands.Positions.ShootMedium;
 import frc.robot.commands.Positions.SpeakerShot;
-import frc.robot.commands.Positions.StowPosition;
-import frc.robot.commands.Positions.Upwards;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
@@ -295,22 +286,22 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
 
-    CommandScheduler.getInstance()
-        .setDefaultCommand(
-            sIntake,
-            new ParallelCommandGroup(
-                IntakeShooterControls.intakeShooterDrive(
-                    sIntake,
-                    sFlywheel,
-                    () -> driverController.getLeftTriggerAxis(),
-                    () -> driverController.getRightTriggerAxis(),
-                    () -> false),
-                IntakeShooterControls.intakeShooterDrive(
-                    sIntake,
-                    sFlywheel,
-                    () -> operatorController.getLeftTriggerAxis(),
-                    () -> operatorController.getRightTriggerAxis(),
-                    () -> operatorController.leftBumper().getAsBoolean())));
+    // CommandScheduler.getInstance()
+    //     .setDefaultCommand(
+    //         sIntake,
+    //         new ParallelCommandGroup(
+    //             IntakeShooterControls.intakeShooterDrive(
+    //                 sIntake,
+    //                 sFlywheel,
+    //                 () -> driverController.getLeftTriggerAxis(),
+    //                 () -> driverController.getRightTriggerAxis(),
+    //                 () -> false),
+    //             IntakeShooterControls.intakeShooterDrive(
+    //                 sIntake,
+    //                 sFlywheel,
+    //                 () -> operatorController.getLeftTriggerAxis(),
+    //                 () -> operatorController.getRightTriggerAxis(),
+    //                 () -> operatorController.leftBumper().getAsBoolean())));
     // # Alternate
     // sIntake.setDefaultCommand(
     //     IntakeShooterControls.intakeShooterDrive(
@@ -319,13 +310,13 @@ public class RobotContainer {
     //         () -> driverController.getLeftTriggerAxis(),
     //         () -> driverController.getRightTriggerAxis(),
     //         () -> false));
-    // sIntake.setDefaultCommand(
-    //     IntakeShooterControls.intakeShooterDrive(
-    //         sIntake,
-    //         sFlywheel,
-    //         () -> operatorController.getLeftTriggerAxis(),
-    //         () -> operatorController.getRightTriggerAxis(),
-    //         () -> operatorController.leftBumper().getAsBoolean()));
+    sIntake.setDefaultCommand(
+        IntakeShooterControls.intakeShooterDrive(
+            sIntake,
+            sFlywheel,
+            () -> driverController.getLeftTriggerAxis(),
+            () -> driverController.getRightTriggerAxis(),
+            () -> driverController.leftBumper().getAsBoolean()));
 
     // # Alternate
     // driverController
@@ -385,20 +376,16 @@ public class RobotContainer {
         .whileTrue(Commands.run(() -> sDrive.resetRotation(), sDrive));
 
     driverController // Slowmode
-        .rightBumper()
+        .a()
         .toggleOnTrue(Commands.run(() -> sDrive.toggleSlowMode(), sDrive));
 
     // Climber Movement
-    driverController
-        .a()
-        .whileTrue(
-            Commands.startEnd(
-                () -> ClimberCommands.buttonDrive(sClimber, () -> 1), sClimber::stop, sClimber));
-    driverController
-        .b()
-        .whileTrue(
-            Commands.startEnd(
-                () -> ClimberCommands.buttonDrive(sClimber, () -> -1), sClimber::stop, sClimber));
+    operatorController.leftTrigger().whileTrue(ClimberCommands.buttonDrive(sClimber, () -> 1));
+    // Commands.startEnd(
+    //     () -> ClimberCommands.buttonDrive(sClimber, () -> 0.1), sClimber::stop, sClimber));
+    operatorController.rightTrigger().whileTrue(ClimberCommands.buttonDrive(sClimber, () -> -1));
+    // Commands.startEnd(
+    //     () -> ClimberCommands.buttonDrive(sClimber, () -> -0.1), sClimber::stop, sClimber));
     // Alternate for the above
     // operatorController
     //     .a()
@@ -414,7 +401,8 @@ public class RobotContainer {
 
     // ## Operator controller configurations
     // Arm/wrist controls
-    sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
+    // sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () ->
+    // -operatorController.getRightY()));
     sWrist.setDefaultCommand(
         WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
 
@@ -428,19 +416,19 @@ public class RobotContainer {
     //     .start()
     //     .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
 
-    operatorController.povDown().whileTrue(ShootFar.run(sArm, sWrist));
-    operatorController.povRight().whileTrue(ShootMedium.run(sArm, sWrist));
-    operatorController.povUp().whileTrue(ShootClosePosition.run(sArm, sWrist));
+    // operatorController.povDown().whileTrue(ShootFar.run(sArm, sWrist));
+    // operatorController.povRight().whileTrue(ShootMedium.run(sArm, sWrist));
+    // operatorController.povUp().whileTrue(ShootClosePosition.run(sArm, sWrist));
 
-    // run straight up position when y is pressed on operator. Using command Upwards
-    operatorController.y().whileTrue(Upwards.run(sArm, sWrist));
+    // // run straight up position when y is pressed on operator. Using command Upwards
+    // operatorController.y().whileTrue(Upwards.run(sArm, sWrist));
 
-    // run straight forwards position when x is pressed
-    operatorController.x().whileTrue(AmpShotPosition.run(sArm, sWrist));
+    // // run straight forwards position when x is pressed
+    // operatorController.x().whileTrue(AmpShotPosition.run(sArm, sWrist));
 
-    operatorController.a().whileTrue(FloorPickup.run(sArm, sWrist));
+    // operatorController.a().whileTrue(FloorPickup.run(sArm, sWrist));
 
-    operatorController.b().whileTrue(StowPosition.run(sArm, sWrist));
+    // operatorController.b().whileTrue(StowPosition.run(sArm, sWrist));
 
     // operatorController
     //     .x()

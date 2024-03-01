@@ -138,7 +138,7 @@ public final class Constants {
   }
 
   public static final class ArmConstants {
-    public static final int kRightArmMotorId = 1;
+    public static final int kRightArmMotorId = 26;
     public static final int kLeftArmMotorId = 9;
 
     public static final int kCurrentLimit = 30;

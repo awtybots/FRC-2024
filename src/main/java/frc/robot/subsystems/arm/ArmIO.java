@@ -18,11 +18,11 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ArmIO {
   @AutoLog
   public static class ArmIOInputs {
-    public double positionRad = 0.0;
+    public double positionRad;
     public double velocityRadPerSec = 0.0;
     public double appliedVolts = 0.0;
     public double[] currentAmps = new double[] {};
-    public double targetPositionRad = 0.0;
+    public double targetPositionRad;
   }
 
   /** Updates the set of loggable inputs. */

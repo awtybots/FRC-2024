@@ -39,7 +39,7 @@ public class ClimberIOSparkMax implements ClimberIO {
   private final SparkPIDController leftPID = leftMotor.getPIDController();
   private final SparkPIDController rightPID = rightMotor.getPIDController();
 
-  private double targetPosition = ClimberConstants.initialPosition;
+  private double targetPosition = 0;
 
   private double targetPositionLeft = ClimberConstants.initialPosition;
   private double targetPositionRight = ClimberConstants.initialPosition;
@@ -87,8 +87,7 @@ public class ClimberIOSparkMax implements ClimberIO {
 
   @Override
   public void setTargetPosition(double position) {
-    targetPosition =
-        MathUtil.clamp(targetPosition, ClimberConstants.minPosition, ClimberConstants.maxPosition);
+    targetPosition = MathUtil.clamp(targetPosition, -2, 2);
 
     leftPID.setReference(
         (position / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
