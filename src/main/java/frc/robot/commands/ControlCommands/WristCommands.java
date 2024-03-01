@@ -21,7 +21,7 @@ import java.util.function.DoubleSupplier;
 
 public class WristCommands {
   private static final double DEADBAND = 0.3;
-  // idk what a realistic one is 
+  // idk what a realistic one is
   private static final double MAXRADIANSPERSECOND = 0.4;
 
   private WristCommands() {}

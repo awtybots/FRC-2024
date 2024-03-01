@@ -20,7 +20,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CombinedCommands.ShootNoteClose;
 import frc.robot.commands.CombinedCommands.ShootNoteStart;
@@ -301,13 +303,38 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
 
-    sIntake.setDefaultCommand(
-        IntakeShooterControls.intakeShooterDrive(
+    CommandScheduler.getInstance()
+        .setDefaultCommand(
             sIntake,
-            sFlywheel,
-            () -> driverController.getLeftTriggerAxis(),
-            () -> driverController.getRightTriggerAxis(),
-            () -> false));
+            new ParallelCommandGroup(
+                IntakeShooterControls.intakeShooterDrive(
+                    sIntake,
+                    sFlywheel,
+                    () -> driverController.getLeftTriggerAxis(),
+                    () -> driverController.getRightTriggerAxis(),
+                    () -> false),
+                IntakeShooterControls.intakeShooterDrive(
+                    sIntake,
+                    sFlywheel,
+                    () -> operatorController.getLeftTriggerAxis(),
+                    () -> operatorController.getRightTriggerAxis(),
+                    () -> operatorController.leftBumper().getAsBoolean())));
+    // # Alternate
+    // sIntake.setDefaultCommand(
+    //     IntakeShooterControls.intakeShooterDrive(
+    //         sIntake,
+    //         sFlywheel,
+    //         () -> driverController.getLeftTriggerAxis(),
+    //         () -> driverController.getRightTriggerAxis(),
+    //         () -> false));
+    // sIntake.setDefaultCommand(
+    //     IntakeShooterControls.intakeShooterDrive(
+    //         sIntake,
+    //         sFlywheel,
+    //         () -> operatorController.getLeftTriggerAxis(),
+    //         () -> operatorController.getRightTriggerAxis(),
+    //         () -> operatorController.leftBumper().getAsBoolean()));
+
     // # Alternate
     // driverController
     //     .rightTrigger()
@@ -316,7 +343,7 @@ public class RobotContainer {
     //             () ->
     //                 sFlywheel.runVelocity(
     //                     -flywheelSpeedInput
-    //                         .get()), 
+    //                         .get()),
     //             sFlywheel::stop,
     //             sFlywheel));
     // driverController
@@ -326,7 +353,7 @@ public class RobotContainer {
     //         () ->
     //             sFlywheel.runVelocity(
     //                 -flywheelSpeedInput
-    //                     .get()), 
+    //                     .get()),
     //         sFlywheel::stop,
     //         sFlywheel));
     // Alternate #2
@@ -335,7 +362,7 @@ public class RobotContainer {
     //     .whileFalse(Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop,
     // sFlywheel));
 
-    // driverController 
+    // driverController
     // of
     //     .b()
     //     .whileTrue(
@@ -363,7 +390,7 @@ public class RobotContainer {
 
     driverController // Reset Gyro
         .start()
-        .whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
+        .whileTrue(Commands.run(() -> sDrive.resetRotation(), sDrive));
 
     driverController // Slowmode
         .rightBumper()
@@ -404,14 +431,6 @@ public class RobotContainer {
     //         sArmElevator,
     //         () -> operatorController.getLeftTriggerAxis(),
     //         () -> operatorController.getRightTriggerAxis()));
-
-    sIntake.setDefaultCommand(
-        IntakeShooterControls.intakeShooterDrive(
-            sIntake,
-            sFlywheel,
-            () -> operatorController.getLeftTriggerAxis(),
-            () -> operatorController.getRightTriggerAxis(),
-            () -> operatorController.leftBumper().getAsBoolean()));
 
     // operatorController
     //     .start()

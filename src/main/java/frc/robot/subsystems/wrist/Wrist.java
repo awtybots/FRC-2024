@@ -89,9 +89,15 @@ public class Wrist extends SubsystemBase {
   }
 
   /** Returns the current velocity in RPM. */
-  @AutoLogOutput
+  @AutoLogOutput(key = "Wrist/Velocity(rotationsperminute)")
   public double getVelocityRPM() {
     return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSec);
+  }
+
+  /** Get current recorded angle */
+  @AutoLogOutput(key = "Wrist/Angle")
+  public double getAngle() {
+    return inputs.positionRad;
   }
 
   /** Returns the current velocity in radians per second. */
