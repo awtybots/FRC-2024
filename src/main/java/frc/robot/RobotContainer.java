@@ -31,7 +31,6 @@ import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.ControlCommands.WristCommands;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.SpeakerShot;
-import frc.robot.commands.Positions.StowPosition;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
@@ -407,9 +406,8 @@ public class RobotContainer {
 
     // ## Operator controller configurations
     // Arm/wrist controls
-    sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () ->
-        -operatorController.getRightY()));
-        
+    sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
+
     sWrist.setDefaultCommand(
         WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
 

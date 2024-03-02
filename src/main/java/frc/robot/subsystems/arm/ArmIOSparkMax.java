@@ -110,7 +110,7 @@ public class ArmIOSparkMax implements ArmIO {
   }
 
   @Override
-  /** Set the target angle. In radians. */ 
+  /** Set the target angle. In radians. */
   public void setTargetAngle(double angle) {
     targetAngle = MathUtil.clamp(angle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
     //   pid.setReference(

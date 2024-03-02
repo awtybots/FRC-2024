@@ -27,7 +27,7 @@ public class ShootNoteClose {
       Drive sDrive) {
     return Commands.run(
         () -> {
-          FloorPickup.run(sArm, sWrist);
+          FloorPickup.run(sArm);
           DriveCommands.runOverClosestNote(
               sDrive, sIntake, sFlywheel); // includes intake of note theoretically
 
@@ -35,7 +35,7 @@ public class ShootNoteClose {
           IntakeShooterControls.intakeShooterDrive(sIntake, sFlywheel, () -> 0, () -> 1, () -> true)
               .withTimeout(3);
 
-          StowPosition.run(sArm, sWrist);
+          StowPosition.run(sArm);
         },
         sIntake,
         sArm,

@@ -17,7 +17,6 @@ public class StowPosition {
           arm.runTargetAngle(ARMANGLE);
           // wrist.runTargetAngle(WRISTANGLE);
         },
-        arm
-        );
+        arm);
   }
 }
