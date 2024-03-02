@@ -74,8 +74,7 @@ public class ModuleIOSparkMax implements ModuleIO {
         turnSparkMax =
             new CANSparkMax(DriveConstants.kFrontRightTurningCanId, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(1);
-        absoluteEncoderOffset =
-            new Rotation2d(0 + Math.PI + Math.PI + Math.PI / 4); // MUST BE CALIBRATED
+        absoluteEncoderOffset = new Rotation2d(0 + Math.PI + Math.PI); // MUST BE CALIBRATED
         break;
         // Rear left
       case 2:

@@ -113,7 +113,7 @@ public class ArmIOSparkMax implements ArmIO {
   /** Set the target angle. In radians. */
   public void setTargetAngle(double angle) {
 
-    targetAngle = MathUtil.clamp(angle, ArmConstants.maximumAngle, ArmConstants.minimumAngle);
+    targetAngle = MathUtil.clamp(angle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
 
     double currentAngleRotations = 0;
     if (leftAbsoluteEncoder.getPosition() > 6) {
@@ -143,7 +143,7 @@ public class ArmIOSparkMax implements ArmIO {
   public void addTargetAngle(double angle) {
 
     targetAngle =
-        targetAngle + MathUtil.clamp(angle, ArmConstants.maximumAngle, ArmConstants.minimumAngle);
+        MathUtil.clamp(targetAngle + angle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
 
     double currentAngleRotations = 0;
     if (leftAbsoluteEncoder.getPosition() > 6) {

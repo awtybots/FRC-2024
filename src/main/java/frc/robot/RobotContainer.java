@@ -407,7 +407,8 @@ public class RobotContainer {
 
     // ## Operator controller configurations
     // Arm/wrist controls
-    sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
+    sArm.setDefaultCommand(
+        ArmCommands.joystickDrive(sArm, operatorController.povUp(), operatorController.povDown()));
 
     // sWrist.setDefaultCommand(
     //     WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
