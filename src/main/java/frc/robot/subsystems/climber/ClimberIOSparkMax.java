@@ -42,7 +42,7 @@ public class ClimberIOSparkMax implements ClimberIO {
   private final PIDController leftMathPID;
   private final PIDController rightMathPID;
 
-  private double targetPosition = 0;
+  private double targetPosition = ClimberConstants.initialPosition;
 
   // private double targetPositionLeft = ClimberConstants.initialPosition;
   // private double targetPositionRight = ClimberConstants.initialPosition;

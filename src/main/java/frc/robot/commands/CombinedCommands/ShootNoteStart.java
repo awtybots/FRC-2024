@@ -21,7 +21,7 @@ public class ShootNoteStart {
           ShootClosePosition.run(sArm, sWrist);
           IntakeShooterControls.intakeShooterDrive(sIntake, sFlywheel, () -> 0, () -> 1, () -> true)
               .withTimeout(3);
-          StowPosition.run(sArm, sWrist);
+          StowPosition.run(sArm);
         },
         sIntake,
         sArm,
