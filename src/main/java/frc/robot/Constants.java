@@ -138,8 +138,8 @@ public final class Constants {
   }
 
   public static final class ArmConstants {
-    public static final int kRightArmMotorId = 26;
-    public static final int kLeftArmMotorId = 9;
+    public static final int kRightArmMotorId = 16; // 26
+    public static final int kLeftArmMotorId = 17; // 9
 
     public static final int kCurrentLimit = 30;
 
@@ -213,14 +213,14 @@ public final class Constants {
   }
 
   public static final class ClimberConstants {
-    public static final int kLeftClimberMotorId = 16;
-    public static final int kRightClimberMotorId = 15;
+    public static final int kLeftClimberMotorId = 26; // 16
+    public static final int kRightClimberMotorId = 9; // 17
 
     public static final int kCurrentLimit = 30;
 
-    public static final double initialPosition = 0.7;
-    public static final double minPosition = 0.0;
-    public static final double maxPosition = 0.55;
+    public static final double initialPosition = 0.0;
+    public static final double minPosition = 0.180246 + 0.2699;
+    public static final double maxPosition = -0.47018 + 0.2699;
 
     public static final double climberConversion = 1;
 
@@ -228,7 +228,7 @@ public final class Constants {
     public static final double gearCircumfrence = 0.134032531982;
 
     // Climber PID constants
-    public static final double kP = 1;
+    public static final double kP = 0.1;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 

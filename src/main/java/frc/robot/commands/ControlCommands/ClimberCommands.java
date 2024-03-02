@@ -44,7 +44,7 @@ public class ClimberCommands {
           }
 
           // Calcaulate new rotational velocity
-          double position = climber.getTargetPosition() + magnitude * MAX_MS;
+          double position = magnitude * MAX_MS;
 
           // Send command to wrist subsystem to run wrist
           climber.runTargetPosition(position);

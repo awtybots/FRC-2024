@@ -12,13 +12,11 @@
 
 package frc.robot.subsystems.climber;
 
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.SparkPIDController.ArbFFUnits;
-
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Constants;
 import frc.robot.Constants.ClimberConstants;
@@ -107,38 +105,42 @@ public class ClimberIOSparkMax implements ClimberIO {
   //   targetPosition = position;
   //   System.out.println("TargetPosition" + targetPosition);
 
-    // leftPID.setReference(
-    //     (position / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
-    //     ControlType.kPosition,
-    //     0,
-    //     0,
-    //     ArbFFUnits.kVoltage);
+  // leftPID.setReference(
+  //     (position / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
+  //     ControlType.kPosition,
+  //     0,
+  //     0,
+  //     ArbFFUnits.kVoltage);
 
-    // rightPID.setReference(
-    //     (position / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
-    //     ControlType.kPosition,
-    //     0,
-    //     0,
-    //     ArbFFUnits.kVoltage);
+  // rightPID.setReference(
+  //     (position / ClimberConstants.gearCircumfrence) * GEAR_RATIO,
+  //     ControlType.kPosition,
+  //     0,
+  //     0,
+  //     ArbFFUnits.kVoltage);
   // }
 
-  @Override 
+  @Override
   public void setTargetPosition(double position) {
-    targetPosition = position;
-    leftPID.setReference(targetPosition, ControlType.kPosition, 0, 0);
-    rightPID.setReference(targetPosition, ControlType.kPosition, 0, 0);
+    targetPosition =
+        MathUtil.clamp(
+            targetPosition + position, ClimberConstants.maxPosition, ClimberConstants.minPosition);
+    // leftPID.setReference(targetPosition, ControlType.kPosition, 0, 0);
+    // rightPID.setReference(targetPosition, ControlType.kPosition, 0, 0);
 
-    double topShooterPosition = leftRelativeEncoder.getPosition();
-    double bottomShooterPosition = rightRelativeEncoder.getPosition();
+    double leftPosition = leftRelativeEncoder.getPosition();
+    double rightPosition = rightRelativeEncoder.getPosition();
 
     leftMotor.set(
-      leftMathPID.calculate(topShooterPosition, targetPosition));
-          // + Constants.FlywheelConstants.kv * targetPosition
-          // + Constants.FlywheelConstants.ks);
+        leftMathPID.calculate(
+            leftPosition, (targetPosition / ClimberConstants.gearCircumfrence) * GEAR_RATIO));
+    // + Constants.FlywheelConstants.kv * targetPosition
+    // + Constants.FlywheelConstants.ks);
     rightMotor.set(
-      leftMathPID.calculate(bottomShooterPosition, targetPosition));
-          // + Constants.FlywheelConstants.kv * velocityRevPerSec
-          // + Constants.FlywheelConstants.ks);
+        rightMathPID.calculate(
+            rightPosition, (targetPosition / ClimberConstants.gearCircumfrence) * GEAR_RATIO));
+    // + Constants.FlywheelConstants.kv * velocityRevPerSec
+    // + Constants.FlywheelConstants.ks);
   }
 
   // @Override
