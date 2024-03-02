@@ -42,7 +42,7 @@ public class ArmIOSparkMax implements ArmIO {
 
   private final PIDController mathPid;
 
-  private double targetAngle = 0.345 * Math.PI * 2.0; // 2.2// Radians, just a default value
+  private double targetAngle = ArmConstants.initialAngle;
 
   // REMEMBER
 
@@ -93,11 +93,11 @@ public class ArmIOSparkMax implements ArmIO {
     inputs.targetPositionRad = targetAngle;
   }
 
-  @Override
-  public void setVoltage(double volts) {
-    leftMotor.setVoltage(volts);
-    rightMotor.setVoltage(volts);
-  }
+  // @Override
+  // public void setVoltage(double volts) {
+  //   leftMotor.setVoltage(volts);
+  //   rightMotor.setVoltage(volts);
+  // }
 
   @Override
   public void setVelocity(double velocityRadPerSec, double ffVolts) {

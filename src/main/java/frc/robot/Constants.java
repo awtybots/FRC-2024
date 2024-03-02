@@ -138,14 +138,16 @@ public final class Constants {
   }
 
   public static final class ArmConstants {
-    public static final int kRightArmMotorId = 16; // 26
-    public static final int kLeftArmMotorId = 17; // 9
+    public static final int kRightArmMotorId = 17; // 9
+    public static final int kLeftArmMotorId = 16; // 26
 
     public static final int kCurrentLimit = 30;
 
     public static final double armConversion = 0.05;
 
     public static final double kMaxOutput = 0.3;
+
+    public static final double initialAngle = 0.345 * Math.PI * 2.0; // 2.2// Radians
 
     // Arm PID constants
     public static final double kP = 1;
@@ -157,8 +159,8 @@ public final class Constants {
     public static final double ks = 0.10;
     public static final double kv = 0.05;
 
-    public static final double minimumAngle = 0.1;
-    public static final double maximumAngle = Math.PI;
+    public static final double minimumAngle = -0.6 * 2 * Math.PI;
+    public static final double maximumAngle = 0.0;
 
     // do not use
     // public static final double kFF = 0.0;

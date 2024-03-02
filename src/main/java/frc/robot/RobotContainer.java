@@ -28,7 +28,6 @@ import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.ClimberCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
-import frc.robot.commands.ControlCommands.WristCommands;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.subsystems.arm.Arm;
@@ -408,8 +407,8 @@ public class RobotContainer {
     // Arm/wrist controls
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
 
-    sWrist.setDefaultCommand(
-        WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
+    // sWrist.setDefaultCommand(
+    //     WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
 
     // sArmElevator.setDefaultCommand(
     //     ArmElevatorCommands.triggerDrive(

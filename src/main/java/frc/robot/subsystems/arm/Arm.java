@@ -73,7 +73,8 @@ public class Arm extends SubsystemBase {
    */
   public void runTargetVelocity(double targetVelocity) {
     io.setTargetAngle(
-        inputs.targetPositionRad
+        ArmConstants.initialAngle
+            + inputs.targetPositionRad
             + 0.02 // TODO correct cycle time here needed
                 // * ArmConstants.armConversion
                 * Units.rotationsToRadians(targetVelocity));
