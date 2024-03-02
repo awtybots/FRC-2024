@@ -30,6 +30,8 @@ import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.SpeakerShot;
+import frc.robot.commands.Positions.StowPosition;
+import frc.robot.commands.Positions.Upwards;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
@@ -424,15 +426,15 @@ public class RobotContainer {
     // operatorController.povRight().whileTrue(ShootMedium.run(sArm, sWrist));
     // operatorController.povUp().whileTrue(ShootClosePosition.run(sArm, sWrist));
 
-    // // run straight up position when y is pressed on operator. Using command Upwards
-    // operatorController.y().whileTrue(Upwards.run(sArm, sWrist));
+    // run straight up position when y is pressed on operator. Using command Upwards
+    operatorController.y().whileTrue(Upwards.run(sArm));
 
     // // run straight forwards position when x is pressed
     // operatorController.x().whileTrue(AmpShotPosition.run(sArm, sWrist));
 
-    // ! next: operatorController.a().whileTrue(FloorPickup.run(sArm));
+    operatorController.a().whileTrue(FloorPickup.run(sArm));
 
-    // ! next: operatorController.b().whileTrue(StowPosition.run(sArm));
+    operatorController.b().whileTrue(StowPosition.run(sArm));
 
     // operatorController
     //     .x()
@@ -450,7 +452,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // return autoChooser.get();
-    return Commands.none();
+    return autoChooser.get();
+    // return Commands.none();
   }
 }

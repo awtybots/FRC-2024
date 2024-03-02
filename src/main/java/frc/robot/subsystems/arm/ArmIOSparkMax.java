@@ -112,7 +112,15 @@ public class ArmIOSparkMax implements ArmIO {
   @Override
   /** Set the target angle. In radians. */
   public void setTargetAngle(double angle) {
-    targetAngle = MathUtil.clamp(angle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
+
+    targetAngle = MathUtil.clamp(angle, ArmConstants.maximumAngle, ArmConstants.minimumAngle);
+
+    double currentAngleRotations = 0;
+    if (leftAbsoluteEncoder.getPosition() > 6) {
+      currentAngleRotations = 0;
+    } else {
+      currentAngleRotations = leftAbsoluteEncoder.getPosition();
+    }
     //   pid.setReference(
     //       targetAngle * Math.PI * 2.0,
     //       ControlType.kPosition,
@@ -125,7 +133,28 @@ public class ArmIOSparkMax implements ArmIO {
 
     leftMotor.set(
         MathUtil.clamp(
-            mathPid.calculate(leftAbsoluteEncoder.getPosition() * Math.PI * 2.0, targetAngle),
+            mathPid.calculate(currentAngleRotations, targetAngle / (Math.PI * 2.0)),
+            -ArmConstants.kMaxOutput,
+            ArmConstants.kMaxOutput));
+  }
+
+  @Override
+  /** Set the target angle. In radians. */
+  public void addTargetAngle(double angle) {
+
+    targetAngle =
+        targetAngle + MathUtil.clamp(angle, ArmConstants.maximumAngle, ArmConstants.minimumAngle);
+
+    double currentAngleRotations = 0;
+    if (leftAbsoluteEncoder.getPosition() > 6) {
+      currentAngleRotations = 0;
+    } else {
+      currentAngleRotations = leftAbsoluteEncoder.getPosition();
+    }
+
+    leftMotor.set(
+        MathUtil.clamp(
+            mathPid.calculate(currentAngleRotations, targetAngle / (2 * Math.PI)),
             -ArmConstants.kMaxOutput,
             ArmConstants.kMaxOutput));
   }

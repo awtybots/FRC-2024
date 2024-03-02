@@ -34,6 +34,9 @@ public interface ArmIO {
   /** Run closed loop at the specified velocity. */
   public default void setVelocity(double velocityRadPerSec, double ffVolts) {}
 
+  /** Run loop for the additional target angle. */
+  public default void addTargetAngle(double angle) {}
+
   /** Run loop for the specified target angle. */
   public default void setTargetAngle(double angle) {}
 

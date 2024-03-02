@@ -71,7 +71,7 @@ public class Arm extends SubsystemBase {
   /**
    * @param rightPosition
    */
-  public void runTargetVelocity(double targetVelocity) {
+  public void runTargetVelocity(double targetVelocity) { // TODO doesn't work for some reason
     io.setTargetAngle(
         ArmConstants.initialAngle
             + inputs.targetPositionRad
@@ -113,5 +113,9 @@ public class Arm extends SubsystemBase {
   /** Returns the current velocity in radians per second. */
   public double getCharacterizationVelocity() {
     return inputs.velocityRadPerSec;
+  }
+
+  public void addTargetAngle(double addTargetPosition) {
+    io.addTargetAngle(addTargetPosition);
   }
 }

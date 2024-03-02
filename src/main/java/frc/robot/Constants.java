@@ -159,7 +159,7 @@ public final class Constants {
     public static final double ks = 0.10;
     public static final double kv = 0.05;
 
-    public static final double minimumAngle = -0.6 * 2 * Math.PI;
+    public static final double minimumAngle = 0.6 * 2 * Math.PI;
     public static final double maximumAngle = 0.0;
 
     // do not use

@@ -30,17 +30,18 @@ public class ArmCommands {
     return Commands.run(
         () -> {
           // Apply deadband (min DEADBAND, max 1.0)
-          double stickMagnitude = MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND);
 
+          double stickMagnitude = MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND);
+          stickMagnitude = Math.copySign(stickMagnitude, ySupplier.getAsDouble());
           // Square values, so that it's easier to control at lower speeds
           // double sign = Math.copySign(1, stickMagnitude);
           // stickMagnitude = stickMagnitude * stickMagnitude * sign;
 
           // Calcaulate new rotational velocity
-          double rotationalVelocity = stickMagnitude * MAXRPM;
+          double addTargetAngle = stickMagnitude * MAXRPM;
 
           // Send command to arm to run arm
-          arm.runTargetVelocity(rotationalVelocity);
+          arm.addTargetAngle(addTargetAngle);
         },
         arm);
   }
