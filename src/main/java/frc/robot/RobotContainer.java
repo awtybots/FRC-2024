@@ -31,6 +31,7 @@ import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.ControlCommands.WristCommands;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.SpeakerShot;
+import frc.robot.commands.Positions.StowPosition;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
@@ -176,7 +177,7 @@ public class RobotContainer {
                 sIntake)
             .withTimeout(5.0));
 
-    NamedCommands.registerCommand("FloorPickup", FloorPickup.run(sArm, sWrist).withTimeout(5.0));
+    NamedCommands.registerCommand("FloorPickup", FloorPickup.run(sArm).withTimeout(2.0));
 
     NamedCommands.registerCommand(
         "SpeakerShot",
@@ -408,6 +409,7 @@ public class RobotContainer {
     // Arm/wrist controls
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () ->
         -operatorController.getRightY()));
+        
     sWrist.setDefaultCommand(
         WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
 
@@ -431,9 +433,9 @@ public class RobotContainer {
     // // run straight forwards position when x is pressed
     // operatorController.x().whileTrue(AmpShotPosition.run(sArm, sWrist));
 
-    // operatorController.a().whileTrue(FloorPickup.run(sArm, sWrist));
+    // ! next: operatorController.a().whileTrue(FloorPickup.run(sArm));
 
-    // operatorController.b().whileTrue(StowPosition.run(sArm, sWrist));
+    // ! next: operatorController.b().whileTrue(StowPosition.run(sArm));
 
     // operatorController
     //     .x()
