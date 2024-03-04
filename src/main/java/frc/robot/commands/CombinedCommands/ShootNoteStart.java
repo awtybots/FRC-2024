@@ -9,24 +9,21 @@ import frc.robot.subsystems.arm.Arm;
 // import frc.robot.subsystems.armElevator.ArmElevator;
 import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.wrist.Wrist;
 
 public class ShootNoteStart {
 
   public ShootNoteStart() {}
 
-  public static Command run(Intake sIntake, Arm sArm, Wrist sWrist, Flywheel sFlywheel) {
+  public static Command run(Intake sIntake, Arm sArm, Flywheel sFlywheel) {
     return Commands.run(
         () -> {
-          ShootClosePosition.run(sArm, sWrist);
+          ShootClosePosition.run(sArm);
           IntakeShooterControls.intakeShooterDrive(sIntake, sFlywheel, () -> 0, () -> 1, () -> true)
               .withTimeout(3);
           StowPosition.run(sArm);
         },
         sIntake,
         sArm,
-        // sArmElevator,
-        sWrist,
         sFlywheel);
   }
 }

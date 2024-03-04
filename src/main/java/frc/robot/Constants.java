@@ -150,7 +150,7 @@ public final class Constants {
     public static final double initialAngle = 0.345 * Math.PI * 2.0; // 2.2// Radians
 
     // Arm PID constants
-    public static final double kP = 4;
+    public static final double kP = 0; // 4
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kWeightBasedFF = 0.0;

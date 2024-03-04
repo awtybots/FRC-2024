@@ -29,6 +29,9 @@ import frc.robot.commands.ControlCommands.ClimberCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.Positions.FloorPickup;
+import frc.robot.commands.Positions.ShootClosePosition;
+import frc.robot.commands.Positions.ShootFar;
+import frc.robot.commands.Positions.ShootMedium;
 import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.commands.Positions.StowPosition;
 import frc.robot.commands.Positions.Upwards;
@@ -180,15 +183,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("FloorPickup", FloorPickup.run(sArm).withTimeout(2.0));
 
     NamedCommands.registerCommand(
-        "SpeakerShot",
-        SpeakerShot.run(1, sArm, sWrist).withTimeout(5.0)); // TODO Replace SpeakerDistance
+        "SpeakerShot", SpeakerShot.run(1, sArm).withTimeout(5.0)); // TODO Replace SpeakerDistance
 
     NamedCommands.registerCommand(
-        "ShootNoteStart", ShootNoteStart.run(sIntake, sArm, sWrist, sFlywheel).withTimeout(5.0));
+        "ShootNoteStart", ShootNoteStart.run(sIntake, sArm, sFlywheel).withTimeout(5.0));
 
     NamedCommands.registerCommand(
-        "ShootNoteClose",
-        ShootNoteClose.run(sIntake, sArm, sWrist, sFlywheel, sDrive).withTimeout(5.0));
+        "ShootNoteClose", ShootNoteClose.run(sIntake, sArm, sFlywheel, sDrive).withTimeout(5.0));
 
     // Build SmartDashboard auto chooser
     if (!AutoBuilder.isConfigured()) {
@@ -423,9 +424,9 @@ public class RobotContainer {
     //     .start()
     //     .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
 
-    // operatorController.povDown().whileTrue(ShootFar.run(sArm, sWrist));
-    // operatorController.povRight().whileTrue(ShootMedium.run(sArm, sWrist));
-    // operatorController.povUp().whileTrue(ShootClosePosition.run(sArm, sWrist));
+    driverController.povDown().whileTrue(ShootFar.run(sArm));
+    driverController.povRight().whileTrue(ShootMedium.run(sArm));
+    driverController.povUp().whileTrue(ShootClosePosition.run(sArm));
 
     // run straight up position when y is pressed on operator. Using command Upwards
     operatorController.y().whileTrue(Upwards.run(sArm));
