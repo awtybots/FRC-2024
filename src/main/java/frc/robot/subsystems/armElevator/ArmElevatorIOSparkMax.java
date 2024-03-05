@@ -11,6 +11,7 @@
 // // GNU General Public License for more details.
 
 // package frc.robot.subsystems.armElevator;
+// ! Note: if you reimplement this, make sure to implement changes from upstream.
 
 // import com.revrobotics.CANSparkBase.ControlType;
 // import com.revrobotics.CANSparkLowLevel.MotorType;

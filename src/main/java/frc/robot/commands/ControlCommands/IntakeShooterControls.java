@@ -22,7 +22,8 @@ import frc.robot.subsystems.intake.Intake;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-public class IntakeShooterControls {
+public
+class IntakeShooterControls { // TODO Make, once the note has been detected, automatically stow
   private static final double DEADBAND = 0.3;
 
   private IntakeShooterControls() {}
