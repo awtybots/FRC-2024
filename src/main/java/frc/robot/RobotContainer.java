@@ -109,7 +109,7 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         sDrive =
             new Drive(
-                new GyroIONavX(false),
+                new GyroIONavX(),
                 new ModuleIOSparkMax(0),
                 new ModuleIOSparkMax(1),
                 new ModuleIOSparkMax(2),
