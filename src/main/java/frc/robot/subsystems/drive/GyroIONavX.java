@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import java.util.OptionalDouble;
 import java.util.Queue;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -40,7 +41,16 @@ public class GyroIONavX implements GyroIO {
     ahrs.zeroYaw();
 
     yawPositionQueue =
-        SparkMaxOdometryThread.getInstance().registerSignal(() -> (double) -ahrs.getAngle());
+        SparkMaxOdometryThread.getInstance()
+            .registerSignal(
+                () -> {
+                  boolean valid = !ahrs.isCalibrating();
+                  if (valid) {
+                    return OptionalDouble.of(-ahrs.getAngle());
+                  } else {
+                    return OptionalDouble.empty();
+                  }
+                });
     yawTimestampQueue = SparkMaxOdometryThread.getInstance().makeTimestampQueue();
   }
 
@@ -56,7 +66,7 @@ public class GyroIONavX implements GyroIO {
     //         .toArray(Rotation2d[]::new);
     // yawPositionQueue.clear();
     inputs.connected = ahrs.isConnected();
-    inputs.calibrating = ahrs.isCalibrating();
+    inputs.notcalibrating = !ahrs.isCalibrating();
     inputs.yawPosition = Rotation2d.fromDegrees(-ahrs.getAngle());
     inputs.yawVelocityRadPerSec = Units.degreesToRadians(-ahrs.getRawGyroZ());
     inputs.odometryYawPositions =
