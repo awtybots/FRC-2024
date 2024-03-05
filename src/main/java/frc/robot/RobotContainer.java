@@ -285,45 +285,37 @@ public class RobotContainer {
 
     // Climber subsystem
     autoChooser.addOption(
-      "Climber SysId (Quasistatic Forward)",
-      sClimber.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        "Climber SysId (Quasistatic Forward)",
+        sClimber.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
-      "Climber SysId (Quasistatic Reverse)",
-      sClimber.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-   autoChooser.addOption(
-      "Climber SysId (Dynamic Forward)",
-      sClimber.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        "Climber SysId (Quasistatic Reverse)",
+        sClimber.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
     autoChooser.addOption(
-      "Climber SysId (Dynamic Reverse)",
-      sClimber.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        "Climber SysId (Dynamic Forward)", sClimber.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Climber SysId (Dynamic Reverse)", sClimber.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Arm subsystem
     autoChooser.addOption(
-      "Arm SysId (Quasistatic Forward)",
-      sArm.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        "Arm SysId (Quasistatic Forward)", sArm.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
-      "Arm SysId (Quasistatic Reverse)",
-      sArm.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        "Arm SysId (Quasistatic Reverse)", sArm.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
     autoChooser.addOption(
-      "Arm SysId (Dynamic Forward)",
-      sArm.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        "Arm SysId (Dynamic Forward)", sArm.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
-      "Arm SysId (Dynamic Reverse)",
-      sArm.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        "Arm SysId (Dynamic Reverse)", sArm.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Intake subsystem
     autoChooser.addOption(
-      "Intake SysId (Quasistatic Forward)",
-      sIntake.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        "Intake SysId (Quasistatic Forward)",
+        sIntake.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
-      "Intake SysId (Quasistatic Reverse)",
-      sIntake.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        "Intake SysId (Quasistatic Reverse)",
+        sIntake.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
     autoChooser.addOption(
-      "Intake SysId (Dynamic Forward)",
-      sIntake.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        "Intake SysId (Dynamic Forward)", sIntake.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
-      "Intake SysId (Dynamic Reverse)",
-      sIntake.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        "Intake SysId (Dynamic Reverse)", sIntake.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Configure the button bindings
     configureButtonBindings();
