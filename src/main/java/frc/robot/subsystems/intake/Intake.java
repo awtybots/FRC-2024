@@ -83,6 +83,12 @@ public class Intake extends SubsystemBase {
     return colorSensorInputs.proximity;
   }
 
+  public boolean isConveyorSensorTriggered() {
+    return colorSensorInputs.isConveyorSensorTriggered;
+  }
+
+
+
   /** Stops the flywheel. */
   public void stop() {
     io.stop();

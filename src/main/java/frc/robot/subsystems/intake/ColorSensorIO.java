@@ -24,6 +24,7 @@ public interface ColorSensorIO {
     public int green;
     public double IR;
     public int proximity;
+    public boolean isConveyorSensorTriggered;
   }
 
   public default void updateInputs(ColorSensorIOInputs inputs) {}

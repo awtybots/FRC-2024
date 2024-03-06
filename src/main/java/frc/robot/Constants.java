@@ -96,6 +96,10 @@ public final class Constants {
     public static final double ks = 0.1;
     public static final double kv = 5;
     public static double percentPower = 0.3;
+
+    public static final int conveyorSensor = 1;
+    
+
   }
 
   public static final class ArmConstants {
@@ -147,6 +151,7 @@ public final class Constants {
     // Arm Elevator Feedforward characterization constants
     public static final double ks = 0;
     public static final double kv = 0;
+
   }
 
   public static final class Presets {
@@ -201,6 +206,7 @@ public final class Constants {
   public static final class SticksConstants {
     public static final int kLeftStickMotorId = 19;
     public static final int kRightStickMotorId = 18;
+    public static final int kSticksMotorId = 18;
 
     public static final int kCurrentLimit = 30;
 
