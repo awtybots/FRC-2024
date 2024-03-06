@@ -60,6 +60,9 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeIOSparkMax;
+import frc.robot.subsystems.vision.AprilTagVision;
+import frc.robot.subsystems.vision.AprilTagVisionIO;
+import frc.robot.subsystems.vision.AprilTagVisionIOLimelight;
 import java.util.ArrayList;
 import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -82,7 +85,7 @@ public class RobotContainer {
   // private final Wrist sWrist; // ! Note: if you reimplement this, make sure to implement changes
   // from upstream.
   private final Climber sClimber;
-  //   private final Sticks sSticks;
+  private AprilTagVision aprilTagVision;
 
   // Controllers
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -115,7 +118,8 @@ public class RobotContainer {
         // sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
         // sWrist = new Wrist(new WristIOSparkMax() {});
         sClimber = new Climber(new ClimberIOSparkMax() {});
-        // sSticks = new Sticks(new SticksIOSparkMax() {});
+        aprilTagVision =
+            new AprilTagVision(new AprilTagVisionIOLimelight("limelight")); // TODO probably wrong
 
         break;
 
@@ -136,7 +140,7 @@ public class RobotContainer {
         // sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
         // sWrist = new Wrist(new WristIOSim() {});
         sClimber = new Climber(new ClimberIOSim() {});
-        // sSticks = new Sticks(new SticksIOSim() {});
+        aprilTagVision = new AprilTagVision();
 
         break;
 
@@ -155,7 +159,7 @@ public class RobotContainer {
         // sArmElevator = new ArmElevator(new ArmElevatorIO() {});
         // sWrist = new Wrist(new WristIO() {});
         sClimber = new Climber(new ClimberIO() {});
-        // sSticks = new Sticks(new SticksIO() {});
+        aprilTagVision = new AprilTagVision(new AprilTagVisionIO() {});
 
         break;
     }
@@ -316,6 +320,8 @@ public class RobotContainer {
         "Intake SysId (Dynamic Forward)", sIntake.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Intake SysId (Dynamic Reverse)", sIntake.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    aprilTagVision.setDataInterfaces(sDrive::addVisionData);
 
     // Configure the button bindings
     configureButtonBindings();

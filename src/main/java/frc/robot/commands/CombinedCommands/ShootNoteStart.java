@@ -11,6 +11,8 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.intake.Intake;
 
 public class ShootNoteStart {
+  // Note to self: inspiration for future (and if this doesn't work lol):
+  // https://github.com/Hemlock5712/AdvantageKitSwerveTemplate/tree/main/src/main/java/frc/robot/commands
 
   public ShootNoteStart() {}
 
