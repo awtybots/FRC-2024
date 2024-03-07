@@ -66,8 +66,8 @@ public class DriveCommands {
                     / 2;
             linearDirection =
                 new Rotation2d(
-                    MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND),
-                    MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND));
+                    MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND)/2,
+                    MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND)/2);
             omega = (MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND)) / 2;
           }
 
@@ -98,7 +98,12 @@ public class DriveCommands {
         },
         drive);
   }
-
+  /**
+   * Field relative drive command designed to find the nearest note based on pose in auton, and
+   * drive over it. This is unnecessarily complicated for what we need it for lol.
+   *
+   * @deprecated Functions (will be) moved to main run() method.
+   */
   public static Command runOverClosestNote(Drive sDrive, Intake sIntake, Flywheel sFlywheel) {
     return Commands.run(
         () -> {
