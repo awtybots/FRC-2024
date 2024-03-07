@@ -13,16 +13,25 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
+import frc.robot.Constants.IntakeConstants;
 
 /** IO implementation for NavX */
 public class ColorSensorIOV3 implements ColorSensorIO {
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private ColorSensorV3 colorSensor;
+  private DigitalInput conveyorSensor;
 
   public ColorSensorIOV3() {
+    try {
+      conveyorSensor = new DigitalInput(IntakeConstants.conveyorSensor);
+    } catch (RuntimeException ex) {
+      DriverStation.reportError("Error instantiating DigitalInput:  " + ex.getMessage(), true);
+    }
+
     try {
       colorSensor = new ColorSensorV3(i2cPort);
     } catch (RuntimeException ex) {
@@ -38,5 +47,6 @@ public class ColorSensorIOV3 implements ColorSensorIO {
     inputs.green = colorSensor.getGreen();
     inputs.IR = colorSensor.getIR();
     inputs.proximity = colorSensor.getProximity();
+    inputs.isConveyorSensorTriggered = conveyorSensor.get();
   }
 }
