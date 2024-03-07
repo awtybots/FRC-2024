@@ -126,6 +126,8 @@ public final class Constants {
 
     public static final double armConversion = 1;
 
+    public static final int conveyorSensor = 1;
+
     // Intake PID constants
     public static final double kP = 0.0003;
     public static final double kI = 0.0;
