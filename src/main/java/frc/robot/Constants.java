@@ -140,8 +140,8 @@ public final class Constants {
   }
 
   public static final class ArmConstants {
-    public static final int kRightArmMotorId = 17; // 9
-    public static final int kLeftArmMotorId = 16; // 26
+    public static final int kRightArmMotorId = 1; // 9
+    public static final int kLeftArmMotorId = 9; // 26
 
     public static final int kCurrentLimit = 30;
 
@@ -217,8 +217,8 @@ public final class Constants {
   }
 
   public static final class ClimberConstants {
-    public static final int kLeftClimberMotorId = 26; // 16
-    public static final int kRightClimberMotorId = 9; // 17
+    public static final int kLeftClimberMotorId = 17; // 16
+    public static final int kRightClimberMotorId = 16; // 17
 
     public static final int kCurrentLimit = 30;
 
