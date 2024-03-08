@@ -325,7 +325,7 @@ public class RobotContainer {
 
     aprilTagVision.setDataInterfaces(sDrive::addVisionData);
 
-    SmartDashboard.putData(CommandScheduler.getInstance()); //kinda curious to see this
+    SmartDashboard.putData(CommandScheduler.getInstance()); // kinda curious to see this
 
     // Configure the button bindings
     configureButtonBindings();
@@ -343,7 +343,8 @@ public class RobotContainer {
             sDrive,
             () -> -driverController.getLeftY(),
             () -> -driverController.getLeftX(),
-            () -> -driverController.getRightX()));
+            () -> -driverController.getRightX(),
+            false));
 
     // CommandScheduler.getInstance()
     //     .setDefaultCommand(
