@@ -161,8 +161,9 @@ public final class Constants {
     public static final double ks = 0.10;
     public static final double kv = 0.05;
 
-    public static final double maximumAngle = 0.6 * 2 * Math.PI;
-    public static final double minimumAngle = 0.0;
+    // Note that the full range is now 0.000 <-> 0.525
+    public static final double minimumAngle = 0.05;
+    public static final double maximumAngle = 0.5 * 2 * Math.PI;
 
     // do not use
     // public static final double kFF = 0.0;
