@@ -66,8 +66,8 @@ public class DriveCommands {
                     / 2;
             linearDirection =
                 new Rotation2d(
-                    MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND)/2,
-                    MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND)/2);
+                    MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND) / 2,
+                    MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND) / 2);
             omega = (MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND)) / 2;
           }
 
