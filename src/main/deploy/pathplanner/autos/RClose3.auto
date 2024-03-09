@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 4.4
+    },
+    "rotation": -59.91911348891546
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNoteStart"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueRFirst"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNoteClose"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue3-2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNoteClose"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue2-1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNoteClose"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "RealAutons",
+  "choreoAuto": false
+}

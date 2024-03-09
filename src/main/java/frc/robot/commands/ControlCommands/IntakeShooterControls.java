@@ -35,12 +35,16 @@ public class IntakeShooterControls {
       Arm arm,
       DoubleSupplier leftTriggerSupplier,
       DoubleSupplier rightTriggerSupplier,
+      BooleanSupplier leftBumperSupplier,
       BooleanSupplier rightBumperSupplier) {
     // Left trigger runs outtake, right trigger triggers intake, and right bumper triggers the
     // shooter (and the intake once at velocity).
     // Intake stops on detection of note in first mode.
     return Commands.run(
         () -> {
+          if (leftBumperSupplier.getAsBoolean()) {
+            flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
+          }
           if (rightBumperSupplier.getAsBoolean()) {
             flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
 

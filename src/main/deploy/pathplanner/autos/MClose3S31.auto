@@ -2,49 +2,31 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7627048531368478,
-      "y": 6.63
+      "x": 1.337238039927469,
+      "y": 5.553315265195346
     },
-    "rotation": -119.56507513596893
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "BlueLFirst"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "FloorPickup"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "RunIntake"
+            "name": "ShootNoteStart"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Blue1-2"
+            "pathName": "BlueMFirst"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "FloorPickup"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "RunIntake"
+            "name": "ShootNoteClose"
           }
         },
         {
@@ -56,18 +38,24 @@
         {
           "type": "named",
           "data": {
-            "name": "FloorPickup"
+            "name": "ShootNoteClose"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue3-1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "RunIntake"
+            "name": "ShootNoteClose"
           }
         }
       ]
     }
   },
-  "folder": "Blue",
+  "folder": "RealAutons",
   "choreoAuto": false
 }
