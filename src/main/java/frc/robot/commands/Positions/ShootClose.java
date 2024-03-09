@@ -12,7 +12,7 @@ public class ShootClose { // bumper pressed against the wall
     return Commands.run(
         () -> {
           // Position preset settings
-          double ARMANGLE = 0.4342;
+          double ARMANGLE = 0.720;
           double ARMELEVATORPOSITION = 0;
           double WRISTANGLE = 0;
 

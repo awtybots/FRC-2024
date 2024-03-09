@@ -129,6 +129,8 @@ public class ArmIOSparkMax implements ArmIO {
             mathPid.calculate(leftAbsoluteEncoder.getPosition() * Math.PI * 2.0, targetAngle),
             -ArmConstants.kMaxOutput,
             ArmConstants.kMaxOutput));
+
+    // leftMotor.set(0.3);
   }
 
   @Override

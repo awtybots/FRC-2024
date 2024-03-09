@@ -17,6 +17,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
+import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.intake.Intake;
 import java.util.function.BooleanSupplier;
@@ -31,6 +32,7 @@ public class IntakeShooterControls {
   public static Command intakeShooterDrive(
       Intake intake,
       Flywheel flywheel,
+      Arm arm,
       DoubleSupplier leftTriggerSupplier,
       DoubleSupplier rightTriggerSupplier,
       BooleanSupplier rightBumperSupplier) {
@@ -43,7 +45,12 @@ public class IntakeShooterControls {
             flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
 
             double flywheelRPM = -flywheel.getVelocityRPMBottom();
-            double targetRPM = Constants.FlywheelConstants.shootingVelocity * 0.9;
+
+            double targetRPM = Constants.FlywheelConstants.shootingVelocity * 0.8;
+
+            if (arm.getPosition() > 2) { // amp scoring
+              targetRPM = Constants.FlywheelConstants.shootingVelocity * 0.2;
+            }
 
             if (flywheelRPM > targetRPM) {
               intake.runPercentSpeed(1);

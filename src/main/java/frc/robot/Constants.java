@@ -95,12 +95,12 @@ public final class Constants {
     // Intake Feedforward characterization constants
     public static final double ks = 0.1;
     public static final double kv = 5;
-    public static double percentPower = 0.3;
+    public static double percentPower = 0.45;
   }
 
   public static final class ArmConstants {
-    public static final int kRightArmMotorId = 1;
-    public static final int kLeftArmMotorId = 9;
+    public static final int kRightArmMotorId = 9;
+    public static final int kLeftArmMotorId = 1;
 
     public static final int kCurrentLimit = 30;
 

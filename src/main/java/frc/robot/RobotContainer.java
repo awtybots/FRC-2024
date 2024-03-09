@@ -316,6 +316,7 @@ public class RobotContainer {
         IntakeShooterControls.intakeShooterDrive(
             sIntake,
             sFlywheel,
+            sArm,
             () -> operatorController.getLeftTriggerAxis(),
             () -> operatorController.getRightTriggerAxis(),
             () -> operatorController.leftBumper().getAsBoolean()));
