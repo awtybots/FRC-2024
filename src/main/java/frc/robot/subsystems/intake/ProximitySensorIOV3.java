@@ -20,10 +20,13 @@ import frc.robot.Constants.IntakeConstants;
 public class ProximitySensorIOV3 implements ProximitySensorIO {
 
   private DigitalInput conveyorSensor;
+  private DigitalInput shooterSensor;
+  
 
   public ProximitySensorIOV3() {
     try {
       conveyorSensor = new DigitalInput(IntakeConstants.conveyorSensor);
+      shooterSensor = new DigitalInput(IntakeConstants.shooterSensor);
     } catch (RuntimeException ex) {
       DriverStation.reportError("Error instantiating DigitalInput:  " + ex.getMessage(), true);
     }
@@ -32,5 +35,7 @@ public class ProximitySensorIOV3 implements ProximitySensorIO {
   @Override
   public void updateInputs(ProximitySensorIOInputs inputs) {
     inputs.isConveyorSensorTriggered = conveyorSensor.get();
+    inputs.isShooterSensorTriggered = shooterSensor.get();
+
   }
 }

@@ -19,6 +19,8 @@ public interface ProximitySensorIO {
   @AutoLog
   public static class ProximitySensorIOInputs {
     public boolean isConveyorSensorTriggered;
+    public boolean isShooterSensorTriggered;
+
   }
 
   public default void updateInputs(ProximitySensorIOInputs inputs) {}

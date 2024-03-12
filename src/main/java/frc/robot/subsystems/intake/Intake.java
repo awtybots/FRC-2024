@@ -63,7 +63,7 @@ public class Intake extends SubsystemBase {
     odometryLock.unlock();
 
     Logger.processInputs("Intake", inputs);
-    Logger.processInputs("Color", proximitySensorInputs);
+    Logger.processInputs("Proximity", proximitySensorInputs);
   }
 
   /** Run open loop at the specified voltage. */
@@ -79,8 +79,11 @@ public class Intake extends SubsystemBase {
     Logger.recordOutput("Intake/PercentSpeed", percentSpeed);
   }
 
-  public boolean getProximity() {
+  public boolean getConveyerProximity() {
     return proximitySensorInputs.isConveyorSensorTriggered;
+  }
+  public boolean getShooterProximity() {
+    return proximitySensorInputs.isShooterSensorTriggered;
   }
 
   /** Stops the flywheel. */
