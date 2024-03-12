@@ -234,6 +234,7 @@ public class Drive extends SubsystemBase {
 
   public void resetRotation() {
     this.gyroIO.resetRotation();
+    setPose(new Pose2d(getPose().getTranslation(), Rotation2d.fromRadians(0)));
   }
 
   /** Resets the current odometry pose. */
