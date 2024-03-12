@@ -15,16 +15,11 @@ package frc.robot.subsystems.intake;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface ColorSensorIO {
+public interface ProximitySensorIO {
   @AutoLog
-  public static class ColorSensorIOInputs {
-    public boolean connected = false;
-    public int red;
-    public int blue;
-    public int green;
-    public double IR;
-    public int proximity;
+  public static class ProximitySensorIOInputs {
+    public boolean isConveyorSensorTriggered;
   }
 
-  public default void updateInputs(ColorSensorIOInputs inputs) {}
+  public default void updateInputs(ProximitySensorIOInputs inputs) {}
 }

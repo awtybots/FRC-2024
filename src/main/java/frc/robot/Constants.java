@@ -96,6 +96,8 @@ public final class Constants {
     public static final double ks = 0.1;
     public static final double kv = 5;
     public static double percentPower = 0.45;
+
+    public static final int conveyorSensor = 1;
   }
 
   public static final class ArmConstants {

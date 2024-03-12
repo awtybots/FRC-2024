@@ -56,8 +56,6 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
-import frc.robot.subsystems.intake.ColorSensorIO;
-import frc.robot.subsystems.intake.ColorSensorIOV3;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
@@ -66,6 +64,8 @@ import frc.robot.subsystems.intake.IntakeIOSparkMax;
 // import frc.robot.subsystems.sticks.SticksIO;
 // import frc.robot.subsystems.sticks.SticksIOSim;
 // import frc.robot.subsystems.sticks.SticksIOSparkMax;
+import frc.robot.subsystems.intake.ProximitySensorIO;
+import frc.robot.subsystems.intake.ProximitySensorIOV3;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.wrist.WristIO;
 import frc.robot.subsystems.wrist.WristIOSim;
@@ -118,7 +118,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
         sFlywheel = new Flywheel(new FlywheelIOSparkMax());
-        sIntake = new Intake(new IntakeIOSparkMax() {}, new ColorSensorIOV3() {});
+        sIntake = new Intake(new IntakeIOSparkMax() {}, new ProximitySensorIO() {});
         sArm = new Arm(new ArmIOSparkMax() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
         sWrist = new Wrist(new WristIOSparkMax() {});
@@ -139,7 +139,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         sFlywheel = new Flywheel(new FlywheelIOSim());
-        sIntake = new Intake(new IntakeIOSim() {}, new ColorSensorIO() {});
+        sIntake = new Intake(new IntakeIOSim() {}, new ProximitySensorIO() {});
         sArm = new Arm(new ArmIOSim() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
         sWrist = new Wrist(new WristIOSim() {});
@@ -158,7 +158,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         sFlywheel = new Flywheel(new FlywheelIO() {});
-        sIntake = new Intake(new IntakeIO() {}, new ColorSensorIO() {});
+        sIntake = new Intake(new IntakeIO() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIO() {});
         sArmElevator = new ArmElevator(new ArmElevatorIO() {});
         sWrist = new Wrist(new WristIO() {});

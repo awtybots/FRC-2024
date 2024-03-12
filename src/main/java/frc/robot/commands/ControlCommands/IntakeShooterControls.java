@@ -72,8 +72,7 @@ public class IntakeShooterControls {
             stickMagnitude =
                 stickMagnitude * stickMagnitude * stickMagnitude; // more control over lower speeds
 
-            int proximity = intake.getProximity();
-            boolean noteDetected = proximity > 50;
+            boolean noteDetected = intake.getProximity();
 
             if (noteDetected) {
               if (stickMagnitude > 0.15) {

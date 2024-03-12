@@ -29,14 +29,14 @@ public class Intake extends SubsystemBase {
   private final SimpleMotorFeedforward ffModel;
   public static final Lock odometryLock = new ReentrantLock();
 
-  private final ColorSensorIO colorSensorIO;
-  private final ColorSensorIOInputsAutoLogged colorSensorInputs =
-      new ColorSensorIOInputsAutoLogged();
+  private final ProximitySensorIO proximitySensorIO;
+  private final ProximitySensorIOInputsAutoLogged proximitySensorInputs =
+      new ProximitySensorIOInputsAutoLogged();
 
   /** Creates a new Flywheel. */
-  public Intake(IntakeIO io, ColorSensorIO colorSensorIO) {
+  public Intake(IntakeIO io, ProximitySensorIO proximitySensorIO2) {
     this.io = io;
-    this.colorSensorIO = colorSensorIO;
+    this.proximitySensorIO = proximitySensorIO2;
 
     io.configurePID(
         Constants.IntakeConstants.kP, Constants.IntakeConstants.kI, Constants.IntakeConstants.kD);
@@ -58,12 +58,12 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     odometryLock.lock(); // Prevents odometry updates while reading data
-    colorSensorIO.updateInputs(colorSensorInputs);
+    proximitySensorIO.updateInputs(proximitySensorInputs);
     io.updateInputs(inputs);
     odometryLock.unlock();
 
     Logger.processInputs("Intake", inputs);
-    Logger.processInputs("Color", colorSensorInputs);
+    Logger.processInputs("Color", proximitySensorInputs);
   }
 
   /** Run open loop at the specified voltage. */
@@ -79,8 +79,8 @@ public class Intake extends SubsystemBase {
     Logger.recordOutput("Intake/PercentSpeed", percentSpeed);
   }
 
-  public int getProximity() {
-    return colorSensorInputs.proximity;
+  public boolean getProximity() {
+    return proximitySensorInputs.isConveyorSensorTriggered;
   }
 
   /** Stops the flywheel. */

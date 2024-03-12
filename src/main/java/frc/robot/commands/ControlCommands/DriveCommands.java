@@ -58,7 +58,7 @@ public class DriveCommands {
             linearMagnitude =
                 (MathUtil.applyDeadband(
                         Math.hypot(xSupplier.getAsDouble(), ySupplier.getAsDouble()), DEADBAND))
-                    / 2;
+                    / 2.0;
             linearDirection =
                 new Rotation2d(
                     MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND),
