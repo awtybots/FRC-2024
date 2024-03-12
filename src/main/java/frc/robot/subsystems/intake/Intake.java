@@ -82,6 +82,7 @@ public class Intake extends SubsystemBase {
   public boolean getConveyerProximity() {
     return proximitySensorInputs.isConveyorSensorTriggered;
   }
+
   public boolean getShooterProximity() {
     return proximitySensorInputs.isShooterSensorTriggered;
   }

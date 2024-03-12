@@ -95,6 +95,11 @@ public class ArmIOSparkMax implements ArmIO {
     inputs.targetPositionRad = targetAngle;
   }
 
+  public double getAngleFromVertical(){
+      return (leftAbsoluteEncoder.getPosition() * Math.PI * 2.0- Constants.ArmConstants.uprightAngle);
+
+  }
+
   @Override
   public void setVoltage(double volts) {
     leftMotor.setVoltage(volts);
@@ -126,7 +131,7 @@ public class ArmIOSparkMax implements ArmIO {
 
     leftMotor.set(
         MathUtil.clamp(
-            mathPid.calculate(leftAbsoluteEncoder.getPosition() * Math.PI * 2.0, targetAngle),
+            mathPid.calculate(leftAbsoluteEncoder.getPosition() * Math.PI * 2.0, targetAngle)+Constants.ArmConstants.kWeightBasedFF,
             -ArmConstants.kMaxOutput,
             ArmConstants.kMaxOutput));
 

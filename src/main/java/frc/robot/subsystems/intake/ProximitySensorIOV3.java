@@ -21,7 +21,6 @@ public class ProximitySensorIOV3 implements ProximitySensorIO {
 
   private DigitalInput conveyorSensor;
   private DigitalInput shooterSensor;
-  
 
   public ProximitySensorIOV3() {
     try {
@@ -36,6 +35,5 @@ public class ProximitySensorIOV3 implements ProximitySensorIO {
   public void updateInputs(ProximitySensorIOInputs inputs) {
     inputs.isConveyorSensorTriggered = conveyorSensor.get();
     inputs.isShooterSensorTriggered = shooterSensor.get();
-
   }
 }

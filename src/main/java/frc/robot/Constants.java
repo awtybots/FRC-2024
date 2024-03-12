@@ -124,6 +124,8 @@ public final class Constants {
     public static final double minimumAngle = 0.1;
     public static final double maximumAngle = Math.PI;
 
+    public static final double uprightAngle = 0.345 * Math.PI * 2.0; //! DOUBLE CHECK (for gravity calculations for PID)
+
     // do not use
     // public static final double kFF = 0.0;
     // public static final double kIz = 0.0;
