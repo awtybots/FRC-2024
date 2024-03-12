@@ -81,7 +81,7 @@ public class DriveCommands {
               ChassisSpeeds.fromFieldRelativeSpeeds(
                   linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
                   linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-                  omega * drive.getMaxAngularSpeedRadPerSec() / 2.3,
+                  1.25 * omega * drive.getMaxAngularSpeedRadPerSec() / 2.3,
                   drive.getRotation()));
         },
         drive);
