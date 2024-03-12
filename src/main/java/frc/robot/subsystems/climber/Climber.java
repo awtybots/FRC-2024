@@ -13,17 +13,23 @@
 
 package frc.robot.subsystems.climber;
 
+import static edu.wpi.first.units.Units.*;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.EnvironmentalConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.Logger;
 
-// ! TODO Seperate target positions but they're controlled by one so that they can be controlled
+// TODO Seperate target positions but they're controlled by one so that they can be controlled
 // ! seperately from smartdashboard
 
 public class Climber extends SubsystemBase {
   private final ClimberIO io;
   private final ClimberIOInputsAutoLogged inputs = new ClimberIOInputsAutoLogged();
+  private final SysIdRoutine sysId;
 
   /** Creates a new Climber. */
   public Climber(ClimberIO io) {
@@ -43,6 +49,16 @@ public class Climber extends SubsystemBase {
       default:
         break;
     }
+
+    // Configure SysId
+    sysId =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                null,
+                null,
+                null,
+                (state) -> Logger.recordOutput("Climber/SysIdState", state.toString())),
+            new SysIdRoutine.Mechanism((voltage) -> runVolts(voltage.in(Volts)), null, this));
   }
 
   @Override
@@ -90,23 +106,32 @@ public class Climber extends SubsystemBase {
     return inputs.rightVelocity;
   }
 
+  /** Returns the current left position in m. */
   @AutoLogOutput(key = "Climber/LeftPositionRad")
   public double getLeftPosition() {
     return inputs.leftPosition;
   }
 
+  /** Returns the current right position in m. */
   @AutoLogOutput(key = "Climber/RightPositionRad")
   public double getRightPosition() {
     return inputs.rightPosition;
   }
 
+  /** Returns the current target position in m. */
+  // TODO separate target positions properly, with smartdashboard reset and movement buttons
   @AutoLogOutput(key = "Climber/TargetPosition")
   public double getTargetPosition() {
     return inputs.targetPosition;
   }
 
-  /** Returns the current velocity in meters per second. */
-  public double getCharacterizationVelocity() {
-    return 0.5 * (inputs.leftVelocity + inputs.rightVelocity);
+  /** Returns a command to run a quasistatic test in the specified direction. */
+  public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+    return sysId.quasistatic(direction);
+  }
+
+  /** Returns a command to run a dynamic test in the specified direction. */
+  public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+    return sysId.dynamic(direction);
   }
 }

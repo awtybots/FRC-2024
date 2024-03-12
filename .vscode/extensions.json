@@ -8,6 +8,7 @@
     "wpilibsuite.vscode-wpilib",
     "vscjava.vscode-gradle",
     "vscjava.vscode-java-debug",
-    "redhat.java"
+    "redhat.java",
+    "yzhang.markdown-all-in-one"
   ]
 }

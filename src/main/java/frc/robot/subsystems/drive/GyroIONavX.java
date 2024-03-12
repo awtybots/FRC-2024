@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import java.util.OptionalDouble;
 import java.util.Queue;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -25,8 +26,9 @@ public class GyroIONavX implements GyroIO {
 
   AHRS ahrs;
   private final Queue<Double> yawPositionQueue;
+  private final Queue<Double> yawTimestampQueue;
 
-  public GyroIONavX(boolean phoenixDrive) {
+  public GyroIONavX() {
 
     try {
       ahrs = new AHRS(SPI.Port.kMXP, (byte) Module.ODOMETRY_FREQUENCY);
@@ -39,7 +41,17 @@ public class GyroIONavX implements GyroIO {
     ahrs.zeroYaw();
 
     yawPositionQueue =
-        SparkMaxOdometryThread.getInstance().registerSignal(() -> (double) -ahrs.getAngle());
+        SparkMaxOdometryThread.getInstance()
+            .registerSignal(
+                () -> {
+                  boolean valid = !ahrs.isCalibrating();
+                  if (valid) {
+                    return OptionalDouble.of(-ahrs.getAngle());
+                  } else {
+                    return OptionalDouble.empty();
+                  }
+                });
+    yawTimestampQueue = SparkMaxOdometryThread.getInstance().makeTimestampQueue();
   }
 
   @Override
@@ -54,15 +66,18 @@ public class GyroIONavX implements GyroIO {
     //         .toArray(Rotation2d[]::new);
     // yawPositionQueue.clear();
     inputs.connected = ahrs.isConnected();
-    inputs.calibrating = ahrs.isCalibrating();
+    inputs.notcalibrating = !ahrs.isCalibrating();
     inputs.yawPosition = Rotation2d.fromDegrees(-ahrs.getAngle());
     inputs.yawVelocityRadPerSec = Units.degreesToRadians(-ahrs.getRawGyroZ());
     inputs.odometryYawPositions =
         yawPositionQueue.stream()
             .map((Double value) -> Rotation2d.fromDegrees(value))
             .toArray(Rotation2d[]::new);
+    inputs.odometryYawTimestamps =
+        yawTimestampQueue.stream().mapToDouble((Double value) -> value).toArray();
 
     yawPositionQueue.clear();
+    yawTimestampQueue.clear();
   }
 
   public void resetRotation() {

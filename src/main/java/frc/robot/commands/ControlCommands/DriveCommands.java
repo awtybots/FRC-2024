@@ -41,7 +41,8 @@ public class DriveCommands {
       Drive drive,
       DoubleSupplier xSupplier,
       DoubleSupplier ySupplier,
-      DoubleSupplier omegaSupplier) {
+      DoubleSupplier omegaSupplier,
+      Boolean shouldPointAtSpeaker) {
     return Commands.run(
         () -> {
           double linearMagnitude;
@@ -84,6 +85,16 @@ public class DriveCommands {
               new Pose2d(new Translation2d(), linearDirection)
                   .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
                   .getTranslation();
+
+          if (shouldPointAtSpeaker) {
+            double[] currentPosition = {drive.getPose().getX(), drive.getPose().getY()};
+            double[] speakerPosition = {0.25, 5.55};
+            double targetAngleRadians =
+                Math.atan(
+                    (currentPosition[1] - speakerPosition[1])
+                        / (currentPosition[0] - speakerPosition[0]));
+            omega = targetAngleRadians;
+          }
 
           // Convert to field relative speeds & send command
           drive.runVelocity(

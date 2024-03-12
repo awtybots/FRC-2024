@@ -19,9 +19,12 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.CombinedCommands.ShootNoteClose;
 import frc.robot.commands.CombinedCommands.ShootNoteStart;
 import frc.robot.commands.ControlCommands.ArmCommands;
@@ -59,14 +62,9 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeIOSparkMax;
-// import frc.robot.subsystems.sticks.Sticks;
-// import frc.robot.subsystems.sticks.SticksIO;
-// import frc.robot.subsystems.sticks.SticksIOSim;
-// import frc.robot.subsystems.sticks.SticksIOSparkMax;
-import frc.robot.subsystems.wrist.Wrist;
-import frc.robot.subsystems.wrist.WristIO;
-import frc.robot.subsystems.wrist.WristIOSim;
-import frc.robot.subsystems.wrist.WristIOSparkMax;
+import frc.robot.subsystems.vision.AprilTagVision;
+import frc.robot.subsystems.vision.AprilTagVisionIO;
+import frc.robot.subsystems.vision.AprilTagVisionIOLimelight;
 import java.util.ArrayList;
 import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -84,10 +82,12 @@ public class RobotContainer {
   private final Flywheel sFlywheel;
   private final Intake sIntake;
   private final Arm sArm;
-  //   private final ArmElevator sArmElevator;
-  private final Wrist sWrist;
+  //   private final ArmElevator sArmElevator; // ! Note: if you reimplement this, make sure to
+  // implement changes from upstream.
+  // private final Wrist sWrist; // ! Note: if you reimplement this, make sure to implement changes
+  // from upstream.
   private final Climber sClimber;
-  //   private final Sticks sSticks;
+  private AprilTagVision aprilTagVision;
 
   // Controllers
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -109,7 +109,7 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         sDrive =
             new Drive(
-                new GyroIONavX(false),
+                new GyroIONavX(),
                 new ModuleIOSparkMax(0),
                 new ModuleIOSparkMax(1),
                 new ModuleIOSparkMax(2),
@@ -118,9 +118,10 @@ public class RobotContainer {
         sIntake = new Intake(new IntakeIOSparkMax() {}, new ColorSensorIOV3() {});
         sArm = new Arm(new ArmIOSparkMax() {});
         // sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
-        sWrist = new Wrist(new WristIOSparkMax() {});
+        // sWrist = new Wrist(new WristIOSparkMax() {});
         sClimber = new Climber(new ClimberIOSparkMax() {});
-        // sSticks = new Sticks(new SticksIOSparkMax() {});
+        aprilTagVision =
+            new AprilTagVision(new AprilTagVisionIOLimelight("limelight")); // TODO probably wrong
 
         break;
 
@@ -139,9 +140,9 @@ public class RobotContainer {
         sIntake = new Intake(new IntakeIOSim() {}, new ColorSensorIO() {});
         sArm = new Arm(new ArmIOSim() {});
         // sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
-        sWrist = new Wrist(new WristIOSim() {});
+        // sWrist = new Wrist(new WristIOSim() {});
         sClimber = new Climber(new ClimberIOSim() {});
-        // sSticks = new Sticks(new SticksIOSim() {});
+        aprilTagVision = new AprilTagVision();
 
         break;
 
@@ -158,9 +159,9 @@ public class RobotContainer {
         sIntake = new Intake(new IntakeIO() {}, new ColorSensorIO() {});
         sArm = new Arm(new ArmIO() {});
         // sArmElevator = new ArmElevator(new ArmElevatorIO() {});
-        sWrist = new Wrist(new WristIO() {});
+        // sWrist = new Wrist(new WristIO() {});
         sClimber = new Climber(new ClimberIO() {});
-        // sSticks = new Sticks(new SticksIO() {});
+        aprilTagVision = new AprilTagVision(new AprilTagVisionIO() {});
 
         break;
     }
@@ -261,15 +262,70 @@ public class RobotContainer {
     options.forEach(auto -> chooser.addOption(auto.getName(), auto));
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", chooser);
 
-    // Set up feedforward characterization
-    // autoChooser.addOption(
-    //     "Drive FF Characterization",
-    //     new FeedForwardCharacterization(
-    //         sDrive, sDrive::runCharacterizationVolts, sDrive::getCharacterizationVelocity));
-    // autoChooser.addOption(
-    //     "Flywheel FF Characterization",
-    //     new FeedForwardCharacterization(
-    //         sFlywheel, sFlywheel::runVolts, sFlywheel::getCharacterizationVelocity));
+    // Set up SysId routines
+    // Drive subsystem
+    autoChooser.addOption(
+        "Drive SysId (Quasistatic Forward)",
+        sDrive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Drive SysId (Quasistatic Reverse)",
+        sDrive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Drive SysId (Dynamic Forward)", sDrive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Drive SysId (Dynamic Reverse)", sDrive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Flywheel subsystem
+    autoChooser.addOption(
+        "Flywheel SysId (Quasistatic Forward)",
+        sFlywheel.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Flywheel SysId (Quasistatic Reverse)",
+        sFlywheel.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Flywheel SysId (Dynamic Forward)",
+        sFlywheel.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Flywheel SysId (Dynamic Reverse)",
+        sFlywheel.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Climber subsystem
+    autoChooser.addOption(
+        "Climber SysId (Quasistatic Forward)",
+        sClimber.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Climber SysId (Quasistatic Reverse)",
+        sClimber.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Climber SysId (Dynamic Forward)", sClimber.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Climber SysId (Dynamic Reverse)", sClimber.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Arm subsystem
+    autoChooser.addOption(
+        "Arm SysId (Quasistatic Forward)", sArm.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Arm SysId (Quasistatic Reverse)", sArm.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Arm SysId (Dynamic Forward)", sArm.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Arm SysId (Dynamic Reverse)", sArm.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Intake subsystem
+    autoChooser.addOption(
+        "Intake SysId (Quasistatic Forward)",
+        sIntake.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Intake SysId (Quasistatic Reverse)",
+        sIntake.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Intake SysId (Dynamic Forward)", sIntake.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Intake SysId (Dynamic Reverse)", sIntake.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    aprilTagVision.setDataInterfaces(sDrive::addVisionData);
+
+    SmartDashboard.putData(CommandScheduler.getInstance()); // kinda curious to see this
 
     // Configure the button bindings
     configureButtonBindings();
@@ -287,7 +343,8 @@ public class RobotContainer {
             sDrive,
             () -> -driverController.getLeftY(),
             () -> -driverController.getLeftX(),
-            () -> -driverController.getRightX()));
+            () -> -driverController.getRightX(),
+            false));
 
     // CommandScheduler.getInstance()
     //     .setDefaultCommand(
