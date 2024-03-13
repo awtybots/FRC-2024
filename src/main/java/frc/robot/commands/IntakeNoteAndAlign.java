@@ -5,11 +5,11 @@ import frc.robot.Constants;
 import frc.robot.subsystems.intake.Intake;
 // Moves the note so that it is detected by the conveySensor but not shooterSensor
 
-public class IntakeNote extends Command {
+public class IntakeNoteAndAlign extends Command {
 
   private Intake intake;
 
-  public IntakeNote(Intake intake) {
+  public IntakeNoteAndAlign(Intake intake) {
     this.intake = intake;
     addRequirements(intake);
   }
@@ -32,8 +32,8 @@ public class IntakeNote extends Command {
   // Run AdjustNote with a timeout of 4 seconds
   @Override
   public void end(boolean interrupted) {
-    // AdjustNote adjustNoteCommand = new AdjustNote(intake);
-    // adjustNoteCommand.withTimeout(1.5).schedule();
+    AdjustNote adjustNoteCommand = new AdjustNote(intake);
+    adjustNoteCommand.withTimeout(1.5).schedule();
   }
 
   @Override
