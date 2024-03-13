@@ -176,11 +176,9 @@ public class RobotContainer {
                 () -> sFlywheel.runVelocity(flywheelSpeedInput.get()), sFlywheel::stop, sFlywheel)
             .withTimeout(5.0));
 
-    NamedCommands.registerCommand(
-        "IntakeNote", new IntakeNote(sIntake, sArm, sFlywheel).withTimeout(3.0));
+    NamedCommands.registerCommand("IntakeNote", new IntakeNote(sIntake).withTimeout(3.0));
 
-    NamedCommands.registerCommand(
-        "ShootNote", new ShootNote(sIntake, sArm, sFlywheel).withTimeout(3.0));
+    NamedCommands.registerCommand("ShootNote", new ShootNote(sIntake, sFlywheel).withTimeout(3.0));
 
     NamedCommands.registerCommand(
         "FloorPickupPosition", FloorPickup.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
@@ -388,12 +386,12 @@ public class RobotContainer {
     operatorController.povRight().whileTrue(ShootMedium.run(sArm, sArmElevator, sWrist));
     operatorController.povUp().whileTrue(ShootClose.run(sArm, sArmElevator, sWrist));
 
-    operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sArm, sFlywheel));
-    operatorController.leftBumper().whileTrue(new PreRunShooter(sIntake, sArm, sFlywheel));
+    operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel));
+    operatorController.leftBumper().whileTrue(new PreRunShooter(sIntake, sFlywheel));
 
     // run straight up position when y is pressed on operator. Using command Upwards
 
-    operatorController.leftTrigger().whileTrue(new IntakeNote(sIntake, sArm, sFlywheel));
+    operatorController.leftTrigger().whileTrue(new IntakeNote(sIntake));
 
     // ! tempory testing keybinds
     // operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));
