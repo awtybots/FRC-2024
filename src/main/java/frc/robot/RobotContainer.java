@@ -180,7 +180,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("IntakeNote", new IntakeNote(sIntake).withTimeout(3.0));
 
-    NamedCommands.registerCommand("IntakeNoteMove", new IntakeNote(sIntake,sDrive).withTimeout(3.0));
+    NamedCommands.registerCommand("IntakeNoteMove", new IntakeNote(sIntake).withTimeout(3.0));
 
     NamedCommands.registerCommand("ShootNote", new ShootNote(sIntake, sFlywheel).withTimeout(3.0));
 
