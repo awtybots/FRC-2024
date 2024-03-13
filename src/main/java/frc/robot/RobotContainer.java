@@ -19,7 +19,9 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ControlCommands.ArmCommands;
@@ -178,6 +180,8 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("IntakeNote", new IntakeNote(sIntake).withTimeout(3.0));
 
+    NamedCommands.registerCommand("IntakeNoteMove", new IntakeNote(sIntake,sDrive).withTimeout(3.0));
+
     NamedCommands.registerCommand("ShootNote", new ShootNote(sIntake, sFlywheel).withTimeout(3.0));
 
     NamedCommands.registerCommand(
@@ -281,6 +285,8 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+
+    SmartDashboard.putData(CommandScheduler.getInstance()); // kinda curious to see this
   }
 
   /**
