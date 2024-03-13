@@ -22,7 +22,9 @@ public class ShootNote extends Command {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    sensorsZeroTime = null;
+  }
 
   @Override
   public void execute() {

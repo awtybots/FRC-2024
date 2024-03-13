@@ -84,7 +84,7 @@ public final class Constants {
     // Flywheel Feedforward characterization constants
     public static final double ks = 0;
     public static final double kv = 0.00025;
-    public static final double shootingVelocity = 300; // revolutions per second
+    public static final double shootingVelocity = 3000; // revolutions per second
   }
 
   public static final class IntakeConstants {
