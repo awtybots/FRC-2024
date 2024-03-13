@@ -13,7 +13,6 @@
 package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.IntakeConstants;
 
 /** IO implementation for NavX */
@@ -23,17 +22,13 @@ public class ProximitySensorIOV3 implements ProximitySensorIO {
   private DigitalInput shooterSensor;
 
   public ProximitySensorIOV3() {
-    try {
-      conveyorSensor = new DigitalInput(IntakeConstants.conveyorSensor);
-      shooterSensor = new DigitalInput(IntakeConstants.shooterSensor);
-    } catch (RuntimeException ex) {
-      DriverStation.reportError("Error instantiating DigitalInput:  " + ex.getMessage(), true);
-    }
+    conveyorSensor = new DigitalInput(IntakeConstants.conveyorSensor);
+    shooterSensor = new DigitalInput(IntakeConstants.shooterSensor);
   }
 
   @Override
   public void updateInputs(ProximitySensorIOInputs inputs) {
-    inputs.isConveyorSensorTriggered = conveyorSensor.get();
-    inputs.isShooterSensorTriggered = shooterSensor.get();
+    inputs.isConveyorSensorTriggered = !conveyorSensor.get();
+    inputs.isShooterSensorTriggered = !shooterSensor.get();
   }
 }

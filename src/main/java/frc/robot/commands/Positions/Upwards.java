@@ -12,7 +12,7 @@ public class Upwards {
     return Commands.run(
         () -> {
           // Position preset settings
-          double ARMANGLE = 0.345 * Math.PI * 2.0;
+          double ARMANGLE = 1.753;
           double ARMELEVATORPOSITION = 0;
           double WRISTANGLE = 0;
 

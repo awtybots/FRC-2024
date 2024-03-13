@@ -34,9 +34,9 @@ public class Intake extends SubsystemBase {
       new ProximitySensorIOInputsAutoLogged();
 
   /** Creates a new Flywheel. */
-  public Intake(IntakeIO io, ProximitySensorIO proximitySensorIO2) {
+  public Intake(IntakeIO io, ProximitySensorIOV3 proximitySensorIO2V3) {
     this.io = io;
-    this.proximitySensorIO = proximitySensorIO2;
+    this.proximitySensorIO = proximitySensorIO2V3;
 
     io.configurePID(
         Constants.IntakeConstants.kP, Constants.IntakeConstants.kI, Constants.IntakeConstants.kD);

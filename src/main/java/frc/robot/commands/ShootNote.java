@@ -23,9 +23,7 @@ public class ShootNote extends Command {
 
   // Called once at the beginning
   @Override
-  public void initialize() {
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -39,13 +37,10 @@ public class ShootNote extends Command {
     if (bottomFlywheelRPM > targetRPM) {
       intake.runPercentSpeed(1);
     }
-
   }
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    
-  }
+  public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {

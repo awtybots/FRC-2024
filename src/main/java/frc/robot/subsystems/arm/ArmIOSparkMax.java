@@ -59,6 +59,8 @@ public class ArmIOSparkMax implements ArmIO {
     leftMotor.setCANTimeout(250);
     rightMotor.setCANTimeout(250);
 
+    leftAbsoluteEncoder.setInverted(true);
+
     // set wrapping on leftMotorAbsoluteEncoder so it does not go from 0 to 2 pi, causing a jump
 
     // leftRelativeEncoder.setPosition(0.0);
@@ -95,9 +97,9 @@ public class ArmIOSparkMax implements ArmIO {
     inputs.targetPositionRad = targetAngle;
   }
 
-  public double getAngleFromVertical(){
-      return (leftAbsoluteEncoder.getPosition() * Math.PI * 2.0- Constants.ArmConstants.uprightAngle);
-
+  public double getAngleFromVertical() {
+    return (leftAbsoluteEncoder.getPosition() * Math.PI * 2.0
+        - Constants.ArmConstants.uprightAngle);
   }
 
   @Override
@@ -131,7 +133,8 @@ public class ArmIOSparkMax implements ArmIO {
 
     leftMotor.set(
         MathUtil.clamp(
-            mathPid.calculate(leftAbsoluteEncoder.getPosition() * Math.PI * 2.0, targetAngle)+Constants.ArmConstants.kWeightBasedFF*Math.sin(getAngleFromVertical()),
+            mathPid.calculate(leftAbsoluteEncoder.getPosition() * Math.PI * 2.0, targetAngle)
+                + -Constants.ArmConstants.kWeightBasedFF * Math.sin(getAngleFromVertical()),
             -ArmConstants.kMaxOutput,
             ArmConstants.kMaxOutput));
 

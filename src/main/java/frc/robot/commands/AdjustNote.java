@@ -8,14 +8,13 @@ import frc.robot.subsystems.intake.Intake;
 // Moves the note so that it is detected by the conveySensor but not shooterSensor
 public class AdjustNote extends Command {
 
-  public final double reverseIntakeSpeed = 0.2; // speed we run intake at when it is reversed
   private Intake intake;
   private Arm arm;
   private Flywheel flywheel;
   private int phase =
       1; // 1 is moving note to shootersensor, 2 is moving note away from shooterSensor, 3 = done
-  private double forwardsIntakeSpeed = 0.2;
-  private double backwardsIntakeSpeed = 0.2;
+  private double forwardsIntakeSpeed = 0.05;
+  private double backwardsIntakeSpeed = 0.07;
 
   public AdjustNote(Intake intake, Arm arm, Flywheel flywheel) {
     this.intake = intake;
@@ -26,7 +25,9 @@ public class AdjustNote extends Command {
 
   // Called once at the beginning
   @Override
-  public void initialize() {}
+  public void initialize() {
+    phase = 1;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -50,7 +51,9 @@ public class AdjustNote extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    phase = 1;
+  }
 
   @Override
   public boolean isFinished() {

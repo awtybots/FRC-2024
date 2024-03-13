@@ -22,20 +22,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AdjustNote;
 import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
-import frc.robot.commands.AdjustNote;
 import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.IntakeNote;
-import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.ShootClose;
 import frc.robot.commands.Positions.ShootFar;
 import frc.robot.commands.Positions.ShootMedium;
 import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.commands.Positions.StowPosition;
-import frc.robot.commands.Positions.Upwards;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
@@ -66,7 +64,6 @@ import frc.robot.subsystems.intake.IntakeIOSparkMax;
 // import frc.robot.subsystems.sticks.SticksIO;
 // import frc.robot.subsystems.sticks.SticksIOSim;
 // import frc.robot.subsystems.sticks.SticksIOSparkMax;
-import frc.robot.subsystems.intake.ProximitySensorIO;
 import frc.robot.subsystems.intake.ProximitySensorIOV3;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.wrist.WristIO;
@@ -120,7 +117,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
         sFlywheel = new Flywheel(new FlywheelIOSparkMax());
-        sIntake = new Intake(new IntakeIOSparkMax() {}, new ProximitySensorIO() {});
+        sIntake = new Intake(new IntakeIOSparkMax() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIOSparkMax() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
         sWrist = new Wrist(new WristIOSparkMax() {});
@@ -141,7 +138,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         sFlywheel = new Flywheel(new FlywheelIOSim());
-        sIntake = new Intake(new IntakeIOSim() {}, new ProximitySensorIO() {});
+        sIntake = new Intake(new IntakeIOSim() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIOSim() {});
         sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
         sWrist = new Wrist(new WristIOSim() {});
@@ -384,15 +381,13 @@ public class RobotContainer {
 
     // run straight up position when y is pressed on operator. Using command Upwards
 
-    //! tempory testing keybinds
+    // ! tempory testing keybinds
     // operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));
-    operatorController.y().whileTrue(
-        new IntakeNote(sIntake, sArm, sFlywheel));
+    operatorController.y().whileTrue(new IntakeNote(sIntake, sArm, sFlywheel));
 
     // run straight forwards position when x is pressed
-    //operatorController.x().whileTrue(AmpShot.run(sArm, sArmElevator, sWrist));
+    // operatorController.x().whileTrue(AmpShot.run(sArm, sArmElevator, sWrist));
     operatorController.x().whileTrue(new AdjustNote(sIntake, sArm, sFlywheel));
-
 
     operatorController.a().whileTrue(FloorPickup.run(sArm, sArmElevator, sWrist));
 
