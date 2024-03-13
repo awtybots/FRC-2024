@@ -1,16 +1,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.arm.Arm;
-import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.intake.Intake;
 
 // Moves the note so that it is detected by the conveySensor but not shooterSensor
 public class AdjustNote extends Command {
 
   private Intake intake;
-  private Arm arm;
-  private Flywheel flywheel;
   private int phase =
       1; // 1 is moving note to shootersensor, 2 is moving note away from shooterSensor, 3 = done
   private double forwardsIntakeSpeed = 0.04;
@@ -18,10 +14,8 @@ public class AdjustNote extends Command {
 
   private long phase2StartTime;
 
-  public AdjustNote(Intake intake, Arm arm, Flywheel flywheel) {
+  public AdjustNote(Intake intake) {
     this.intake = intake;
-    this.arm = arm;
-    this.flywheel = flywheel;
     addRequirements(intake);
   }
 

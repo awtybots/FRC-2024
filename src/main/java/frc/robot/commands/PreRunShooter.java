@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.intake.Intake;
 
@@ -10,13 +9,12 @@ import frc.robot.subsystems.intake.Intake;
 public class PreRunShooter extends Command {
 
   private Intake intake;
-  private Arm arm;
   private Flywheel flywheel;
 
-  public PreRunShooter(Intake intake, Arm arm, Flywheel flywheel) {
+  public PreRunShooter(Intake intake, Flywheel flywheel) {
     this.intake = intake;
-    this.arm = arm;
     this.flywheel = flywheel;
+    addRequirements(intake, flywheel);
   }
 
   // Called once at the beginning
