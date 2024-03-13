@@ -41,13 +41,13 @@ public class IntakeShooterControls {
     // Intake stops on detection of note in first mode.
     return Commands.run(
         () -> {
+          /*
           if (leftBumperSupplier.getAsBoolean()) {
-            flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
+            // flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
           }
           if (rightBumperSupplier.getAsBoolean()) {
 
           } else {
-            flywheel.stop();
 
             // double fwdSpeed = leftTriggerSupplier.getAsDouble();
             double revSpeed = rightTriggerSupplier.getAsDouble();
@@ -61,6 +61,11 @@ public class IntakeShooterControls {
             if (Math.abs(revSpeed) > DEADBAND) {
               intake.runPercentSpeed(Constants.IntakeConstants.percentPower * stickMagnitude);
             }
+          }
+          */
+          if (Math.abs(rightTriggerSupplier.getAsDouble()) > DEADBAND) {
+            intake.runPercentSpeed(
+                -Constants.IntakeConstants.percentPower * rightTriggerSupplier.getAsDouble());
           }
         },
         intake,

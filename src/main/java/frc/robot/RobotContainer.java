@@ -34,6 +34,7 @@ import frc.robot.commands.Positions.ShootFar;
 import frc.robot.commands.Positions.ShootMedium;
 import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.commands.Positions.StowPosition;
+import frc.robot.commands.PreRunShooter;
 import frc.robot.commands.ShootNote;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
@@ -388,6 +389,7 @@ public class RobotContainer {
     operatorController.povUp().whileTrue(ShootClose.run(sArm, sArmElevator, sWrist));
 
     operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sArm, sFlywheel));
+    operatorController.leftBumper().whileTrue(new PreRunShooter(sIntake, sArm, sFlywheel));
 
     // run straight up position when y is pressed on operator. Using command Upwards
 
