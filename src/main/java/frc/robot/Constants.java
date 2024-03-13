@@ -112,16 +112,16 @@ public final class Constants {
     public static final double kMaxOutput = 0.4;
 
     // Arm PID constants
-    public static final double kP = 0.35;
+    public static final double kP = 0.5;
     public static final double kI = 0.0;
     public static final double kD = 0.03;
-    public static final double kWeightBasedFF = 0.06;
+    public static final double kWeightBasedFF = 0.025;
 
     // Arm Feedforward characterization constants
     public static final double ks = 0.10;
     public static final double kv = 0.05;
 
-    public static final double minimumAngle = 0.1;
+    public static final double minimumAngle = 0;
     public static final double maximumAngle = Math.PI;
 
     public static final double uprightAngle = 1.753; // (for gravity calculations for PID)

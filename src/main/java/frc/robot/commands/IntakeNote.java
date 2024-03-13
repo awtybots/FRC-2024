@@ -38,7 +38,7 @@ public class IntakeNote extends Command {
   @Override
   public void end(boolean interrupted) {
     AdjustNote adjustNoteCommand = new AdjustNote(intake, arm, flywheel);
-    adjustNoteCommand.withTimeout(4).schedule();
+    adjustNoteCommand.withTimeout(0.9).schedule();
   }
 
   @Override

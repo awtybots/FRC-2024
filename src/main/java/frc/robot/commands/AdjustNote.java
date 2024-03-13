@@ -13,8 +13,8 @@ public class AdjustNote extends Command {
   private Flywheel flywheel;
   private int phase =
       1; // 1 is moving note to shootersensor, 2 is moving note away from shooterSensor, 3 = done
-  private double forwardsIntakeSpeed = 0.05;
-  private double backwardsIntakeSpeed = 0.07;
+  private double forwardsIntakeSpeed = 0.04;
+  private double backwardsIntakeSpeed = 0.04;
 
   public AdjustNote(Intake intake, Arm arm, Flywheel flywheel) {
     this.intake = intake;
@@ -51,9 +51,7 @@ public class AdjustNote extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    phase = 1;
-  }
+  public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {
