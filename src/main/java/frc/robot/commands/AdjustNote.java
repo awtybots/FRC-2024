@@ -47,7 +47,7 @@ public class AdjustNote extends Command {
 
     } else if (phase == 2) { // go backwards untill not detected
       long phase2RunningTime = System.currentTimeMillis() - phase2StartTime;
-      if (phase2RunningTime > 350 && intake.getIsStalled()) {
+      if (phase2RunningTime > 350 && intake.getIsStalled()) {//get the note unstuck if it is stuck in the shooter
           intake.runPercentSpeed(-0.12);
       } else {
           intake.runPercentSpeed(-backwardsIntakeSpeed);
@@ -56,14 +56,14 @@ public class AdjustNote extends Command {
           phase = 3;
       }
     }
-    if (phase == 3) {
-      intake.runPercentSpeed(0);
-    }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intake.runPercentSpeed(0);
+  }
 
   @Override
   public boolean isFinished() {

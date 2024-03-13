@@ -63,27 +63,20 @@ public class IntakeShooterControls {
           } else {
             flywheel.stop();
 
-            double fwdSpeed = leftTriggerSupplier.getAsDouble();
+            //double fwdSpeed = leftTriggerSupplier.getAsDouble();
             double revSpeed = rightTriggerSupplier.getAsDouble();
-            fwdSpeed = MathUtil.applyDeadband(fwdSpeed, DEADBAND);
-            revSpeed = MathUtil.applyDeadband(revSpeed, DEADBAND);
+            //fwdSpeed = MathUtil.applyDeadband(fwdSpeed, DEADBAND);
+            //revSpeed = MathUtil.applyDeadband(revSpeed, DEADBAND);
 
             double stickMagnitude = fwdSpeed - revSpeed;
             stickMagnitude =
                 stickMagnitude * stickMagnitude * stickMagnitude; // more control over lower speeds
 
-            boolean noteDetected = intake.getConveyerProximity();
-
-            if (noteDetected) {
-              if (stickMagnitude > 0.15) {
-                intake.runPercentSpeed(0);
-              } else {
-                intake.runPercentSpeed(
-                    Constants.IntakeConstants.percentPower * stickMagnitude); // allow for extake
-              }
-            } else {
+            if (Math.abs(revSpeed) > DEADBAND){
               intake.runPercentSpeed(Constants.IntakeConstants.percentPower * stickMagnitude);
             }
+
+
           }
         },
         intake,
