@@ -41,7 +41,8 @@ public interface IntakeIO {
 
   public default void runFull() {}
 
-  public default boolean getIsStalled(){return false;}
-
+  public default boolean getIsStalled() {
+    return false;
+  }
   ;
 }

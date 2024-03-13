@@ -96,7 +96,7 @@ public class Intake extends SubsystemBase {
     io.runFull();
   }
 
-  public boolean getIsStalled(){
+  public boolean getIsStalled() {
     return io.getIsStalled();
   }
 

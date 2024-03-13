@@ -18,7 +18,6 @@ public class AdjustNote extends Command {
 
   private long phase2StartTime;
 
-
   public AdjustNote(Intake intake, Arm arm, Flywheel flywheel) {
     this.intake = intake;
     this.arm = arm;
@@ -30,8 +29,7 @@ public class AdjustNote extends Command {
   @Override
   public void initialize() {
     phase = 1;
-    phase2StartTime = 0; 
-
+    phase2StartTime = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,22 +39,21 @@ public class AdjustNote extends Command {
       intake.runPercentSpeed(forwardsIntakeSpeed);
       if (intake.getShooterProximity()) {
         phase = 2;
-        phase2StartTime = System.currentTimeMillis(); 
-
+        phase2StartTime = System.currentTimeMillis();
       }
 
     } else if (phase == 2) { // go backwards untill not detected
       long phase2RunningTime = System.currentTimeMillis() - phase2StartTime;
-      if (phase2RunningTime > 350 && intake.getIsStalled()) {//get the note unstuck if it is stuck in the shooter
-          intake.runPercentSpeed(-0.12);
+      if (phase2RunningTime > 350
+          && intake.getIsStalled()) { // get the note unstuck if it is stuck in the shooter
+        intake.runPercentSpeed(-0.12);
       } else {
-          intake.runPercentSpeed(-backwardsIntakeSpeed);
+        intake.runPercentSpeed(-backwardsIntakeSpeed);
       }
       if (!intake.getShooterProximity()) {
-          phase = 3;
+        phase = 3;
       }
     }
-
   }
 
   // Called once the command ends or is interrupted.

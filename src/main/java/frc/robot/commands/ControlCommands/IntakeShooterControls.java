@@ -13,7 +13,6 @@
 
 package frc.robot.commands.ControlCommands;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
@@ -46,37 +45,22 @@ public class IntakeShooterControls {
             flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
           }
           if (rightBumperSupplier.getAsBoolean()) {
-            flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
-
-            double flywheelRPM = -flywheel.getVelocityRPMBottom();
-
-            double targetRPM = Constants.FlywheelConstants.shootingVelocity * 0.8;
-
-            if (arm.getPosition() > 2) { // amp scoring
-              targetRPM = Constants.FlywheelConstants.shootingVelocity * 0.2;
-            }
-
-            if (flywheelRPM > targetRPM) {
-              intake.runPercentSpeed(1);
-            }
 
           } else {
             flywheel.stop();
 
-            //double fwdSpeed = leftTriggerSupplier.getAsDouble();
+            // double fwdSpeed = leftTriggerSupplier.getAsDouble();
             double revSpeed = rightTriggerSupplier.getAsDouble();
-            //fwdSpeed = MathUtil.applyDeadband(fwdSpeed, DEADBAND);
-            //revSpeed = MathUtil.applyDeadband(revSpeed, DEADBAND);
+            // fwdSpeed = MathUtil.applyDeadband(fwdSpeed, DEADBAND);
+            // revSpeed = MathUtil.applyDeadband(revSpeed, DEADBAND);
 
-            double stickMagnitude = fwdSpeed - revSpeed;
+            double stickMagnitude = -revSpeed;
             stickMagnitude =
                 stickMagnitude * stickMagnitude * stickMagnitude; // more control over lower speeds
 
-            if (Math.abs(revSpeed) > DEADBAND){
+            if (Math.abs(revSpeed) > DEADBAND) {
               intake.runPercentSpeed(Constants.IntakeConstants.percentPower * stickMagnitude);
             }
-
-
           }
         },
         intake,

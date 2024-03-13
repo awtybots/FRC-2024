@@ -27,7 +27,6 @@ import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.IntakeNote;
-import frc.robot.commands.ShootNote;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.ShootClose;
@@ -35,7 +34,7 @@ import frc.robot.commands.Positions.ShootFar;
 import frc.robot.commands.Positions.ShootMedium;
 import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.commands.Positions.StowPosition;
-import frc.robot.commands.Positions.Upwards;
+import frc.robot.commands.ShootNote;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
@@ -177,29 +176,22 @@ public class RobotContainer {
             .withTimeout(5.0));
 
     NamedCommands.registerCommand(
-        "IntakeNote",new IntakeNote(sIntake, sArm, sFlywheel));
+        "IntakeNote", new IntakeNote(sIntake, sArm, sFlywheel).withTimeout(3.0));
 
     NamedCommands.registerCommand(
-        "ShootNote",new ShootNote(sIntake, sArm, sFlywheel));
+        "ShootNote", new ShootNote(sIntake, sArm, sFlywheel).withTimeout(3.0));
 
     NamedCommands.registerCommand(
-        "FloorPickup",
-        FloorPickup.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
+        "FloorPickupPosition", FloorPickup.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
 
     NamedCommands.registerCommand(
-        "ShootClose",
-        ShootClose.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
-    
-    NamedCommands.registerCommand(
-        "ShootMedium",
-        ShootMedium.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
+        "ShootClosePosition", ShootClose.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
 
     NamedCommands.registerCommand(
-        "ShootFar",
-        ShootFar.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
+        "ShootMediumPosition", ShootMedium.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
 
-
-
+    NamedCommands.registerCommand(
+        "ShootFarPosition", ShootFar.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
 
     NamedCommands.registerCommand(
         "SpeakerShot",
@@ -395,13 +387,16 @@ public class RobotContainer {
     operatorController.povRight().whileTrue(ShootMedium.run(sArm, sArmElevator, sWrist));
     operatorController.povUp().whileTrue(ShootClose.run(sArm, sArmElevator, sWrist));
 
+    operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sArm, sFlywheel));
+
     // run straight up position when y is pressed on operator. Using command Upwards
 
     operatorController.leftTrigger().whileTrue(new IntakeNote(sIntake, sArm, sFlywheel));
 
     // ! tempory testing keybinds
-    operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));
+    // operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));
     // operatorController.y().whileTrue(new IntakeNote(sIntake, sArm, sFlywheel));
+    // operatorController.y().whileTrue(new ShootNote(sIntake, sArm, sFlywheel));
 
     // run straight forwards position when x is pressed
     operatorController.x().whileTrue(AmpShot.run(sArm, sArmElevator, sWrist));

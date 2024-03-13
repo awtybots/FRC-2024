@@ -29,12 +29,12 @@ public class ShootNote extends Command {
   @Override
   public void execute() {
 
-    double bottomFlywheelRPM = -flywheel.getVelocityRPMBottom();
+    double topFlywheelRPM = -flywheel.getVelocityRPMBottom();
 
     double targetRPM = Constants.FlywheelConstants.shootingVelocity * 0.8;
 
     flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
-    if (bottomFlywheelRPM > targetRPM) {
+    if (Math.abs(topFlywheelRPM) > Math.abs(targetRPM)) { // signs are dumb
       intake.runPercentSpeed(1);
     }
   }
