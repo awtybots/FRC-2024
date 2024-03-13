@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 4.4
+      "x": 1.337238039927469,
+      "y": 5.553315265195346
     },
     "rotation": 0.0
   },
@@ -14,7 +14,13 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNoteStart"
+            "name": "ShootClosePosition"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
           }
         },
         {
@@ -26,7 +32,38 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNoteClose"
+            "name": "FloorPickupPosition"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootClosePosition"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
           }
         }
       ]
