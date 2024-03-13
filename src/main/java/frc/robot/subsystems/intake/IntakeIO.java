@@ -40,5 +40,8 @@ public interface IntakeIO {
   public default void configurePID(double kP, double kI, double kD) {}
 
   public default void runFull() {}
+
+  public default boolean getIsStalled(){return false;}
+
   ;
 }

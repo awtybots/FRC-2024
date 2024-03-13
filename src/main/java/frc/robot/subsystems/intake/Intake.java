@@ -96,6 +96,10 @@ public class Intake extends SubsystemBase {
     io.runFull();
   }
 
+  public boolean getIsStalled(){
+    return io.getIsStalled();
+  }
+
   /** Returns the current velocity in RPM. */
   @AutoLogOutput
   public double getVelocityRPM() {

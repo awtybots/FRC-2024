@@ -84,6 +84,16 @@ public class IntakeIOSparkMax implements IntakeIO {
   }
 
   @Override
+  public boolean getIsStalled() {
+      double currentThreshold = 0.2;
+      double velocityThreshold = 0.05;
+  
+      double current = intakeMotor.getOutputCurrent();
+      double velocity = intakeEncoder.getVelocity();
+  
+      return Math.abs(current) > currentThreshold && Math.abs(velocity) < velocityThreshold;
+  }
+  @Override
   public void configurePID(double kP, double kI, double kD) {
     intakePID.setP(kP, 0);
     intakePID.setI(kI, 0);
