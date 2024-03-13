@@ -254,7 +254,8 @@ public class RobotContainer {
           // Test Autos
           "SimpleStraight",
           "Spin180",
-          "BiggerTestAuto"
+          "BiggerTestAuto",
+          "BackTestAuto"
         };
 
     chooser.setDefaultOption("None", Commands.none());
