@@ -18,7 +18,7 @@ public class ShootNote extends Command {
     this.intake = intake;
     this.arm = arm;
     this.flywheel = flywheel;
-    addRequirements(intake, arm, flywheel);
+    addRequirements(intake, flywheel);
   }
 
   @Override

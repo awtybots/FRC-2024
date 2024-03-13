@@ -17,7 +17,6 @@ public class PreRunShooter extends Command {
     this.intake = intake;
     this.arm = arm;
     this.flywheel = flywheel;
-    addRequirements(intake, arm, flywheel);
   }
 
   // Called once at the beginning

@@ -22,7 +22,7 @@ public class AdjustNote extends Command {
     this.intake = intake;
     this.arm = arm;
     this.flywheel = flywheel;
-    addRequirements(intake, arm, flywheel);
+    addRequirements(intake);
   }
 
   // Called once at the beginning
