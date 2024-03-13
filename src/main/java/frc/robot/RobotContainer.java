@@ -19,9 +19,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ControlCommands.ArmCommands;
@@ -29,6 +27,7 @@ import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.IntakeNote;
+import frc.robot.commands.IntakeNoteAndAlign;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.ShootClose;
@@ -180,9 +179,8 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("IntakeNote", new IntakeNote(sIntake).withTimeout(3.0));
 
-    NamedCommands.registerCommand("IntakeNoteMove", new IntakeNote(sIntake,sDrive).withTimeout(3.0));
-
-    NamedCommands.registerCommand("ShootNote", new ShootNote(sIntake, sFlywheel).withTimeout(3.0));
+    NamedCommands.registerCommand(
+        "ShootNote", new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0));
 
     NamedCommands.registerCommand(
         "FloorPickupPosition", FloorPickup.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
@@ -285,8 +283,6 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
-
-    SmartDashboard.putData(CommandScheduler.getInstance()); // kinda curious to see this
   }
 
   /**
@@ -393,12 +389,12 @@ public class RobotContainer {
     operatorController.povRight().whileTrue(ShootMedium.run(sArm, sArmElevator, sWrist));
     operatorController.povUp().whileTrue(ShootClose.run(sArm, sArmElevator, sWrist));
 
-    operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel));
+    operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel, sArm));
     operatorController.leftBumper().whileTrue(new PreRunShooter(sIntake, sFlywheel));
 
     // run straight up position when y is pressed on operator. Using command Upwards
 
-    operatorController.leftTrigger().whileTrue(new IntakeNote(sIntake));
+    operatorController.leftTrigger().whileTrue(new IntakeNoteAndAlign(sIntake));
 
     // ! tempory testing keybinds
     // operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));

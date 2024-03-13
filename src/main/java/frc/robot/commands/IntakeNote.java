@@ -36,7 +36,7 @@ public class IntakeNote extends Command {
       intake.runPercentSpeed(Constants.IntakeConstants.percentPower);
     }
   }
-  
+
   // Run AdjustNote with a timeout of 4 seconds
   @Override
   public void end(boolean interrupted) {
