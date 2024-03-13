@@ -27,6 +27,7 @@ import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
 import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.IntakeNote;
+import frc.robot.commands.ShootNote;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
 import frc.robot.commands.Positions.ShootClose;
@@ -176,15 +177,29 @@ public class RobotContainer {
             .withTimeout(5.0));
 
     NamedCommands.registerCommand(
-        "RunIntake",
-        Commands.startEnd(
-                () -> sIntake.runPercentSpeed(Constants.IntakeConstants.percentPower),
-                sIntake::stop,
-                sIntake)
-            .withTimeout(5.0));
+        "IntakeNote",new IntakeNote(sIntake, sArm, sFlywheel));
 
     NamedCommands.registerCommand(
-        "FloorPickup", FloorPickup.run(sArm, sArmElevator, sWrist).withTimeout(5.0));
+        "ShootNote",new ShootNote(sIntake, sArm, sFlywheel));
+
+    NamedCommands.registerCommand(
+        "FloorPickup",
+        FloorPickup.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
+
+    NamedCommands.registerCommand(
+        "ShootClose",
+        ShootClose.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
+    
+    NamedCommands.registerCommand(
+        "ShootMedium",
+        ShootMedium.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
+
+    NamedCommands.registerCommand(
+        "ShootFar",
+        ShootFar.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
+
+
+
 
     NamedCommands.registerCommand(
         "SpeakerShot",
