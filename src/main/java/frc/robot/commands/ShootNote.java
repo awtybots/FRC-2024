@@ -53,6 +53,8 @@ public class ShootNote extends Command {
   public void end(boolean interrupted) {
     flywheel.runVelocity(0);
     intake.runPercentSpeed(0);
+    flywheel.stop();
+
   }
 
   @Override

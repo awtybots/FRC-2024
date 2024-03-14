@@ -46,6 +46,8 @@ public class ArmIOSparkMax implements ArmIO {
 
   private double targetAngle = 0.345 * Math.PI * 2.0; // 2.2// Radians, just a default value
 
+  private double lastEncoderReading = null;
+
   // REMEMBER
 
   public ArmIOSparkMax() {
@@ -76,6 +78,8 @@ public class ArmIOSparkMax implements ArmIO {
     rightMotor.setSmartCurrentLimit(ArmConstants.kCurrentLimit);
 
     rightMotor.follow(leftMotor, true);
+
+    lastEncoderReading = leftAbsoluteEncoder.getPosition();
     // pid.setFeedbackDevice(leftAbsoluteEncoder);
     // pid.setPositionPIDWrappingEnabled(true);
     // pid.setPositionPIDWrappingMaxInput(1);
@@ -95,6 +99,15 @@ public class ArmIOSparkMax implements ArmIO {
     inputs.appliedVolts = leftMotor.getAppliedOutput() * leftMotor.getBusVoltage();
     inputs.currentAmps = new double[] {leftMotor.getOutputCurrent()};
     inputs.targetPositionRad = targetAngle;
+
+  }
+
+  private double getSmoothedPosition(){
+    if (Math.abs(leftAbsoluteEncoder.getPosition())<0.02 && Math.abs(lastEncoderReading)>0.1){
+      return lastEncoderReading;
+      
+    }
+    return leftAbsoluteEncoder.getPosition();
   }
 
   public double getAngleFromVertical() {
@@ -121,6 +134,7 @@ public class ArmIOSparkMax implements ArmIO {
   @Override
   public void setTargetAngle(double angle) {
     targetAngle = MathUtil.clamp(angle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
+    
     //   pid.setReference(
     //       targetAngle * Math.PI * 2.0,
     //       ControlType.kPosition,
@@ -137,6 +151,9 @@ public class ArmIOSparkMax implements ArmIO {
                 + -Constants.ArmConstants.kWeightBasedFF * Math.sin(getAngleFromVertical()),
             -ArmConstants.kMaxOutput,
             ArmConstants.kMaxOutput));
+    
+    lastEncoderReading = leftAbsoluteEncoder.getPosition();
+
 
     // leftMotor.set(0.3);
   }
