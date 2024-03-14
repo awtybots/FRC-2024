@@ -44,7 +44,7 @@ public class DriveCommands {
           double omega;
           boolean SlowMode = drive.isSlowMode();
 
-          // Apply deadband
+          // Apply deadband and slowMode
           if (!SlowMode) {
             linearMagnitude =
                 MathUtil.applyDeadband(
