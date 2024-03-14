@@ -16,7 +16,7 @@ public class IntakeNote extends Command {
     addRequirements(intake);
   }
 
-  public IntakeNote(Intake intake, Drive drive) { //TODO move forward and back
+  public IntakeNote(Intake intake, Drive drive) { // TODO move forward and back
     this.intake = intake;
     this.drive = drive;
     addRequirements(intake, drive);

@@ -54,7 +54,6 @@ public class ShootNote extends Command {
     flywheel.runVelocity(0);
     intake.runPercentSpeed(0);
     flywheel.stop();
-
   }
 
   @Override
