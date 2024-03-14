@@ -93,7 +93,7 @@ public class ArmIOSparkMax implements ArmIO {
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
-    inputs.positionRad = leftAbsoluteEncoder.getPosition() * Math.PI * 2.0;
+    inputs.positionRad = getSmoothedPosition() * Math.PI * 2.0;
     inputs.velocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(leftAbsoluteEncoder.getVelocity() / GEAR_RATIO);
     inputs.appliedVolts = leftMotor.getAppliedOutput() * leftMotor.getBusVoltage();
