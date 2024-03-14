@@ -15,7 +15,7 @@ package frc.robot.subsystems.intake;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.IntakeConstants;
 
-/** IO implementation for NavX */
+/** IO implementation for a proximity sensor V3 */
 public class ProximitySensorIOV3 implements ProximitySensorIO {
 
   private DigitalInput conveyorSensor;
