@@ -22,6 +22,7 @@ public class LedSubsystem extends SubsystemBase {
 
   Intake intake;
   private int[] defaultColor;
+  private boolean isLucky;
 
 
 
@@ -32,11 +33,11 @@ public class LedSubsystem extends SubsystemBase {
         this.stripLength = (int) (length / 2);
         this.intake = intake;
 
-        this.defaultColor = new int[] {0, 255, 0};
+        defaultColor = new int[] {0, 255, 0};
 
-        if (Math.random() > 0.9) {
-          this.defaultColor = new int[] {255, 215, 0};
-        }
+
+
+        isLucky = Math.random() > 0.9;
 
     try {
       m_led = new AddressableLED(LEDPort);
@@ -67,8 +68,12 @@ public class LedSubsystem extends SubsystemBase {
     boolean noteDetected = intake.getConveyerProximity() || intake.getShooterProximity();
     SmartDashboard.putBoolean("Note Detected", noteDetected);
     if (noteDetected) {
-      setColor(defaultColor);
-    } else if (DriverStation.getAlliance().get() == Alliance.Red) {
+      setColor(new int[] {0, 255, 0});
+    } else if (isLucky){
+            setColor(new int[] {255, 215, 0});
+
+    }
+    else if (DriverStation.getAlliance().get() == Alliance.Red) {
 
       setColor(new int[] {255, 0, 0});
     } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
