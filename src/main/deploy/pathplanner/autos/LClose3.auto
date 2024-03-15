@@ -5,7 +5,7 @@
       "x": 0.7627048531368478,
       "y": 6.63
     },
-    "rotation": 0.0
+    "rotation": 59.211061291433545
   },
   "command": {
     "type": "sequential",
@@ -63,7 +63,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue1-2"
+            "pathName": "Point1-2"
           }
         },
         {
@@ -106,7 +106,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue2-3"
+            "pathName": "Point2-3"
           }
         },
         {
