@@ -5,7 +5,7 @@
       "x": 0.7627048531368478,
       "y": 6.63
     },
-    "rotation": 60.7422307111513
+    "rotation": 59.211061291433545
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNoteStart"
+            "name": "StartGroup"
           }
         },
         {
@@ -26,7 +26,38 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNoteClose"
+            "name": "FloorPickupPosition"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "1Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1Reverse"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootMediumGroup"
           }
         }
       ]

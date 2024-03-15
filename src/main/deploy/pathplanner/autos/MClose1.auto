@@ -14,13 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootClosePosition"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootNote"
+            "name": "StartGroup"
           }
         },
         {
@@ -55,15 +49,15 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "ShootClosePosition"
+            "pathName": "2Reverse"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootNote"
+            "name": "ShootMediumGroup"
           }
         }
       ]

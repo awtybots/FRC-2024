@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.intake.Intake;
 
 public class LedSubsystem extends SubsystemBase {
@@ -13,15 +14,23 @@ public class LedSubsystem extends SubsystemBase {
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
   private final int length;
+ 
 
-  private Intake intake;
+  private static double ledCount = 0;
+  private static final double LED_SPEED = 1;
+  private final int stripLength;
 
-  public int[] rgb = new int[3];
+  Intake intake;
 
-  public LedSubsystem(int LEDPort, int length, Intake intake) {
 
-    this.length = length;
-    this.intake = intake;
+
+
+
+
+    public LedSubsystem(int LEDPort, int length, Intake intake) {
+        this.length = length;
+        this.stripLength = (int) (length / 2);
+        this.intake = intake;
 
     try {
       m_led = new AddressableLED(LEDPort);
@@ -39,6 +48,7 @@ public class LedSubsystem extends SubsystemBase {
       m_ledBuffer.setRGB(i, color[0], color[1], color[2]);
     }
   }
+
 
   public void setColor(int[] color) {
     for (int i = 0; i < length; i++) {
@@ -61,4 +71,6 @@ public class LedSubsystem extends SubsystemBase {
 
     m_led.setData(m_ledBuffer);
   }
+
 }
+

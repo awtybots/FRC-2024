@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNoteStart"
+            "name": "StartGroup"
           }
         },
         {
@@ -26,19 +26,81 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNoteClose"
+            "name": "FloorPickupPosition"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNote"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Blue2-3"
+            "pathName": "2Reverse"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootNoteClose"
+            "name": "ShootMediumGroup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Point2-3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FloorPickupPosition"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "3Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3Reverse"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootMediumGroup"
           }
         }
       ]

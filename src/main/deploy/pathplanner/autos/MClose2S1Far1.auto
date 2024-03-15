@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.337238039927469,
-      "y": 5.553315265195346
+      "x": 0.7627048531368478,
+      "y": 6.63
     },
     "rotation": 0.0
   },
@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNoteStart"
+            "name": "StartGroup"
           }
         },
         {
@@ -26,19 +26,81 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNoteClose"
+            "name": "FloorPickupPosition"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNote"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Blue2-1"
+            "pathName": "2Reverse"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootNoteClose"
+            "name": "ShootMediumGroup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Point2-1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FloorPickupPosition"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "1Pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1Reverse"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootMediumPosition"
           }
         },
         {
