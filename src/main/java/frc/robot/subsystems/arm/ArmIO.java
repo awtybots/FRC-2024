@@ -31,7 +31,9 @@ public interface ArmIO {
   /** Run open loop at the specified voltage. */
   public default void setVoltage(double volts) {}
 
-  public default boolean hasReachedDestination() {return false;}
+  public default boolean hasReachedDestination() {
+    return false;
+  }
 
   /** Run closed loop at the specified velocity. */
   public default void setVelocity(double velocityRadPerSec, double ffVolts) {}
