@@ -12,7 +12,7 @@ public class ShootMedium { // one robot length away
     return Commands.run(
         () -> {
           // Position preset settings
-          double ARMANGLE = 0.679;
+          double ARMANGLE = 0.747;
           double ARMELEVATORPOSITION = 0;
           double WRISTANGLE = 0;
 
