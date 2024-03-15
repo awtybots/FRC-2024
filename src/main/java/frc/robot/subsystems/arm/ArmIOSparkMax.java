@@ -93,7 +93,7 @@ public class ArmIOSparkMax implements ArmIO {
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
-    inputs.positionRad = getSmoothedPosition() * Math.PI * 2.0;
+    inputs.positionRad = leftAbsoluteEncoder.getPosition() * Math.PI * 2.0;
     inputs.velocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(leftAbsoluteEncoder.getVelocity() / GEAR_RATIO);
     inputs.appliedVolts = leftMotor.getAppliedOutput() * leftMotor.getBusVoltage();
@@ -144,7 +144,7 @@ public class ArmIOSparkMax implements ArmIO {
 
     leftMotor.set(
         MathUtil.clamp(
-            mathPid.calculate(getSmoothedPosition() * Math.PI * 2.0, targetAngle)
+            mathPid.calculate(leftAbsoluteEncoder.getPosition() * Math.PI * 2.0, targetAngle)
                 + -Constants.ArmConstants.kWeightBasedFF * Math.sin(getAngleFromVertical()),
             -ArmConstants.kMaxOutput,
             ArmConstants.kMaxOutput));

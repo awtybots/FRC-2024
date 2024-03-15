@@ -37,6 +37,7 @@ import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.commands.Positions.StowPosition;
 import frc.robot.commands.PreRunShooter;
 import frc.robot.commands.ShootNote;
+import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
@@ -92,6 +93,7 @@ public class RobotContainer {
   private final ArmElevator sArmElevator;
   private final Wrist sWrist;
   private final Climber sClimber;
+  private final LedSubsystem ledSubsystem;
   //   private final Sticks sSticks;
 
   // Controllers
@@ -169,6 +171,8 @@ public class RobotContainer {
 
         break;
     }
+
+    ledSubsystem = new LedSubsystem(0, 80, sIntake);
 
     // Set up NamedCommands
     NamedCommands.registerCommand(

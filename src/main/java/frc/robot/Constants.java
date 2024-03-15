@@ -119,19 +119,19 @@ public final class Constants {
 
     public static final double armConversion = 0.05;
 
-    public static final double kMaxOutput = 0.4;
+    public static final double kMaxOutput = 0.33;
 
     // // Arm PID constants
-    // public static final double kP = 0.5;
-    // public static final double kI = 0.0;
-    // public static final double kD = 0.025;
-    // public static final double kWeightBasedFF = 0.025;
-
-    // Arm PID constants
-    public static final double kP = 0;
+    public static final double kP = 0.5;
     public static final double kI = 0.0;
-    public static final double kD = 0.0;
-    public static final double kWeightBasedFF = 0;
+    public static final double kD = 0.025;
+    public static final double kWeightBasedFF = 0.025;
+
+    // // Arm PID constants
+    // public static final double kP = 0;
+    // public static final double kI = 0.0;
+    // public static final double kD = 0.0;
+    // public static final double kWeightBasedFF = 0;
 
     // Arm Feedforward characterization constants
     public static final double ks = 0.10;
