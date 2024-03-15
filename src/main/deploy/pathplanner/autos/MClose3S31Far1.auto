@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7627048531368478,
-      "y": 6.63
+      "x": 1.337238039927469,
+      "y": 5.553315265195346
     },
     "rotation": 0.0
   },
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueMFirst"
+            "pathName": "MFirst"
           }
         },
         {
@@ -46,6 +46,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootMediumPosition"
           }
         },
         {
@@ -92,6 +98,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ShootMediumPosition"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "3Reverse"
@@ -100,7 +112,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootMediumPosition"
+            "name": "ShootMediumGroup"
           }
         },
         {
@@ -132,6 +144,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootMediumPosition"
           }
         },
         {

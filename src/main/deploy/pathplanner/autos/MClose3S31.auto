@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueMFirst"
+            "pathName": "MFirst"
           }
         },
         {
@@ -46,6 +46,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootMediumPosition"
           }
         },
         {
@@ -92,6 +98,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ShootMediumPosition"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "3Reverse"
@@ -132,6 +144,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootMediumPosition"
           }
         },
         {

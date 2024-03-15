@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueLFirst"
+            "pathName": "LFirst"
           }
         },
         {
@@ -46,6 +46,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootMediumPosition"
           }
         },
         {
