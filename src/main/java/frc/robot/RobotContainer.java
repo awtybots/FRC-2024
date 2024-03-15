@@ -267,6 +267,9 @@ public class RobotContainer {
           "RClose2",
           "RClose3",
 
+          // Right Alternate Group
+          "RCloseOut",
+
           // Test Autos
           "SimpleStraight",
           "Spin180",
