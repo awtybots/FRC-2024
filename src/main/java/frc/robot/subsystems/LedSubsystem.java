@@ -29,7 +29,7 @@ public class LedSubsystem extends SubsystemBase {
 
     defaultColor = new int[] {0, 255, 0};
 
-    isLucky = Math.random() > 0.9;
+    isLucky = Math.random() > 0.95;
 
     try {
       m_led = new AddressableLED(LEDPort);

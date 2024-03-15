@@ -49,6 +49,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ShootMediumPosition"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "2Reverse"

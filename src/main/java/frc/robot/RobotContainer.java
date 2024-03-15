@@ -198,13 +198,13 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "StartGroup",
         new SequentialCommandGroup(
-            ShootClose.run(sArm, sArmElevator, sWrist).withTimeout(1.0),
+            ShootClose.run(sArm, sArmElevator, sWrist).withTimeout(2.5),
             new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0)));
 
     NamedCommands.registerCommand(
         "ShootMediumGroup",
         new SequentialCommandGroup(
-            ShootMedium.run(sArm, sArmElevator, sWrist).withTimeout(1.0),
+            ShootMedium.run(sArm, sArmElevator, sWrist).withTimeout(2.5),
             new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0)));
 
     // In testing
