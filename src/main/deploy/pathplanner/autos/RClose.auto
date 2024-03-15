@@ -5,7 +5,7 @@
       "x": 0.75,
       "y": 4.4
     },
-    "rotation": -61.57777735321907
+    "rotation": -59.20436196176513
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNoteStart"
+            "name": "StartGroup"
           }
         },
         {

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
@@ -171,11 +172,6 @@ public class RobotContainer {
     }
 
     // Set up NamedCommands
-    NamedCommands.registerCommand(
-        "RunFlywheel",
-        Commands.startEnd(
-                () -> sFlywheel.runVelocity(flywheelSpeedInput.get()), sFlywheel::stop, sFlywheel)
-            .withTimeout(5.0));
 
     NamedCommands.registerCommand("IntakeNote", new IntakeNote(sIntake).withTimeout(3.0));
 
@@ -194,6 +190,20 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ShootFarPosition", ShootFar.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
 
+    // Groups of the above
+    NamedCommands.registerCommand(
+        "StartGroup",
+        new SequentialCommandGroup(
+            ShootClose.run(sArm, sArmElevator, sWrist).withTimeout(1.0),
+            new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0)));
+
+    NamedCommands.registerCommand(
+        "ShootMediumGroup",
+        new SequentialCommandGroup(
+            ShootMedium.run(sArm, sArmElevator, sWrist).withTimeout(1.0),
+            new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0)));
+
+    // In testing
     NamedCommands.registerCommand(
         "SpeakerShot",
         SpeakerShot.run(1, sArm, sArmElevator, sWrist)
