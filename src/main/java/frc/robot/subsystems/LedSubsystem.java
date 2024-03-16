@@ -29,7 +29,7 @@ public class LedSubsystem extends SubsystemBase {
 
     defaultColor = new int[] {0, 255, 0};
 
-    isLucky = Math.random() > 0.95;
+    isLucky = Math.random() > 0.99999;
 
     try {
       m_led = new AddressableLED(LEDPort);
@@ -51,6 +51,13 @@ public class LedSubsystem extends SubsystemBase {
   public void setColor(int[] color) {
     for (int i = 0; i < length; i++) {
       m_ledBuffer.setRGB(i, color[0], color[1], color[2]);
+    }
+  }
+
+  public void setDisco() {
+    for (int i = 0; i < length; i++) {
+      m_ledBuffer.setRGB(
+          i, (int) Math.random() * 255, (int) Math.random() * 255, (int) Math.random() * 255);
     }
   }
 

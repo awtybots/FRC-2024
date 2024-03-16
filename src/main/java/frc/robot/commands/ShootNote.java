@@ -11,7 +11,7 @@ public class ShootNote extends Command {
   private Intake intake;
   private Flywheel flywheel;
   private Long sensorsZeroTime = null;
-  private double AmpReductionFactor = 5; // amount to lower speed when doing amp
+  private double AmpReductionFactor = 2; // amount to lower speed when doing amp
   private Arm arm;
 
   public ShootNote(Intake intake, Flywheel flywheel, Arm arm) {

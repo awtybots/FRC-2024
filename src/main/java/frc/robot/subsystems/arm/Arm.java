@@ -71,6 +71,10 @@ public class Arm extends SubsystemBase {
 
     // Log arm setpoint
   }
+
+  public boolean getIsFinished(){
+    return io.getIsFinished();
+  }
   /**
    * @param rightPosition
    */

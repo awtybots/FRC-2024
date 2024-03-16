@@ -48,11 +48,15 @@ public class ArmIOSparkMax implements ArmIO {
 
   private double lastEncoderReading = 0.4;
 
+  private double calculatedPID;
+
   // REMEMBER
 
   public ArmIOSparkMax() {
     // leftMotor.restoreFactoryDefaults();
     // rightMotor.restoreFactoryDefaults();
+
+
 
     mathPid =
         new PIDController(
@@ -118,6 +122,11 @@ public class ArmIOSparkMax implements ArmIO {
     rightMotor.setVoltage(volts);
   }
 
+  //placehold for now but it will detect if the arm is stationary.
+  @Override public boolean getIsFinished(){
+    return calculatedPID < 0.04;
+  }
+
   @Override
   public void setVelocity(double velocityRadPerSec, double ffVolts) {
     // pid.setReference(
@@ -141,10 +150,11 @@ public class ArmIOSparkMax implements ArmIO {
     // GEAR_RATIO))
     //           * 0,
     //       ArbFFUnits.kVoltage);
+    calculatedPID = mathPid.calculate(getSmoothedPosition() * Math.PI * 2.0, targetAngle);
 
     leftMotor.set(
         MathUtil.clamp(
-            mathPid.calculate(getSmoothedPosition() * Math.PI * 2.0, targetAngle)
+            calculatedPID
                 + -Constants.ArmConstants.kWeightBasedFF * Math.sin(getAngleFromVertical()),
             -ArmConstants.kMaxOutput,
             ArmConstants.kMaxOutput));

@@ -42,4 +42,6 @@ public interface ArmIO {
 
   /** Set velocity PID constants. */
   public default void configurePID(double kP, double kI, double kD) {}
+
+  public default boolean getIsNotMoving(){return false;}
 }

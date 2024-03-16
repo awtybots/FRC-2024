@@ -12,7 +12,7 @@ public class AmpShot {
     return Commands.run(
         () -> {
           // Position preset settings
-          double ARMANGLE = 2.1798;
+          double ARMANGLE = 2.093;
           double ARMELEVATORPOSITION = 0;
           double WRISTANGLE = 0;
 

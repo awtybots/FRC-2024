@@ -390,17 +390,27 @@ public class RobotContainer {
             () -> operatorController.getRightTriggerAxis(),
             () -> operatorController.leftBumper().getAsBoolean(),
             () -> operatorController.rightBumper().getAsBoolean()));
+    // repurposed for intake override
+    //     operatorController
+    // .a()
+    // .whileTrue(
+    //     Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
+
     operatorController
-        .a()
-        .whileTrue(
-            Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
-    operatorController
-        .b()
+        .y()
         .whileTrue(
             Commands.startEnd(
-                () -> sClimber.runTargetPosition(0.55), // !Testing numbers
-                sClimber::stop,
-                sClimber));
+                () -> sIntake.runPercentSpeed(Constants.IntakeConstants.percentPower),
+                sIntake::stop,
+                sIntake));
+
+    // operatorController
+    //     .b()
+    //     .whileTrue(
+    //         Commands.startEnd(
+    //             () -> sClimber.runTargetPosition(0.55), // !Testing numbers
+    //             sClimber::stop,
+    //             sClimber));
 
     operatorController.povDown().whileTrue(ShootFar.run(sArm, sArmElevator, sWrist));
     operatorController.povRight().whileTrue(ShootMedium.run(sArm, sArmElevator, sWrist));
