@@ -86,12 +86,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "ShootMediumPosition"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "1Reverse"
@@ -132,12 +126,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootMediumPosition"
           }
         },
         {
