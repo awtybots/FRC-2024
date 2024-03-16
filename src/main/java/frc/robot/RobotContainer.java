@@ -208,6 +208,9 @@ public class RobotContainer {
         "ShootMediumPosition", new ShootMediumCommand(sArm).withTimeout(2.0));
     NamedCommands.registerCommand("ShootFarPosition", new ShootFarCommand(sArm).withTimeout(2.0));
 
+    NamedCommands.registerCommand("PreRunShooter", new PreRunShooter(sIntake, sFlywheel).withTimeout(4.0));
+
+
     // Groups of the above
     NamedCommands.registerCommand(
         "StartGroup",

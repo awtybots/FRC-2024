@@ -14,6 +14,8 @@ public class ShootMediumCommand extends Command {
 
   public ShootMediumCommand(Arm arm) {
     this.arm = arm;
+    addRequirements(arm);
+
   }
 
   // Called once at the beginning

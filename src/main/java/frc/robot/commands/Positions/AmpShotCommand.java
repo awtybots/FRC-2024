@@ -14,6 +14,7 @@ public class AmpShotCommand extends Command {
 
   public AmpShotCommand(Arm arm) {
     this.arm = arm;
+    addRequirements(arm);
   }
 
   // Called once at the beginning
@@ -36,7 +37,7 @@ public class AmpShotCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return arm.hasReachedDestination();
+    return arm.getIsFinished();
 
   }
 }
