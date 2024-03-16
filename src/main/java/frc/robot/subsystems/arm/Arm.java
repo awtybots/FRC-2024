@@ -60,9 +60,7 @@ public class Arm extends SubsystemBase {
     io.setVoltage(volts);
   }
 
-  public boolean getIsFinished() {
-    return io.getIsFinished();
-  }
+
 
   /**
    * Run closed loop at the specified velocity.
