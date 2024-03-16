@@ -124,7 +124,7 @@ public class ArmIOSparkMax implements ArmIO {
 
   //placehold for now but it will detect if the arm is stationary.
   @Override public boolean getIsFinished(){
-    return calculatedPID < 0.04;
+    return calculatedPID < 0.037;
   }
 
   @Override
@@ -170,17 +170,7 @@ public class ArmIOSparkMax implements ArmIO {
     rightMotor.stopMotor();
   }
 
-  @Override
-  public boolean hasReachedDestination() {
-    final double tolerance = 0.2;
-    final double velocityTolerance = 0.1;
 
-    double currentAngle = getSmoothedPosition() * Math.PI * 2.0;
-    double currentVelocity = leftAbsoluteEncoder.getVelocity();
-
-    return Math.abs(currentAngle - targetAngle) < tolerance
-        && Math.abs(currentVelocity) < velocityTolerance;
-  }
 
   @Override
   public void configurePID(double kP, double kI, double kD) {

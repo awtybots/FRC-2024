@@ -60,8 +60,8 @@ public class Arm extends SubsystemBase {
     io.setVoltage(volts);
   }
 
-  public boolean hasReachedDestination() {
-    return io.hasReachedDestination();
+  public boolean getIsFinished() {
+    return io.getIsFinished();
   }
 
   /**

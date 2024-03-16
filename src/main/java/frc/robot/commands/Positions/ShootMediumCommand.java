@@ -4,15 +4,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.intake.Intake;
 
-public class FloorPickupCommand extends Command {
+public class ShootMediumCommand extends Command {
 
   private Arm arm;
 
-  double ARMANGLE = 0.747;
+  double ARMANGLE = 0.933;
 
 
 
-  public FloorPickupCommand(Arm arm) {
+  public ShootMediumCommand(Arm arm) {
     this.arm = arm;
   }
 
