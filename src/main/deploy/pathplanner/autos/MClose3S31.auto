@@ -24,12 +24,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "FloorPickupPosition"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -46,12 +40,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootMediumPosition"
           }
         },
         {
@@ -98,12 +86,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "ShootMediumPosition"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "3Reverse"
@@ -144,12 +126,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootMediumPosition"
           }
         },
         {
