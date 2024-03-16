@@ -32,13 +32,9 @@ import frc.robot.commands.IntakeNote;
 import frc.robot.commands.IntakeNoteAndAlign;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
-import frc.robot.commands.Positions.FloorPickupCommand;
 import frc.robot.commands.Positions.ShootClose;
-import frc.robot.commands.Positions.ShootCloseCommand;
 import frc.robot.commands.Positions.ShootFar;
-import frc.robot.commands.Positions.ShootFarCommand;
 import frc.robot.commands.Positions.ShootMedium;
-import frc.robot.commands.Positions.ShootMediumCommand;
 import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.commands.Positions.StowPosition;
 import frc.robot.commands.PreRunShooter;
@@ -187,27 +183,25 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ShootNote", new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0));
 
-    // NamedCommands.registerCommand(
-    //     "FloorPickupPosition", FloorPickup.run(sArm, sArmElevator, sWrist).withTimeout(1.5));
+    NamedCommands.registerCommand("FloorPickupPosition", FloorPickup.run(sArm).withTimeout(2.0));
+
+    NamedCommands.registerCommand("ShootClosePosition", ShootClose.run(sArm).withTimeout(2.0));
+
+    NamedCommands.registerCommand("ShootMediumPosition", ShootMedium.run(sArm).withTimeout(2.0));
+
+    NamedCommands.registerCommand("ShootFarPosition", ShootFar.run(sArm).withTimeout(2.0));
 
     // NamedCommands.registerCommand(
-    //     "ShootClosePosition", ShootClose.run(sArm, sArmElevator, sWrist).withTimeout(1.5));
+    //     "FloorPickupPosition", new FloorPickupCommand(sArm).withTimeout(2.0));
 
     // NamedCommands.registerCommand(
-    //     "ShootMediumPosition", ShootMedium.run(sArm, sArmElevator, sWrist).withTimeout(1.5));
+    //     "ShootClosePosition", new ShootCloseCommand(sArm).withTimeout(2.0));
 
     // NamedCommands.registerCommand(
-    //     "ShootFarPosition", ShootFar.run(sArm, sArmElevator, sWrist).withTimeout(1.5));
+    //     "ShootMediumPosition", new ShootMediumCommand(sArm).withTimeout(2.0));
 
-    NamedCommands.registerCommand(
-        "FloorPickupPosition", new FloorPickupCommand(sArm).withTimeout(2.0));
-
-    NamedCommands.registerCommand(
-        "ShootClosePosition", new ShootCloseCommand(sArm).withTimeout(2.0));
-
-    NamedCommands.registerCommand(
-        "ShootMediumPosition", new ShootMediumCommand(sArm).withTimeout(2.0));
-    NamedCommands.registerCommand("ShootFarPosition", new ShootFarCommand(sArm).withTimeout(2.0));
+    // NamedCommands.registerCommand("ShootFarPosition", new
+    // ShootFarCommand(sArm).withTimeout(2.0));
 
     NamedCommands.registerCommand(
         "PreRunShooter", new PreRunShooter(sIntake, sFlywheel).withTimeout(4.0));
@@ -217,11 +211,11 @@ public class RobotContainer {
         "StartGroup",
         new SequentialCommandGroup(
             new ParallelDeadlineGroup(
-                new ShootCloseCommand(sArm).withTimeout(2),
+                ShootClose.run(sArm).withTimeout(2),
                 new PreRunShooter(sIntake, sFlywheel).withTimeout(4.0)),
             new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0)));
 
-    NamedCommands.registerCommand(
+    NamedCommands.registerCommand( // The name is inaccurate
         "ShootMediumGroup", new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0));
 
     // In testing
@@ -429,9 +423,9 @@ public class RobotContainer {
     //             sClimber::stop,
     //             sClimber));
 
-    operatorController.povDown().whileTrue(ShootFar.run(sArm, sArmElevator, sWrist));
-    operatorController.povRight().whileTrue(ShootMedium.run(sArm, sArmElevator, sWrist));
-    operatorController.povUp().whileTrue(ShootClose.run(sArm, sArmElevator, sWrist));
+    operatorController.povDown().whileTrue(ShootFar.run(sArm));
+    operatorController.povRight().whileTrue(ShootMedium.run(sArm));
+    operatorController.povUp().whileTrue(ShootClose.run(sArm));
 
     operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel, sArm));
     operatorController.leftBumper().whileTrue(new PreRunShooter(sIntake, sFlywheel));
@@ -441,7 +435,7 @@ public class RobotContainer {
     operatorController.leftTrigger().whileTrue(new IntakeNoteAndAlign(sIntake));
 
     // ! tempory testing keybinds
-    // operatorController.y().whileTrue(Upwards.run(sArm, sArmElevator, sWrist));
+    // operatorController.y().whileTrue(Upwards.run(sArm));
     // operatorController.y().whileTrue(new IntakeNote(sIntake, sArm, sFlywheel));
     // operatorController.y().whileTrue(new ShootNote(sIntake, sArm, sFlywheel));
 
@@ -449,7 +443,7 @@ public class RobotContainer {
     operatorController.x().whileTrue(AmpShot.run(sArm, sArmElevator, sWrist));
     // operatorController.x().whileTrue(new AdjustNote(sIntake, sArm, sFlywheel));
 
-    operatorController.a().whileTrue(FloorPickup.run(sArm, sArmElevator, sWrist));
+    operatorController.a().whileTrue(FloorPickup.run(sArm));
 
     operatorController.b().whileTrue(StowPosition.run(sArm, sArmElevator, sWrist));
 
