@@ -56,8 +56,6 @@ public class ArmIOSparkMax implements ArmIO {
     // leftMotor.restoreFactoryDefaults();
     // rightMotor.restoreFactoryDefaults();
 
-
-
     mathPid =
         new PIDController(
             Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
@@ -122,8 +120,9 @@ public class ArmIOSparkMax implements ArmIO {
     rightMotor.setVoltage(volts);
   }
 
-  //placehold for now but it will detect if the arm is stationary.
-  @Override public boolean getIsFinished(){
+  // placehold for now but it will detect if the arm is stationary.
+  @Override
+  public boolean getIsFinished() {
     return calculatedPID < 0.037;
   }
 
@@ -169,8 +168,6 @@ public class ArmIOSparkMax implements ArmIO {
     leftMotor.stopMotor();
     rightMotor.stopMotor();
   }
-
-
 
   @Override
   public void configurePID(double kP, double kI, double kD) {
