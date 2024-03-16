@@ -31,9 +31,13 @@ import frc.robot.commands.IntakeNote;
 import frc.robot.commands.IntakeNoteAndAlign;
 import frc.robot.commands.Positions.AmpShot;
 import frc.robot.commands.Positions.FloorPickup;
+import frc.robot.commands.Positions.FloorPickupCommand;
 import frc.robot.commands.Positions.ShootClose;
+import frc.robot.commands.Positions.ShootCloseCommand;
 import frc.robot.commands.Positions.ShootFar;
+import frc.robot.commands.Positions.ShootFarCommand;
 import frc.robot.commands.Positions.ShootMedium;
+import frc.robot.commands.Positions.ShootMediumCommand;
 import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.commands.Positions.StowPosition;
 import frc.robot.commands.PreRunShooter;
@@ -177,34 +181,44 @@ public class RobotContainer {
 
     // Set up NamedCommands
 
-    NamedCommands.registerCommand("IntakeNote", new IntakeNote(sIntake).withTimeout(3.0));
+    NamedCommands.registerCommand("IntakeNote", new IntakeNote(sIntake).withTimeout(4.0));
 
     NamedCommands.registerCommand(
         "ShootNote", new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0));
 
-    NamedCommands.registerCommand(
-        "FloorPickupPosition", FloorPickup.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
+    // NamedCommands.registerCommand(
+    //     "FloorPickupPosition", FloorPickup.run(sArm, sArmElevator, sWrist).withTimeout(1.5));
+
+    // NamedCommands.registerCommand(
+    //     "ShootClosePosition", ShootClose.run(sArm, sArmElevator, sWrist).withTimeout(1.5));
+
+    // NamedCommands.registerCommand(
+    //     "ShootMediumPosition", ShootMedium.run(sArm, sArmElevator, sWrist).withTimeout(1.5));
+
+    // NamedCommands.registerCommand(
+    //     "ShootFarPosition", ShootFar.run(sArm, sArmElevator, sWrist).withTimeout(1.5));
 
     NamedCommands.registerCommand(
-        "ShootClosePosition", ShootClose.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
+        "FloorPickupPosition", new FloorPickupCommand(sArm).withTimeout(2.0));
 
     NamedCommands.registerCommand(
-        "ShootMediumPosition", ShootMedium.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
+        "ShootClosePosition", new ShootCloseCommand(sArm).withTimeout(2.0));
 
     NamedCommands.registerCommand(
-        "ShootFarPosition", ShootFar.run(sArm, sArmElevator, sWrist).withTimeout(1.0));
+        "ShootMediumPosition", new ShootMediumCommand(sArm).withTimeout(2.0));
+    NamedCommands.registerCommand("ShootFarPosition", new ShootFarCommand(sArm).withTimeout(2.0));
 
     // Groups of the above
     NamedCommands.registerCommand(
         "StartGroup",
         new SequentialCommandGroup(
-            ShootClose.run(sArm, sArmElevator, sWrist).withTimeout(2),
+            new ShootCloseCommand(sArm).withTimeout(2),
             new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0)));
 
     NamedCommands.registerCommand(
         "ShootMediumGroup",
         new SequentialCommandGroup(
-            ShootMedium.run(sArm, sArmElevator, sWrist).withTimeout(2),
+            new ShootMediumCommand(sArm).withTimeout(2),
             new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0)));
 
     // In testing
