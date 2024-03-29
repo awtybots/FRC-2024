@@ -148,7 +148,7 @@ public class ModuleIOSparkMax implements ModuleIO {
             .registerSignal(
                 () -> {
                   double value = turnAbsoluteEncoderNew.getPosition();
-                  if (driveSparkMax.getLastError() == REVLibError.kOk) {
+                  if (turnSparkMax.getLastError() == REVLibError.kOk) {
                     return OptionalDouble.of(value);
                   } else {
                     return OptionalDouble.empty();
