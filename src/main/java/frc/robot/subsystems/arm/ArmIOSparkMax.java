@@ -1,5 +1,4 @@
-// Copyright 2021-2024 FRC 6328, FRC 5829
-//
+// Copyright 2016-2024 FRC 6328, FRC 5829//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // version 3 as published by the Free Software Foundation or
