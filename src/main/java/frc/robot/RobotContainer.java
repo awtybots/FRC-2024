@@ -1,5 +1,4 @@
-// Copyright 2021-2024 FRC 6328, FRC 5829
-// http://github.com/Mechanical-Advantage
+// Copyright 2016-2024 FRC 5829, FRC 6328
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -44,10 +43,6 @@ import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
 import frc.robot.subsystems.arm.ArmIOSparkMax;
-import frc.robot.subsystems.armElevator.ArmElevator;
-import frc.robot.subsystems.armElevator.ArmElevatorIO;
-import frc.robot.subsystems.armElevator.ArmElevatorIOSim;
-import frc.robot.subsystems.armElevator.ArmElevatorIOSparkMax;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIO;
 import frc.robot.subsystems.climber.ClimberIOSim;
@@ -66,15 +61,7 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeIOSparkMax;
-// import frc.robot.subsystems.sticks.Sticks;
-// import frc.robot.subsystems.sticks.SticksIO;
-// import frc.robot.subsystems.sticks.SticksIOSim;
-// import frc.robot.subsystems.sticks.SticksIOSparkMax;
 import frc.robot.subsystems.intake.ProximitySensorIOV3;
-import frc.robot.subsystems.wrist.Wrist;
-import frc.robot.subsystems.wrist.WristIO;
-import frc.robot.subsystems.wrist.WristIOSim;
-import frc.robot.subsystems.wrist.WristIOSparkMax;
 import java.util.ArrayList;
 import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -92,11 +79,8 @@ public class RobotContainer {
   private final Flywheel sFlywheel;
   private final Intake sIntake;
   private final Arm sArm;
-  private final ArmElevator sArmElevator;
-  private final Wrist sWrist;
   private final Climber sClimber;
   private final LedSubsystem ledSubsystem;
-  //   private final Sticks sSticks;
 
   // Controllers
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -126,10 +110,7 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIOSparkMax());
         sIntake = new Intake(new IntakeIOSparkMax() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIOSparkMax() {});
-        sArmElevator = new ArmElevator(new ArmElevatorIOSparkMax() {});
-        sWrist = new Wrist(new WristIOSparkMax() {});
         sClimber = new Climber(new ClimberIOSparkMax() {});
-        // sSticks = new Sticks(new SticksIOSparkMax() {});
 
         break;
 
@@ -147,10 +128,7 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIOSim());
         sIntake = new Intake(new IntakeIOSim() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIOSim() {});
-        sArmElevator = new ArmElevator(new ArmElevatorIOSim() {});
-        sWrist = new Wrist(new WristIOSim() {});
         sClimber = new Climber(new ClimberIOSim() {});
-        // sSticks = new Sticks(new SticksIOSim() {});
 
         break;
 
@@ -166,10 +144,7 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIO() {});
         sIntake = new Intake(new IntakeIO() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIO() {});
-        sArmElevator = new ArmElevator(new ArmElevatorIO() {});
-        sWrist = new Wrist(new WristIO() {});
         sClimber = new Climber(new ClimberIO() {});
-        // sSticks = new Sticks(new SticksIO() {});
 
         break;
     }
@@ -220,9 +195,7 @@ public class RobotContainer {
 
     // In testing
     NamedCommands.registerCommand(
-        "SpeakerShot",
-        SpeakerShot.run(1, sArm, sArmElevator, sWrist)
-            .withTimeout(5.0)); // TODO Replace SpeakerDistance
+        "SpeakerShot", SpeakerShot.run(1, sArm).withTimeout(5.0)); // TODO Replace SpeakerDistance
 
     // Build SmartDashboard auto chooser
     if (!AutoBuilder.isConfigured()) {
@@ -383,15 +356,6 @@ public class RobotContainer {
     // Operator controller configurations
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
 
-    // sWrist.setDefaultCommand(
-    //     WristCommands.joystickDrive(sWrist, () -> operatorController.getLeftY()));
-
-    // sArmElevator.setDefaultCommand(
-    //     ArmElevatorCommands.triggerDrive(
-    //         sArmElevator,
-    //         () -> operatorController.getLeftTriggerAxis(),
-    //         () -> operatorController.getRightTriggerAxis()));
-
     sIntake.setDefaultCommand(
         IntakeShooterControls.intakeShooterDrive(
             sIntake,
@@ -440,21 +404,12 @@ public class RobotContainer {
     // operatorController.y().whileTrue(new ShootNote(sIntake, sArm, sFlywheel));
 
     // run straight forwards position when x is pressed
-    operatorController.x().whileTrue(AmpShot.run(sArm, sArmElevator, sWrist));
+    operatorController.x().whileTrue(AmpShot.run(sArm));
     // operatorController.x().whileTrue(new AdjustNote(sIntake, sArm, sFlywheel));
 
     operatorController.a().whileTrue(FloorPickup.run(sArm));
 
-    operatorController.b().whileTrue(StowPosition.run(sArm, sArmElevator, sWrist));
-
-    // operatorController
-    //     .x()
-    //     .whileTrue(Commands.startEnd(() -> sSticks.runTargetAngle(0.0), sSticks::stop, sSticks));
-    // operatorController
-    //     .y()
-    //     .whileTrue(
-    //         Commands.startEnd(
-    //             () -> sSticks.runTargetAngle(0.5), sSticks::stop, sSticks)); // !Testing numbers
+    operatorController.b().whileTrue(StowPosition.run(sArm));
   }
 
   /**

@@ -1,5 +1,4 @@
-// Copyright 2021-2024 FRC 6328, FRC 5829
-// http://github.com/Mechanical-Advantage
+// Copyright 2016-2024 FRC 5829, FRC 6328
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -75,6 +74,7 @@ public class Arm extends SubsystemBase {
   public boolean getIsFinished() {
     return io.getIsFinished();
   }
+
   /**
    * @param rightPosition
    */
