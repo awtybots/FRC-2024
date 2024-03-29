@@ -25,8 +25,9 @@ public class GyroIONavX implements GyroIO {
 
   AHRS ahrs;
   private final Queue<Double> yawPositionQueue;
+  private final Queue<Double> yawTimestampQueue;
 
-  public GyroIONavX(boolean phoenixDrive) {
+  public GyroIONavX() {
 
     try {
       ahrs = new AHRS(SPI.Port.kMXP, (byte) Module.ODOMETRY_FREQUENCY);
@@ -40,6 +41,7 @@ public class GyroIONavX implements GyroIO {
 
     yawPositionQueue =
         SparkMaxOdometryThread.getInstance().registerSignal(() -> (double) -ahrs.getAngle());
+    yawTimestampQueue = SparkMaxOdometryThread.getInstance().makeTimestampQueue();
   }
 
   @Override
@@ -61,8 +63,11 @@ public class GyroIONavX implements GyroIO {
         yawPositionQueue.stream()
             .map((Double value) -> Rotation2d.fromDegrees(value))
             .toArray(Rotation2d[]::new);
+    inputs.odometryYawTimestamps =
+        yawTimestampQueue.stream().mapToDouble((Double value) -> value).toArray();
 
     yawPositionQueue.clear();
+    yawTimestampQueue.clear();
   }
 
   public void resetRotation() {

@@ -23,6 +23,7 @@ import org.littletonrobotics.junction.Logger;
 public class Sticks extends SubsystemBase {
   private final SticksIO io;
   private final SticksIOInputsAutoLogged inputs = new SticksIOInputsAutoLogged();
+
   // private final SimpleMotorFeedforward ffModel;
 
   /** Creates a new Sticks. */
