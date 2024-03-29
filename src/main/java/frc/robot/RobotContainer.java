@@ -24,10 +24,10 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
-import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.IntakeNote;
 import frc.robot.commands.IntakeNoteAndAlign;
 import frc.robot.commands.Positions.AmpShot;
@@ -299,15 +299,66 @@ public class RobotContainer {
     options.forEach(auto -> chooser.addOption(auto.getName(), auto));
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", chooser);
 
-    // Set up feedforward characterization
+    // Set up SysId routines
+    // Drive subsystem
     autoChooser.addOption(
-        "Drive FF Characterization",
-        new FeedForwardCharacterization(
-            sDrive, sDrive::runCharacterizationVolts, sDrive::getCharacterizationVelocity));
+        "Drive SysId (Quasistatic Forward)",
+        sDrive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
-        "Flywheel FF Characterization",
-        new FeedForwardCharacterization(
-            sFlywheel, sFlywheel::runVolts, sFlywheel::getCharacterizationVelocity));
+        "Drive SysId (Quasistatic Reverse)",
+        sDrive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Drive SysId (Dynamic Forward)", sDrive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Drive SysId (Dynamic Reverse)", sDrive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Flywheel subsystem
+    autoChooser.addOption(
+        "Flywheel SysId (Quasistatic Forward)",
+        sFlywheel.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Flywheel SysId (Quasistatic Reverse)",
+        sFlywheel.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Flywheel SysId (Dynamic Forward)",
+        sFlywheel.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Flywheel SysId (Dynamic Reverse)",
+        sFlywheel.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Climber subsystem
+    autoChooser.addOption(
+        "Climber SysId (Quasistatic Forward)",
+        sClimber.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Climber SysId (Quasistatic Reverse)",
+        sClimber.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Climber SysId (Dynamic Forward)", sClimber.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Climber SysId (Dynamic Reverse)", sClimber.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Arm subsystem
+    autoChooser.addOption(
+        "Arm SysId (Quasistatic Forward)", sArm.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Arm SysId (Quasistatic Reverse)", sArm.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Arm SysId (Dynamic Forward)", sArm.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Arm SysId (Dynamic Reverse)", sArm.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Intake subsystem
+    autoChooser.addOption(
+        "Intake SysId (Quasistatic Forward)",
+        sIntake.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Intake SysId (Quasistatic Reverse)",
+        sIntake.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Intake SysId (Dynamic Forward)", sIntake.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Intake SysId (Dynamic Reverse)", sIntake.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Configure the button bindings
     configureButtonBindings();
