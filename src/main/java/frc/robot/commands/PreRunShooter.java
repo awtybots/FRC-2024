@@ -27,6 +27,7 @@ public class PreRunShooter extends Command {
 
     flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
   }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

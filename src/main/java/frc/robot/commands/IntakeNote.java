@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.intake.Intake;
+
 // Moves the note so that it is detected by the conveySensor but not shooterSensor
 
 public class IntakeNote extends Command {

@@ -75,6 +75,7 @@ public class Arm extends SubsystemBase {
   public boolean getIsFinished() {
     return io.getIsFinished();
   }
+
   /**
    * @param rightPosition
    */
