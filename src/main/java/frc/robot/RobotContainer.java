@@ -336,11 +336,7 @@ public class RobotContainer {
 
     operatorController
         .y()
-        .whileTrue(
-            Commands.startEnd(
-                () -> sIntake.runPercentSpeed(Constants.IntakeConstants.percentPower),
-                sIntake::stop,
-                sIntake));
+        .whileTrue(Commands.startEnd(() -> sIntake.runPercentSpeed(1), sIntake::stop, sIntake));
 
     operatorController.leftTrigger().whileTrue(new IntakeNoteAndAlign(sIntake));
     // operatorController.leftTrigger().whileTrue(new IntakeNote(sIntake));
@@ -348,8 +344,8 @@ public class RobotContainer {
     // Flywheel commands
     operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel, sArm));
     operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel));
-    sFlywheel.setDefaultCommand(
-        new PreRunShooter(sFlywheel, true)); // Runs the flywheel slowly at all times
+    // sFlywheel.setDefaultCommand(
+    //     new PreRunShooter(sFlywheel, true)); // Runs the flywheel slowly at all times
 
     // Climber controls (The first one is 90% probably the one that works.)
     // sClimber.setDefaultCommand(
