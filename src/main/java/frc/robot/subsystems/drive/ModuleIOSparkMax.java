@@ -106,9 +106,8 @@ public class ModuleIOSparkMax implements ModuleIO {
 
     if (isDriveMotorInverted) {
       driveSparkMax.setInverted(true);
-    }else{
-            driveSparkMax.setInverted(false);
-
+    } else {
+      driveSparkMax.setInverted(false);
     }
 
     driveEncoder = driveSparkMax.getEncoder();
