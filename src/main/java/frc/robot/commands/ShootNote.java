@@ -43,7 +43,7 @@ public class ShootNote extends Command {
     double topFlywheelRPM = -flywheel.getVelocityRPMBottom();
     double targetRPM = Constants.FlywheelConstants.shootingVelocity;
 
-    if (arm.getPosition() > 1) {
+    if (arm.getAngleRad() > 1) {
       targetRPM = Constants.FlywheelConstants.shootingVelocity / AmpReductionFactor;
     }
     flywheel.runVelocity(-targetRPM);

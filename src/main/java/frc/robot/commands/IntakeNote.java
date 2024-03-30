@@ -14,7 +14,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.intake.Intake;
 
 // Moves the note so that it is detected by the conveySensor but not shooterSensor
@@ -22,17 +21,10 @@ import frc.robot.subsystems.intake.Intake;
 public class IntakeNote extends Command {
 
   private Intake intake;
-  private Drive drive;
 
   public IntakeNote(Intake intake) {
     this.intake = intake;
     addRequirements(intake);
-  }
-
-  public IntakeNote(Intake intake, Drive drive) { // TODO move forward and back
-    this.intake = intake;
-    this.drive = drive;
-    addRequirements(intake, drive);
   }
 
   // Called once at the beginning
