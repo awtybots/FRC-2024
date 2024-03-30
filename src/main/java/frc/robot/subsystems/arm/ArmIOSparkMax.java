@@ -13,9 +13,7 @@ package frc.robot.subsystems.arm;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkPIDController;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
@@ -34,12 +32,12 @@ public class ArmIOSparkMax implements ArmIO {
   private final CANSparkMax rightMotor =
       new CANSparkMax(ArmConstants.kRightArmMotorId, MotorType.kBrushless);
 
-  private final RelativeEncoder leftRelativeEncoder = leftMotor.getEncoder();
+  // private final RelativeEncoder leftRelativeEncoder = leftMotor.getEncoder();
 
   private final SparkAbsoluteEncoder leftAbsoluteEncoder =
       leftMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
-  private final SparkPIDController pid = leftMotor.getPIDController();
+  // private final SparkPIDController pid = leftMotor.getPIDController();
 
   private final PIDController mathPid;
 
@@ -49,7 +47,7 @@ public class ArmIOSparkMax implements ArmIO {
 
   private double calculatedPID;
 
-  // REMEMBER
+  // REMEMBER THE ALAMO
 
   public ArmIOSparkMax() {
     // leftMotor.restoreFactoryDefaults();
@@ -136,6 +134,7 @@ public class ArmIOSparkMax implements ArmIO {
   }
 
   @Override
+  /** Set the target angle. In radians. */
   public void setTargetAngle(double angle) {
     targetAngle = MathUtil.clamp(angle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
 

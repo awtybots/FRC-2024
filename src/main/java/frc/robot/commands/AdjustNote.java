@@ -21,8 +21,8 @@ public class AdjustNote extends Command {
   private Intake intake;
   private int phase =
       1; // 1 is moving note to shootersensor, 2 is moving note away from shooterSensor, 3 = done
-  private double forwardsIntakeSpeed = 0.04;
-  private double backwardsIntakeSpeed = 0.04;
+  private double forwardsIntakeSpeed = 1;
+  private double backwardsIntakeSpeed = 1;
 
   private long phase2StartTime;
 
