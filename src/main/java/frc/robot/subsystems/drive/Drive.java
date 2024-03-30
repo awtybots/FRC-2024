@@ -256,7 +256,7 @@ public class Drive extends SubsystemBase {
     return CurrentMaxAngularSpeed;
   }
 
-  public void toggleSlowMode() {
+  public void slowMode() {
     if (SlowMode) {
       CurrentMaxLinearSpeed = SLOW_MAX_LINEAR_SPEED;
       CurrentMaxAngularSpeed = SLOW_MAX_ANGULAR_SPEED;
