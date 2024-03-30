@@ -15,18 +15,21 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.flywheel.Flywheel;
-import frc.robot.subsystems.intake.Intake;
 
 // Moves the note so that it is detected by the conveySensor but not shooterSensor
 public class PreRunShooter extends Command {
 
-  private Intake intake;
   private Flywheel flywheel;
+  private boolean slowerDefault;
 
-  public PreRunShooter(Intake intake, Flywheel flywheel) {
-    this.intake = intake;
+  public PreRunShooter(Flywheel flywheel) {
+    this(flywheel, false);
+  }
+
+  public PreRunShooter(Flywheel flywheel, boolean slowRun) {
     this.flywheel = flywheel;
-    addRequirements(intake, flywheel);
+    this.slowerDefault = slowRun;
+    addRequirements(flywheel);
   }
 
   // Called once at the beginning
@@ -36,8 +39,11 @@ public class PreRunShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
+    if (!slowerDefault) {
+      flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
+    } else if (slowerDefault) {
+      flywheel.runVelocity(-Constants.FlywheelConstants.slowShootingVelocity);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -45,7 +51,6 @@ public class PreRunShooter extends Command {
   public void end(boolean interrupted) {
     flywheel.runVelocity(0);
     flywheel.stop();
-    intake.runPercentSpeed(0);
   }
 
   @Override

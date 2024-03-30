@@ -43,5 +43,4 @@ public interface IntakeIO {
   public default boolean getIsStalled() {
     return false;
   }
-  ;
 }

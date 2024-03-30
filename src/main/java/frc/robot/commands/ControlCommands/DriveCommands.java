@@ -69,7 +69,7 @@ public class DriveCommands {
           linearMagnitude = linearMagnitude * linearMagnitude;
           omega = Math.copySign(omega * omega, omega);
 
-          // Calcaulate new linear velocity
+          // Calculate new linear velocity
           Translation2d linearVelocity =
               new Pose2d(new Translation2d(), linearDirection)
                   .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
@@ -81,7 +81,11 @@ public class DriveCommands {
                   linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
                   linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
                   1.25 * omega * drive.getMaxAngularSpeedRadPerSec() / 2.3,
-                  drive.getRotation()));
+                  drive.getRotation() //.plus(new Rotation2d(Math.PI))
+                  // isFlipped
+                  //     ? drive.getRotation().plus(new Rotation2d(Math.PI))
+                  //     : drive.getRotation()
+                  ));
         },
         drive);
   }

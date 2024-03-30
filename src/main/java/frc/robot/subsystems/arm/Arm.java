@@ -106,8 +106,8 @@ public class Arm extends SubsystemBase {
     return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSec);
   }
 
-  @AutoLogOutput(key = "Arm/PositionRad")
-  public double getPosition() {
+  @AutoLogOutput(key = "Arm/AngleRad")
+  public double getAngleRad() {
     return inputs.positionRad;
   }
 
