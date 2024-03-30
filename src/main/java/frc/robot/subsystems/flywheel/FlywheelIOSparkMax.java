@@ -71,13 +71,13 @@ public class FlywheelIOSparkMax implements FlywheelIO {
 
   @Override
   public void updateInputs(FlywheelIOInputs inputs) {
-    inputs.positionRadTop = topShooterEncoder.getPosition() / GEAR_RATIO;
-    inputs.velocityRadPerSecTop = topShooterEncoder.getVelocity() / GEAR_RATIO;
+    inputs.positionRadTop = topShooterEncoder.getPosition();
+    inputs.velocityRadPerSecTop = topShooterEncoder.getVelocity();
     inputs.appliedVoltsTop = topShooterMotor.getAppliedOutput() * topShooterMotor.getBusVoltage();
     inputs.currentAmpsTop = new double[] {topShooterMotor.getOutputCurrent()};
 
-    inputs.positionRadBottom = bottomShooterEncoder.getPosition() / GEAR_RATIO;
-    inputs.velocityRadPerSecBottom = bottomShooterEncoder.getVelocity() / GEAR_RATIO;
+    inputs.positionRadBottom = bottomShooterEncoder.getPosition();
+    inputs.velocityRadPerSecBottom = bottomShooterEncoder.getVelocity();
     inputs.appliedVoltsBottom =
         bottomShooterMotor.getAppliedOutput() * bottomShooterMotor.getBusVoltage();
     inputs.currentAmpsBottom = new double[] {bottomShooterMotor.getOutputCurrent()};
