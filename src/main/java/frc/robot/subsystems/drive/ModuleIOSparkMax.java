@@ -50,6 +50,7 @@ public class ModuleIOSparkMax implements ModuleIO {
   private final AnalogInput turnAbsoluteEncoder;
   private final Queue<Double> drivePositionQueue;
   private final Queue<Double> turnPositionQueue;
+  public boolean isDriveMotorInverted = false;
 
   private final SparkAbsoluteEncoder turnAbsoluteEncoderNew;
 
@@ -88,8 +89,10 @@ public class ModuleIOSparkMax implements ModuleIO {
             new CANSparkMax(DriveConstants.kRearRightDrivingCanId, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(DriveConstants.kRearRightTurningCanId, MotorType.kBrushless);
         turnAbsoluteEncoder = new AnalogInput(3);
+        isDriveMotorInverted = true;
         absoluteEncoderOffset =
-            new Rotation2d(Math.PI * 3 / 2 + Math.PI + Math.PI + Math.PI); // MUST BE CALIBRATED
+            new Rotation2d(Math.PI * 3 / 2 + Math.PI + Math.PI); // MUST BE CALIBRATED
+
         break;
       default:
         throw new RuntimeException("Invalid module index");
@@ -100,6 +103,12 @@ public class ModuleIOSparkMax implements ModuleIO {
 
     driveSparkMax.setCANTimeout(250);
     turnSparkMax.setCANTimeout(250);
+
+    if (isDriveMotorInverted) {
+      driveSparkMax.setInverted(true);
+    } else {
+      driveSparkMax.setInverted(false);
+    }
 
     driveEncoder = driveSparkMax.getEncoder();
     turnRelativeEncoder = turnSparkMax.getEncoder();

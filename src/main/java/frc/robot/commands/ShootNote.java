@@ -49,7 +49,7 @@ public class ShootNote extends Command {
     flywheel.runVelocity(-targetRPM);
 
     if (Math.abs(topFlywheelRPM) > Math.abs(targetRPM * 0.9)) {
-      intake.runPercentSpeed(0.5);
+      intake.runPercentSpeed(1);
     }
 
     if (!intake.getConveyerProximity() && !intake.getShooterProximity()) {
