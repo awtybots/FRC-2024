@@ -20,6 +20,8 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -29,6 +31,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -36,6 +40,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.util.LocalADStarAK;
+import frc.robot.util.VisionHelpers.TimestampedVisionUpdate;
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -78,7 +84,13 @@ public class Drive extends SubsystemBase {
         new SwerveModulePosition()
       };
   private SwerveDrivePoseEstimator poseEstimator =
-      new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
+      new SwerveDrivePoseEstimator(
+          kinematics,
+          rawGyroRotation,
+          lastModulePositions,
+          new Pose2d(),
+          new Matrix<>(VecBuilder.fill(0.003, 0.003, 0.0002)),
+          new Matrix<>(VecBuilder.fill(0.01, 0.01, 0.01)));
 
   public Drive(
       GyroIO gyroIO,
@@ -292,11 +304,30 @@ public class Drive extends SubsystemBase {
   /**
    * Adds a vision measurement to the pose estimator.
    *
+   * <p>To promote stability of the pose estimate and make it robust to bad vision data, we
+   * recommend only adding vision measurements that are already within one meter or so of the
+   * current pose estimate.
+   *
    * @param visionPose The pose of the robot as measured by the vision camera.
    * @param timestamp The timestamp of the vision measurement in seconds.
+   * @param visionMeasurementStdDevs Matrix<N3, N1> of the standard deviations of the vision
+   *     measurement.
    */
-  public void addVisionMeasurement(Pose2d visionPose, double timestamp) {
-    poseEstimator.addVisionMeasurement(visionPose, timestamp);
+  public void addVisionMeasurement(
+      Pose2d visionPose, double timestamp, Matrix<N3, N1> visionMeasurementStdDevs) {
+    poseEstimator.addVisionMeasurement(visionPose, timestamp, visionMeasurementStdDevs);
+  }
+
+  /**
+   * Adds a list of vision data to the pose estimation.
+   *
+   * @param visionData A list of the timestamped vision data to add.
+   */
+  public void addVisionData(List<TimestampedVisionUpdate> visionData) {
+    visionData.forEach(
+        visionUpdate ->
+            addVisionMeasurement(
+                visionUpdate.pose(), visionUpdate.timestamp(), visionUpdate.stdDevs()));
   }
 
   /** Returns the maximum linear speed in meters per sec. */

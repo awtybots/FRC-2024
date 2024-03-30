@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.util.LimelightHelpers;
 import java.util.function.DoubleSupplier;
 
 public class DriveCommands {
@@ -37,7 +38,8 @@ public class DriveCommands {
       Drive drive,
       DoubleSupplier xSupplier,
       DoubleSupplier ySupplier,
-      DoubleSupplier omegaSupplier) {
+      DoubleSupplier omegaSupplier,
+      Boolean shouldPointAtSpeaker) {
     return Commands.run(
         () -> {
           double linearMagnitude;
@@ -69,6 +71,37 @@ public class DriveCommands {
                     MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND) / 2.0,
                     MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND) / 2.0);
             omega = (MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND) / 2.0);
+          }
+
+          // TODO Ranging control?
+          // https://docs.limelightvision.io/docs/docs-limelight/tutorials/tutorial-swerve-aiming-and-ranging
+          if (shouldPointAtSpeaker) {
+            // TEST A really bad way of implementing this.
+            // double[] currentPosition = {drive.getPose().getX(), drive.getPose().getY()};
+            // double[] speakerPosition = {0.25, 5.55};
+            // double targetAngleRadians =
+            //     Math.atan(
+            //         (currentPosition[1] - speakerPosition[1])
+            //             / (currentPosition[0] - speakerPosition[0]));
+            // omega = targetAngleRadians;
+
+            // TEST Implemented using a limelight, better. Double check pls.
+            double kP = 0.035;
+            // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost
+            // edge of
+            // your limelight 3 feed, tx should return roughly 31 degrees. Converted to radians.
+            double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * (Math.PI / 180);
+
+            targetingAngularVelocity *= kP;
+            // invert since tx is positive when the target is to the right of the crosshair
+            targetingAngularVelocity *= -1.0;
+
+            targetingAngularVelocity =
+                MathUtil.clamp(
+                    targetingAngularVelocity,
+                    -drive.getMaxAngularSpeedRadPerSec(),
+                    drive.getMaxAngularSpeedRadPerSec());
+            omega = targetingAngularVelocity;
           }
 
           // Square values

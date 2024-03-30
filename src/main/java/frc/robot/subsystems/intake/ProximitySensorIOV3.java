@@ -13,6 +13,7 @@
 package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.IntakeConstants;
 
 /** IO implementation for a proximity sensor V3 */
@@ -22,8 +23,18 @@ public class ProximitySensorIOV3 implements ProximitySensorIO {
   private DigitalInput shooterSensor;
 
   public ProximitySensorIOV3() {
-    conveyorSensor = new DigitalInput(IntakeConstants.conveyorSensor);
-    shooterSensor = new DigitalInput(IntakeConstants.shooterSensor);
+    try {
+      conveyorSensor = new DigitalInput(IntakeConstants.conveyorSensor);
+    } catch (RuntimeException ex) {
+      DriverStation.reportError(
+          "Error instantiating DigitalInput conveyorSensor: " + ex.getMessage(), true);
+    }
+    try {
+      shooterSensor = new DigitalInput(IntakeConstants.shooterSensor);
+    } catch (RuntimeException ex) {
+      DriverStation.reportError(
+          "Error instantiating DigitalInput shooterSensor: " + ex.getMessage(), true);
+    }
   }
 
   @Override

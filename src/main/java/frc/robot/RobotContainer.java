@@ -62,6 +62,9 @@ import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeIOSparkMax;
 import frc.robot.subsystems.intake.ProximitySensorIOV3;
+import frc.robot.subsystems.vision.AprilTagVision;
+import frc.robot.subsystems.vision.AprilTagVisionIO;
+import frc.robot.subsystems.vision.AprilTagVisionIOLimelight;
 import java.util.ArrayList;
 import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -81,6 +84,7 @@ public class RobotContainer {
   private final Arm sArm;
   private final Climber sClimber;
   private final LedSubsystem ledSubsystem;
+  private AprilTagVision aprilTagVision;
 
   // Controllers
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -111,6 +115,7 @@ public class RobotContainer {
         sIntake = new Intake(new IntakeIOSparkMax() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIOSparkMax() {});
         sClimber = new Climber(new ClimberIOSparkMax() {});
+        aprilTagVision = new AprilTagVision(new AprilTagVisionIOLimelight("limelight"));
 
         break;
 
@@ -129,6 +134,7 @@ public class RobotContainer {
         sIntake = new Intake(new IntakeIOSim() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIOSim() {});
         sClimber = new Climber(new ClimberIOSim() {});
+        aprilTagVision = new AprilTagVision(new AprilTagVisionIO() {});
 
         break;
 
@@ -145,11 +151,16 @@ public class RobotContainer {
         sIntake = new Intake(new IntakeIO() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIO() {});
         sClimber = new Climber(new ClimberIO() {});
+        aprilTagVision = new AprilTagVision(new AprilTagVisionIO() {});
 
         break;
     }
 
     ledSubsystem = new LedSubsystem(0, 80, sIntake);
+
+    aprilTagVision.setDataInterfaces(sDrive::addVisionData);
+
+    // SmartDashboard.putData(CommandScheduler.getInstance()); //! Command check (testing)
 
     // Set up NamedCommands
 
@@ -349,7 +360,8 @@ public class RobotContainer {
             sDrive,
             () -> -driverController.getLeftY(),
             () -> -driverController.getLeftX(),
-            () -> -driverController.getRightX()));
+            () -> -driverController.getRightX(),
+            false));
 
     // driverController
     //     .a()
