@@ -122,8 +122,8 @@ public class Arm extends SubsystemBase {
   }
 
   /** Returns the arm angle in radians?. */
-  @AutoLogOutput(key = "Arm/PositionRad")
-  public double getPosition() {
+  @AutoLogOutput(key = "Arm/AngleRad")
+  public double getAngleRad() {
     return inputs.positionRad;
   }
 

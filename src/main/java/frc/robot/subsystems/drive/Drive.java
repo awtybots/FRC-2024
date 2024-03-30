@@ -61,7 +61,7 @@ public class Drive extends SubsystemBase {
   private static final double FAST_MAX_LINEAR_SPEED = Units.feetToMeters(14.5);
   private static final double FAST_MAX_ANGULAR_SPEED = FAST_MAX_LINEAR_SPEED / DRIVE_BASE_RADIUS;
 
-  private static final double SLOW_MAX_LINEAR_SPEED = Units.feetToMeters(14.5);
+  private static final double SLOW_MAX_LINEAR_SPEED = Units.feetToMeters(4.5);
   private static final double SLOW_MAX_ANGULAR_SPEED = SLOW_MAX_LINEAR_SPEED / DRIVE_BASE_RADIUS;
 
   private static double CurrentMaxAngularSpeed = FAST_MAX_ANGULAR_SPEED;

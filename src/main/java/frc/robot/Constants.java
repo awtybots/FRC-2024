@@ -85,6 +85,7 @@ public final class Constants {
     public static final double ks = 0;
     public static final double kv = 0.00025;
     public static final double shootingVelocity = 4500; // revolutions per second
+    public static final double slowShootingVelocity = 10; // ! guessed value
   }
 
   public static final class IntakeConstants {
@@ -105,7 +106,7 @@ public final class Constants {
     // Intake Feedforward characterization constants
     public static final double ks = 0.1;
     public static final double kv = 5;
-    public static double percentPower = 0.45 * 1.05;
+    public static double percentPower = 1;
 
     public static final int conveyorSensor = 0;
     public static final int shooterSensor = 1;
@@ -122,10 +123,10 @@ public final class Constants {
     public static final double kMaxOutput = 0.33;
 
     // // Arm PID constants
-    public static final double kP = 0.7;
+    public static final double kP = 0.65;
     public static final double kI = 0.0;
-    public static final double kD = 0.025;
-    public static final double kWeightBasedFF = 0.025;
+    public static final double kD = 0.035;
+    public static final double kWeightBasedFF = 0.025 * 1.3 * 1.15;
 
     // // Arm PID constants
     // public static final double kP = 0;
@@ -160,8 +161,8 @@ public final class Constants {
     public static final int kCurrentLimit = 30;
 
     public static final double initialPosition = 0.7;
-    public static final double minPosition = 0.0;
-    public static final double maxPosition = 0.55;
+    public static final double minPosition = -2; // 0
+    public static final double maxPosition = 2; // 0.55
 
     public static final double climberConversion = 1;
 
@@ -169,7 +170,7 @@ public final class Constants {
     public static final double gearCircumfrence = 0.134032531982;
 
     // Climber PID constants
-    public static final double kP = 0.1;
+    public static final double kP = 1; // 0.1
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 

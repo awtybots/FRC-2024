@@ -189,16 +189,14 @@ public class RobotContainer {
     // NamedCommands.registerCommand("ShootFarPosition", new
     // ShootFarCommand(sArm).withTimeout(2.0));
 
-    NamedCommands.registerCommand(
-        "PreRunShooter", new PreRunShooter(sIntake, sFlywheel).withTimeout(4.0));
+    NamedCommands.registerCommand("PreRunShooter", new PreRunShooter(sFlywheel).withTimeout(4.0));
 
     // Groups of the above
     NamedCommands.registerCommand(
         "StartGroup",
         new SequentialCommandGroup(
             new ParallelDeadlineGroup(
-                ShootClose.run(sArm).withTimeout(2),
-                new PreRunShooter(sIntake, sFlywheel).withTimeout(4.0)),
+                ShootClose.run(sArm).withTimeout(2), new PreRunShooter(sFlywheel).withTimeout(4.0)),
             new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0)));
 
     NamedCommands.registerCommand( // The name is inaccurate
@@ -355,6 +353,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    // # Driver controller configuration
+
     sDrive.setDefaultCommand(
         DriveCommands.joystickDrive(
             sDrive,
@@ -362,47 +363,6 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX(),
             false));
-
-    // driverController
-    //     .a()
-    //     .whileTrue(
-    //         Commands.startEnd(
-    //             () ->
-    //                 sFlywheel.runVelocity(
-    //                     -flywheelSpeedInput
-    //                         .get()), // ! Is the smartdashboard thing permanent? surely not?
-    //             sFlywheel::stop,
-    //             sFlywheel));
-    // driverController
-    //     .a()
-    //     .whileFalse(Commands.startEnd(() -> sFlywheel.runVelocity(0), sFlywheel::stop,
-    // sFlywheel));
-
-    // driverController // TODO Reverse intake needed, also it stops randomly after a bit, get rid
-    // of
-    //     .b()
-    //     .whileTrue(
-    //         Commands.startEnd(
-    //             () -> sIntake.runVelocity(Constants.IntakeConstants.velocity),
-    //             sIntake::stop,
-    //             sIntake));
-
-    // driverController
-    //     .b()
-    //     .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
-
-    // driverController // TODO Reverse intake needed, also it stops randomly after a bit, get rid
-    // of
-    //     .x()
-    //     .whileTrue(
-    //         Commands.startEnd(
-    //             () -> sIntake.runVelocity(-Constants.IntakeConstants.velocity),
-    //             sIntake::stop,
-    //             sIntake));
-
-    // driverController
-    //     .b()
-    //     .whileFalse(Commands.startEnd(() -> sIntake.runVelocity(0), sIntake::stop, sIntake));
 
     driverController
         .start()
@@ -416,23 +376,26 @@ public class RobotContainer {
         .rightTrigger()
         .whileTrue(Commands.startEnd(() -> sDrive.toggleSlowMode(), sDrive::stop, sDrive));
 
-    // Operator controller configurations
+    // # Operator controller configuration
+
+    // Arm Controls (Controlled by right stick Y-axis)
     sArm.setDefaultCommand(ArmCommands.joystickDrive(sArm, () -> -operatorController.getRightY()));
 
+    // Arm Positions
+    operatorController.povDown().whileTrue(ShootFar.run(sArm));
+    operatorController.povRight().whileTrue(ShootMedium.run(sArm));
+    operatorController.povUp().whileTrue(ShootClose.run(sArm));
+
+    // operatorController.y().whileTrue(Upwards.run(sArm)); //Note that Y is taken
+    operatorController.x().whileTrue(AmpShot.run(sArm));
+    operatorController.a().whileTrue(FloorPickup.run(sArm));
+    operatorController.b().whileTrue(StowPosition.run(sArm));
+
+    // Intake Controls (Three ways: #1 right trigger, which goes backwards, #2 “Y”, full power, and
+    // #3 is left trigger, which has sensor logic)
     sIntake.setDefaultCommand(
-        IntakeShooterControls.intakeShooterDrive(
-            sIntake,
-            sFlywheel,
-            sArm,
-            () -> operatorController.getLeftTriggerAxis(),
-            () -> operatorController.getRightTriggerAxis(),
-            () -> operatorController.leftBumper().getAsBoolean(),
-            () -> operatorController.rightBumper().getAsBoolean()));
-    // repurposed for intake override
-    //     operatorController
-    // .a()
-    // .whileTrue(
-    //     Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
+        IntakeShooterControls.intakeShooterDefaultCommand(
+            sIntake, () -> operatorController.getRightTriggerAxis()));
 
     operatorController
         .y()
@@ -442,6 +405,25 @@ public class RobotContainer {
                 sIntake::stop,
                 sIntake));
 
+    operatorController.leftTrigger().whileTrue(new IntakeNoteAndAlign(sIntake));
+    // operatorController.leftTrigger().whileTrue(new IntakeNote(sIntake));
+
+    // Flywheel commands
+    operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel, sArm));
+    operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel));
+    sFlywheel.setDefaultCommand(
+        new PreRunShooter(sFlywheel, true)); // Runs the flywheel slowly at all times
+
+    // Climber controls (The first one is 90% probably the one that works.)
+    // sClimber.setDefaultCommand(
+    //     ClimberCommands.buttonDrive(
+    //         sClimber, operatorController.leftBumper(), operatorController.rightBumper()));
+
+    //     operatorController
+    // .a()
+    // .whileTrue(
+    //     Commands.startEnd(() -> sClimber.runTargetPosition(0), sClimber::stop, sClimber));
+
     // operatorController
     //     .b()
     //     .whileTrue(
@@ -450,29 +432,17 @@ public class RobotContainer {
     //             sClimber::stop,
     //             sClimber));
 
-    operatorController.povDown().whileTrue(ShootFar.run(sArm));
-    operatorController.povRight().whileTrue(ShootMedium.run(sArm));
-    operatorController.povUp().whileTrue(ShootClose.run(sArm));
-
-    operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel, sArm));
-    operatorController.leftBumper().whileTrue(new PreRunShooter(sIntake, sFlywheel));
-
-    // run straight up position when y is pressed on operator. Using command Upwards
-
-    operatorController.leftTrigger().whileTrue(new IntakeNoteAndAlign(sIntake));
-
-    // ! tempory testing keybinds
-    // operatorController.y().whileTrue(Upwards.run(sArm));
-    // operatorController.y().whileTrue(new IntakeNote(sIntake, sArm, sFlywheel));
-    // operatorController.y().whileTrue(new ShootNote(sIntake, sArm, sFlywheel));
-
-    // run straight forwards position when x is pressed
-    operatorController.x().whileTrue(AmpShot.run(sArm));
-    // operatorController.x().whileTrue(new AdjustNote(sIntake, sArm, sFlywheel));
-
-    operatorController.a().whileTrue(FloorPickup.run(sArm));
-
-    operatorController.b().whileTrue(StowPosition.run(sArm));
+    // driverController
+    //     .povUp()
+    //     .whileTrue(
+    //         Commands.startEnd(
+    //             () -> ClimberCommands.buttonDrive(sClimber, () -> 1), sClimber::stop, sClimber));
+    // driverController
+    //     .povDown()
+    //     .whileTrue(
+    //         Commands.startEnd(
+    //             () -> ClimberCommands.buttonDrive(sClimber, () -> -1), sClimber::stop,
+    // sClimber));
   }
 
   /**
