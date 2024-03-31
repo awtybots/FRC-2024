@@ -309,8 +309,8 @@ public class RobotContainer {
         .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
 
     driverController
-        .rightBumper()
-        .whileTrue(Commands.startEnd(() -> sDrive.slowMode(), sDrive::stop, sDrive));
+        .rightBumper()// TODO This is wrong 
+        .whileTrue(Commands.run(() -> sDrive.slowMode()));
 
     // # Operator controller configuration
 
