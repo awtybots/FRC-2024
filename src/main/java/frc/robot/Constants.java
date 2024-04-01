@@ -106,7 +106,7 @@ public final class Constants {
     // Intake Feedforward characterization constants
     public static final double ks = 0.1;
     public static final double kv = 5;
-    public static double percentPower = 0.2;
+    public static double percentPower = 0.8;
 
     public static final int conveyorSensor = 0;
     public static final int shooterSensor = 1;
@@ -125,8 +125,8 @@ public final class Constants {
     // // Arm PID constants
     public static final double kP = 0.65;
     public static final double kI = 0.0;
-    public static final double kD = 0.035;
-    public static final double kWeightBasedFF = 0.025 * 1.3 * 1.15;
+    public static final double kD = 0.035 * 1.10;
+    public static final double kWeightBasedFF = 0.025 * 1.3 * 1.15 * 0.85;
 
     // // Arm PID constants
     // public static final double kP = 0;

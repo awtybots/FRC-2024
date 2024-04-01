@@ -85,7 +85,7 @@ public class Drive extends SubsystemBase {
         this::runVelocity,
         new HolonomicPathFollowerConfig(
             new PIDConstants(8.0, 0.0, 0.0),
-            new PIDConstants(8.0, 0.0, 0.0),
+            new PIDConstants(10.0, 0.0, 0.0),
             CurrentMaxLinearSpeed,
             DRIVE_BASE_RADIUS,
             new ReplanningConfig()),
