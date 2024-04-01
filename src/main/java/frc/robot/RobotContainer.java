@@ -15,6 +15,13 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -311,6 +318,10 @@ public class RobotContainer {
     driverController
         .rightBumper() // TODO This is wrong
         .whileTrue(Commands.run(() -> sDrive.slowMode()));
+
+    //! TEST <
+    driverController.a().whileTrue(sDrive.getZeroAuton());
+    //!TEST >
 
     // # Operator controller configuration
 
