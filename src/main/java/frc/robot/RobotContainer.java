@@ -252,6 +252,7 @@ public class RobotContainer {
 
           // Right Alternate Group
           "RCloseOut",
+          "RFar1S5",
 
           // Test Autos
           "SimpleStraight",
@@ -310,9 +311,7 @@ public class RobotContainer {
         .start()
         .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
 
-    driverController
-        .rightBumper()
-        .whileTrue(Commands.run(() -> sDrive.slowMode()));
+    driverController.rightBumper().whileTrue(Commands.run(() -> sDrive.slowMode()));
 
     // ! TEST <
     driverController.a().whileTrue(sDrive.getZeroAuton());

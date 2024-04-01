@@ -16,6 +16,30 @@
           "data": {
             "name": "StartGroup"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FloorPickupPosition"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RtoF5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F5toR"
+          }
         }
       ]
     }
