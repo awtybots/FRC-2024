@@ -13,7 +13,6 @@
 package frc.robot.subsystems.drive;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -36,7 +35,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LocalADStarAK;
-
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -291,18 +289,27 @@ public class Drive extends SubsystemBase {
 
   public Command getZeroAuton() {
     // Create a list of bezier points from poses. Each pose represents one waypoint.
-    // The rotation component of the pose should be the direction of travel. Do not use holonomic rotation.
-    List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(
-        pose,
-        new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0))
-    );
+    // The rotation component of the pose should be the direction of travel. Do not use holonomic
+    // rotation.
+    List<Translation2d> bezierPoints =
+        PathPlannerPath.bezierFromPoses(pose, new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0)));
 
     // Create the path using the bezier points created above
-    PathPlannerPath path = new PathPlannerPath(
-        bezierPoints,
-        new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI), // The constraints for this path. If using a differential drivetrain, the angular constraints have no effect.
-        new GoalEndState(0.0, Rotation2d.fromDegrees(0)) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
-    );
+    PathPlannerPath path =
+        new PathPlannerPath(
+            bezierPoints,
+            new PathConstraints(
+                3.0,
+                3.0,
+                2 * Math.PI,
+                4 * Math.PI), // The constraints for this path. If using a differential drivetrain,
+            // the angular constraints have no effect.
+            new GoalEndState(
+                0.0,
+                Rotation2d.fromDegrees(
+                    0)) // Goal end state. You can set a holonomic rotation here. If using a
+            // differential drivetrain, the rotation will have no effect.
+            );
 
     // Prevent the path from being flipped if the coordinates are already correct
     path.preventFlipping = true;

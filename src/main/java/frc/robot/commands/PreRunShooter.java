@@ -28,8 +28,6 @@ public class PreRunShooter extends Command {
     this(flywheel, false, intake);
   }
 
-
-
   public PreRunShooter(Flywheel flywheel, boolean slowRun, Intake intake) {
     this.flywheel = flywheel;
     this.slowerDefault = slowRun;
@@ -45,12 +43,13 @@ public class PreRunShooter extends Command {
   @Override
   public void execute() {
     if (!slowerDefault) {
-      if (intake.getConveyerProximity()){
-              flywheel.runVelocity(1000);
+      if (intake.getConveyerProximity()) {
+        flywheel.runVelocity(1000);
 
-      }else{
-         flywheel.runVelocity(0);
-      }    } else if (slowerDefault) {
+      } else {
+        flywheel.runVelocity(0);
+      }
+    } else if (slowerDefault) {
       flywheel.runVelocity(Constants.FlywheelConstants.slowShootingVelocity);
     }
   }

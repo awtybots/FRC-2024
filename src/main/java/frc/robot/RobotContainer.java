@@ -15,13 +15,6 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -191,14 +184,16 @@ public class RobotContainer {
     // NamedCommands.registerCommand("ShootFarPosition", new
     // ShootFarCommand(sArm).withTimeout(2.0));
 
-    NamedCommands.registerCommand("PreRunShooter", new PreRunShooter(sFlywheel, sIntake).withTimeout(4.0));
+    NamedCommands.registerCommand(
+        "PreRunShooter", new PreRunShooter(sFlywheel, sIntake).withTimeout(4.0));
 
     // Groups of the above
     NamedCommands.registerCommand(
         "StartGroup",
         new SequentialCommandGroup(
             new ParallelDeadlineGroup(
-                ShootClose.run(sArm).withTimeout(2), new PreRunShooter(sFlywheel, sIntake).withTimeout(4.0)),
+                ShootClose.run(sArm).withTimeout(2),
+                new PreRunShooter(sFlywheel, sIntake).withTimeout(4.0)),
             new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0)));
 
     NamedCommands.registerCommand( // The name is inaccurate
@@ -319,9 +314,9 @@ public class RobotContainer {
         .rightBumper() // TODO This is wrong
         .whileTrue(Commands.run(() -> sDrive.slowMode()));
 
-    //! TEST <
+    // ! TEST <
     driverController.a().whileTrue(sDrive.getZeroAuton());
-    //!TEST >
+    // !TEST >
 
     // # Operator controller configuration
 
