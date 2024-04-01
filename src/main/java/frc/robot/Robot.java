@@ -23,6 +23,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathfindingCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -65,6 +66,7 @@ public class Robot extends LoggedRobot {
         Logger.addDataReceiver(new WPILOGWriter());
         Logger.addDataReceiver(new NT4Publisher());
         FollowPathCommand.warmupCommand().schedule();
+        // PathfindingCommand.warmupCommand().schedule();
         break;
 
       case SIM:
