@@ -184,14 +184,16 @@ public class RobotContainer {
     // NamedCommands.registerCommand("ShootFarPosition", new
     // ShootFarCommand(sArm).withTimeout(2.0));
 
-    NamedCommands.registerCommand("PreRunShooter", new PreRunShooter(sFlywheel).withTimeout(4.0));
+    NamedCommands.registerCommand(
+        "PreRunShooter", new PreRunShooter(sFlywheel, sIntake).withTimeout(4.0));
 
     // Groups of the above
     NamedCommands.registerCommand(
         "StartGroup",
         new SequentialCommandGroup(
             new ParallelDeadlineGroup(
-                ShootClose.run(sArm).withTimeout(2), new PreRunShooter(sFlywheel).withTimeout(4.0)),
+                ShootClose.run(sArm).withTimeout(2),
+                new PreRunShooter(sFlywheel, sIntake).withTimeout(4.0)),
             new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0)));
 
     NamedCommands.registerCommand( // The name is inaccurate
@@ -250,6 +252,7 @@ public class RobotContainer {
 
           // Right Alternate Group
           "RCloseOut",
+          "RFar1S5",
 
           // Test Autos
           "SimpleStraight",
@@ -308,9 +311,11 @@ public class RobotContainer {
         .start()
         .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
 
-    driverController
-        .rightBumper()// TODO This is wrong 
-        .whileTrue(Commands.run(() -> sDrive.slowMode()));
+    driverController.rightBumper().whileTrue(Commands.run(() -> sDrive.slowMode()));
+
+    // ! TEST <
+    driverController.a().whileTrue(sDrive.getZeroAuton());
+    // !TEST >
 
     // # Operator controller configuration
 
@@ -335,16 +340,16 @@ public class RobotContainer {
 
     operatorController
         .y()
-        .whileTrue(Commands.startEnd(() -> sIntake.runPercentSpeed(1), sIntake::stop, sIntake));
+        .whileTrue(Commands.startEnd(() -> sIntake.runPercentSpeed(-1), sIntake::stop, sIntake));
 
     operatorController.leftTrigger().whileTrue(new IntakeNoteAndAlign(sIntake));
     // operatorController.leftTrigger().whileTrue(new IntakeNote(sIntake));
 
     // Flywheel commands
     operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel, sArm));
-    operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel));
-    // sFlywheel.setDefaultCommand(
-    //     new PreRunShooter(sFlywheel, true)); // Runs the flywheel slowly at all times
+    operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel, sIntake));
+    sFlywheel.setDefaultCommand(
+        new PreRunShooter(sFlywheel, true, sIntake)); // Runs the flywheel slowly at all times
 
     // Climber controls (The first one is 90% probably the one that works.)
     // sClimber.setDefaultCommand(

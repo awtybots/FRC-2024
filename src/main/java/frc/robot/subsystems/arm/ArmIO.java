@@ -31,10 +31,13 @@ public interface ArmIO {
   public default void setVoltage(double volts) {}
 
   /** Run closed loop at the specified velocity. */
-  public default void setVelocity(double velocityRadPerSec, double ffVolts) {}
+  public default void setVelocity(double velocityRadPerSec) {}
 
   /** Run loop for the specified target angle. */
   public default void setTargetAngle(double angle) {}
+
+  /** Update motor speeds according to PID values from target angle. */
+  public default void updateMotorSpeeds() {}
 
   /** Stop in open loop. */
   public default void stop() {}
