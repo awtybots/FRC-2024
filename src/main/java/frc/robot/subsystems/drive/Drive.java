@@ -301,7 +301,7 @@ public class Drive extends SubsystemBase {
             new PathConstraints(
                 3.0,
                 3.0,
-                2 * Math.PI,
+                3 * Math.PI,
                 4 * Math.PI), // The constraints for this path. If using a differential drivetrain,
             // the angular constraints have no effect.
             new GoalEndState(
