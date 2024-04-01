@@ -184,14 +184,14 @@ public class RobotContainer {
     // NamedCommands.registerCommand("ShootFarPosition", new
     // ShootFarCommand(sArm).withTimeout(2.0));
 
-    NamedCommands.registerCommand("PreRunShooter", new PreRunShooter(sFlywheel).withTimeout(4.0));
+    NamedCommands.registerCommand("PreRunShooter", new PreRunShooter(sFlywheel, sIntake).withTimeout(4.0));
 
     // Groups of the above
     NamedCommands.registerCommand(
         "StartGroup",
         new SequentialCommandGroup(
             new ParallelDeadlineGroup(
-                ShootClose.run(sArm).withTimeout(2), new PreRunShooter(sFlywheel).withTimeout(4.0)),
+                ShootClose.run(sArm).withTimeout(2), new PreRunShooter(sFlywheel, sIntake).withTimeout(4.0)),
             new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0)));
 
     NamedCommands.registerCommand( // The name is inaccurate
@@ -342,9 +342,9 @@ public class RobotContainer {
 
     // Flywheel commands
     operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel, sArm));
-    operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel));
-    // sFlywheel.setDefaultCommand(
-    //     new PreRunShooter(sFlywheel, true)); // Runs the flywheel slowly at all times
+    operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel, sIntake));
+    sFlywheel.setDefaultCommand(
+        new PreRunShooter(sFlywheel, true, sIntake)); // Runs the flywheel slowly at all times
 
     // Climber controls (The first one is 90% probably the one that works.)
     // sClimber.setDefaultCommand(
