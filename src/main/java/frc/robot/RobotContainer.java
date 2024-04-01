@@ -311,7 +311,7 @@ public class RobotContainer {
         .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
 
     driverController
-        .rightBumper() // TODO This is wrong
+        .rightBumper()
         .whileTrue(Commands.run(() -> sDrive.slowMode()));
 
     // ! TEST <
