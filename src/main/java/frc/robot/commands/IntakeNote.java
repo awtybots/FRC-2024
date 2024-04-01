@@ -38,7 +38,7 @@ public class IntakeNote extends Command {
     if (intake.getConveyerProximity()) {
       intake.runPercentSpeed(0);
     } else {
-      intake.runPercentSpeed(Constants.IntakeConstants.percentPower);
+      intake.runPercentSpeed(-Constants.IntakeConstants.percentPower);
     }
   }
 

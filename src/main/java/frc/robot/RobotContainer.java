@@ -335,7 +335,7 @@ public class RobotContainer {
 
     operatorController
         .y()
-        .whileTrue(Commands.startEnd(() -> sIntake.runPercentSpeed(1), sIntake::stop, sIntake));
+        .whileTrue(Commands.startEnd(() -> sIntake.runPercentSpeed(-1), sIntake::stop, sIntake));
 
     operatorController.leftTrigger().whileTrue(new IntakeNoteAndAlign(sIntake));
     // operatorController.leftTrigger().whileTrue(new IntakeNote(sIntake));
