@@ -59,6 +59,7 @@ public class Flywheel extends SubsystemBase {
 
   /** Run closed loop at the specified velocity. */
   public void runVelocity(double velocityRPS) {
+    velocityRPS = -velocityRPS;
 
     io.setVelocity(velocityRPS, ffModel.calculate(velocityRPS));
 
