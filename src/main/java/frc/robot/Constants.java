@@ -109,8 +109,8 @@ public final class Constants {
     public static final double kv = 5;
     public static double percentPower = 0.8;
 
-    public static final int conveyorSensor = 0;
-    public static final int shooterSensor = 1;
+    public static final int conveyorSensor = 1;
+    public static final int shooterSensor = 0;
   }
 
   public static final class ArmConstants {
@@ -121,13 +121,13 @@ public final class Constants {
 
     public static final double armConversion = 0.05;
 
-    public static final double kMaxOutput = 0.33;
+    public static final double kMaxOutput = 0.3;
 
     // // Arm PID constants
     public static final double kP = 0.65;
     public static final double kI = 0.0;
-    public static final double kD = 0.035 * 1.10;
-    public static final double kWeightBasedFF = 0.025 * 1.3 * 1.15 * 0.85;
+    public static final double kD = 0.035;
+    public static final double kWeightBasedFF = 0.025 * 1.3 * 1.4;
 
     // // Arm PID constants
     // public static final double kP = 0;
@@ -142,7 +142,7 @@ public final class Constants {
     public static final double minimumAngle = 0;
     public static final double maximumAngle = Math.PI;
 
-    public static final double uprightAngle = 1.753; // (for gravity calculations for PID)
+    public static final double uprightAngle = 1.734; // (for gravity calculations for PID)
 
     // do not use
     // public static final double kFF = 0.0;

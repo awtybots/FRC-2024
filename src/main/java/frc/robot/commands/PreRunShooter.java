@@ -49,7 +49,7 @@ public class PreRunShooter extends Command {
       if (intake.getConveyerProximity()) {
         flywheel.runVelocity(Constants.FlywheelConstants.slowShootingVelocity);
       } else {
-        flywheel.runVelocity(100);
+        flywheel.runVelocity(300);
       }
     }
   }
