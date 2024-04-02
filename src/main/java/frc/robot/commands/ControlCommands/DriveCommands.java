@@ -26,7 +26,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.EnvironmentalConstants;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.util.LimelightHelpers;
+import frc.robot.util.AllianceFlipUtil;
+import frc.robot.util.FieldConstants;
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
@@ -109,15 +110,23 @@ public class DriveCommands {
 
           // Speaker Mode
           if (shouldPointAtSpeaker) {
+            Pose2d currentPose = drive.getPose();
             // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost
             // edge of your limelight 3 feed, tx should return roughly 31 degrees. Converted to
             // radians and
             // inverted since tx is positive when the target is to the right of the crosshair
-            Optional<Rotation2d> targetAngleDifference =
-                Optional.of((Rotation2d.fromDegrees(-LimelightHelpers.getTX("limelight"))));
+            // Optional<Rotation2d> targetAngleDifference =
+            //     Optional.of((Rotation2d.fromDegrees(-LimelightHelpers.getTX("limelight"))));
 
-            measuredGyroAngle = drive.getPose().getRotation();
-            targetGyroAngle = Optional.of(measuredGyroAngle.plus(targetAngleDifference.get()));
+            targetGyroAngle = Optional.of(new Rotation2d(
+            currentPose.getX()
+                - AllianceFlipUtil.apply(
+                        FieldConstants.Speaker.centerSpeakerOpening.getTranslation())
+                    .getX(),
+            currentPose.getY()
+                - AllianceFlipUtil.apply(
+                        FieldConstants.Speaker.centerSpeakerOpening.getTranslation())
+                    .getY()));
           }
 
           ChassisSpeeds chassisSpeeds =

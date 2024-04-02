@@ -35,7 +35,7 @@ public class AprilTagVision extends SubsystemBase {
   // Path for logging vision data
   private static final String VISION_PATH = "AprilTagVision/Inst";
 
-  private boolean enableVisionUpdates = false;
+  private boolean enableVisionUpdates = true;
 
   private Consumer<List<TimestampedVisionUpdate>> visionConsumer = x -> {};
   private Map<Integer, Double> lastFrameTimes = new HashMap<>();
