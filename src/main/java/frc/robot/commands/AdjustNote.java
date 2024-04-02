@@ -21,8 +21,8 @@ public class AdjustNote extends Command {
   private Intake intake;
   private int phase =
       1; // 1 is moving note to shootersensor, 2 is moving note away from shooterSensor, 3 = done
-  private double forwardsIntakeSpeed = 1;
-  private double backwardsIntakeSpeed = 1;
+  private double forwardsIntakeSpeed = 0.2;
+  private double backwardsIntakeSpeed = 0.2;
 
   private long phase2StartTime;
 
@@ -42,7 +42,7 @@ public class AdjustNote extends Command {
   @Override
   public void execute() {
     if (phase == 1) { // go to shooter sensor untill detected
-      intake.runPercentSpeed(forwardsIntakeSpeed);
+      intake.runPercentSpeed(-forwardsIntakeSpeed);
       if (intake.getShooterProximity()) {
         phase = 2;
         phase2StartTime = System.currentTimeMillis();
@@ -52,9 +52,9 @@ public class AdjustNote extends Command {
       long phase2RunningTime = System.currentTimeMillis() - phase2StartTime;
       if (phase2RunningTime > 350
           && intake.getIsStalled()) { // get the note unstuck if it is stuck in the shooter
-        intake.runPercentSpeed(-0.12);
+        intake.runPercentSpeed(0.12);
       } else {
-        intake.runPercentSpeed(-backwardsIntakeSpeed);
+        intake.runPercentSpeed(backwardsIntakeSpeed);
       }
       if (!intake.getShooterProximity()) {
         phase = 3;
@@ -65,7 +65,7 @@ public class AdjustNote extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.runPercentSpeed(0);
+    intake.runPercentSpeed(-0);
   }
 
   @Override

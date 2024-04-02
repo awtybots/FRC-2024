@@ -38,5 +38,22 @@
   "[java]": {
     "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
   },
-  "java.debug.settings.onBuildFailureProceed": true
+  "java.debug.settings.onBuildFailureProceed": true,
+  "cSpell.words": [
+    "auton",
+    "Autons",
+    "bezier",
+    "deadband",
+    "Feedforward",
+    "Holonomic",
+    "keybinds",
+    "odometry",
+    "Pathfinding",
+    "Prerun",
+    "Robo",
+    "Setpoint",
+    "Setpoints",
+    "Teleop",
+    "wpilibj"
+  ]
 }

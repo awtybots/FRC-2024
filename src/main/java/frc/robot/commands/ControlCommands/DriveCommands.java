@@ -120,7 +120,7 @@ public class DriveCommands {
                   linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
                   linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
                   1.25 * omega * drive.getMaxAngularSpeedRadPerSec() / 2.3,
-                  drive.getRotation() // .plus(new Rotation2d(Math.PI)) // TEST TODO
+                  drive.getRotation() // .plus(new Rotation2d(Math.PI))
                   // isFlipped
                   //     ? drive.getRotation().plus(new Rotation2d(Math.PI))
                   //     : drive.getRotation()

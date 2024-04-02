@@ -15,6 +15,9 @@ package frc.robot.subsystems.drive;
 import static edu.wpi.first.units.Units.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -114,7 +117,7 @@ public class Drive extends SubsystemBase {
         () -> kinematics.toChassisSpeeds(getModuleStates()),
         this::runVelocity,
         new HolonomicPathFollowerConfig(
-            new PIDConstants(8.0, 0.0, 0.0),
+            new PIDConstants(8.0, 0.0, 3.0),
             new PIDConstants(8.0, 0.0, 0.0),
             CurrentMaxLinearSpeed,
             DRIVE_BASE_RADIUS,
@@ -366,5 +369,35 @@ public class Drive extends SubsystemBase {
       new Translation2d(-TRACK_WIDTH_X / 2.0, TRACK_WIDTH_Y / 2.0),
       new Translation2d(-TRACK_WIDTH_X / 2.0, -TRACK_WIDTH_Y / 2.0)
     };
+  }
+
+  public Command getZeroAuton() {
+    // Create a list of bezier points from poses. Each pose represents one waypoint.
+    // The rotation component of the pose should be the direction of travel. Do not use holonomic
+    // rotation.
+    List<Translation2d> bezierPoints =
+        PathPlannerPath.bezierFromPoses(getPose(), new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0)));
+
+    // Create the path using the bezier points created above
+    PathPlannerPath path =
+        new PathPlannerPath(
+            bezierPoints,
+            new PathConstraints(
+                3.0,
+                3.0,
+                3 * Math.PI,
+                4 * Math.PI), // The constraints for this path. If using a differential drivetrain,
+            // the angular constraints have no effect.
+            new GoalEndState(
+                0.0,
+                Rotation2d.fromDegrees(
+                    0)) // Goal end state. You can set a holonomic rotation here. If using a
+            // differential drivetrain, the rotation will have no effect.
+            );
+
+    // Prevent the path from being flipped if the coordinates are already correct
+    path.preventFlipping = true;
+
+    return AutoBuilder.followPath(path);
   }
 }

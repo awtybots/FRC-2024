@@ -67,6 +67,7 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    io.updateMotorSpeeds();
   }
 
   /** Run open loop at the specified voltage. */
@@ -80,25 +81,12 @@ public class Arm extends SubsystemBase {
    * @param velocityRPM The velocity in rotations per minute.
    */
   public void runVelocity(double velocityRPM) {
-    var velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
-    io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
-
-    // Log arm setpoint
+    io.setVelocity(velocityRPM);
+    // , ffModel.calculate(velocityRadPerSec));
   }
 
   public boolean getIsFinished() {
     return io.getIsFinished();
-  }
-
-  /**
-   * @param rightPosition
-   */
-  public void runTargetVelocity(double targetVelocity) {
-    io.setTargetAngle(
-        inputs.targetPositionRad
-            + 0.02 // TODO correct cycle time here needed
-                // * ArmConstants.armConversion
-                * Units.rotationsToRadians(targetVelocity));
   }
 
   /**
