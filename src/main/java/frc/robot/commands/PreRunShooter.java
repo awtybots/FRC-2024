@@ -15,20 +15,23 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.flywheel.Flywheel;
+import frc.robot.subsystems.intake.Intake;
 
 // Moves the note so that it is detected by the conveySensor but not shooterSensor
 public class PreRunShooter extends Command {
 
   private Flywheel flywheel;
   private boolean slowerDefault;
+  private Intake intake;
 
-  public PreRunShooter(Flywheel flywheel) {
-    this(flywheel, false);
+  public PreRunShooter(Flywheel flywheel, Intake intake) {
+    this(flywheel, false, intake);
   }
 
-  public PreRunShooter(Flywheel flywheel, boolean slowRun) {
+  public PreRunShooter(Flywheel flywheel, boolean slowRun, Intake intake) {
     this.flywheel = flywheel;
     this.slowerDefault = slowRun;
+    this.intake = intake;
     addRequirements(flywheel);
   }
 
@@ -40,9 +43,14 @@ public class PreRunShooter extends Command {
   @Override
   public void execute() {
     if (!slowerDefault) {
-      flywheel.runVelocity(-Constants.FlywheelConstants.shootingVelocity);
+      flywheel.runVelocity(10000);
+
     } else if (slowerDefault) {
-      flywheel.runVelocity(-Constants.FlywheelConstants.slowShootingVelocity);
+      if (intake.getConveyerProximity()) {
+        flywheel.runVelocity(Constants.FlywheelConstants.slowShootingVelocity);
+      } else {
+        flywheel.runVelocity(100);
+      }
     }
   }
 

@@ -12,6 +12,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.FollowPathCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.EnvironmentalConstants;
@@ -62,6 +63,8 @@ public class Robot extends LoggedRobot {
         // Running on a real robot, log to a USB stick ("/U/logs")
         Logger.addDataReceiver(new WPILOGWriter());
         Logger.addDataReceiver(new NT4Publisher());
+        FollowPathCommand.warmupCommand().schedule();
+        // PathfindingCommand.warmupCommand().schedule();
         break;
 
       case SIM:

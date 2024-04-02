@@ -39,7 +39,7 @@ public class ArmCommands {
           double rotationalVelocity = stickMagnitude * MAXRPM;
 
           // Send command to arm to run arm
-          arm.runTargetVelocity(rotationalVelocity);
+          arm.runVelocity(rotationalVelocity);
         },
         arm);
   }

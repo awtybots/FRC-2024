@@ -41,7 +41,8 @@ public class ArmIOSparkMax implements ArmIO {
 
   private final PIDController mathPid;
 
-  private double targetAngle = 0.345 * Math.PI * 2.0; // 2.2// Radians, just a default value
+  private double targetAngle =
+      Constants.ArmConstants.uprightAngle; // 2.2// Radians, just a default value
 
   private double lastEncoderReading = 0.4;
 
@@ -117,26 +118,28 @@ public class ArmIOSparkMax implements ArmIO {
     rightMotor.setVoltage(volts);
   }
 
-  // placehold for now but it will detect if the arm is stationary.
+  // Returns true if the arm is stationary.
   @Override
   public boolean getIsFinished() {
-    return calculatedPID < 0.037;
+    return (Math.abs(getSmoothedPosition() - targetAngle) < 0.1);
+    // return calculatedPID < 0.037;
   }
 
   @Override
-  public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    // pid.setReference(
-    //     Units.rotationsToRadians(velocityRadPerSec) * GEAR_RATIO,
-    //     ControlType.kVelocity,
-    //     0,
-    //     ffVolts,
-    //     ArbFFUnits.kVoltage);
+  /** Sets the velocity at the specified velocity. Needs to be run periodically. */
+  public void setVelocity(double velocityRPM) {
+    setTargetAngle(
+        targetAngle
+            + 0.02 // TODO correct cycle time here needed
+                // * ArmConstants.armConversion
+                * Units.rotationsToRadians(velocityRPM));
   }
 
   @Override
   /** Set the target angle. In radians. */
   public void setTargetAngle(double angle) {
     targetAngle = MathUtil.clamp(angle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
+    // Note that updateMotorSpeeds(); is run periodically, which actually applies these changes.
 
     //   pid.setReference(
     //       targetAngle * Math.PI * 2.0,
@@ -147,6 +150,11 @@ public class ArmIOSparkMax implements ArmIO {
     // GEAR_RATIO))
     //           * 0,
     //       ArbFFUnits.kVoltage);
+  }
+
+  @Override
+  /** Update speeds according to PID values from target angle. */
+  public void updateMotorSpeeds() {
     calculatedPID = mathPid.calculate(getSmoothedPosition() * Math.PI * 2.0, targetAngle);
 
     leftMotor.set(
@@ -157,8 +165,6 @@ public class ArmIOSparkMax implements ArmIO {
             ArmConstants.kMaxOutput));
 
     lastEncoderReading = leftAbsoluteEncoder.getPosition();
-
-    // leftMotor.set(0.3);
   }
 
   @Override

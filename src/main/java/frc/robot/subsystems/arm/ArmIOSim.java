@@ -52,7 +52,7 @@ public class ArmIOSim implements ArmIO {
   }
 
   @Override
-  public void setVelocity(double velocityRadPerSec, double ffVolts) {
+  public void setVelocity(double velocityRadPerSec) {
     closedLoop = true;
     pid.setSetpoint(velocityRadPerSec);
     this.ffVolts = ffVolts;

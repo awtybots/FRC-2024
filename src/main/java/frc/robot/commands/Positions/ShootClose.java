@@ -22,7 +22,7 @@ public class ShootClose { // bumper pressed against the wall
     return Commands.run(
             () -> {
               // Position preset settings
-              double ARMANGLE = 0.687;
+              double ARMANGLE = 0.747;
 
               arm.runTargetAngle(ARMANGLE);
             },

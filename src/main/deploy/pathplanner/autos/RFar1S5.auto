@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7266603914356558,
+      "y": 4.424143586134395
+    },
+    "rotation": -58.38161458548115
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "StartGroup"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FloorPickupPosition"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RtoF5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F5toR"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "RealAutons",
+  "choreoAuto": false
+}

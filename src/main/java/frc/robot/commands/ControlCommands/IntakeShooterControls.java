@@ -28,7 +28,7 @@ public class IntakeShooterControls {
         () -> {
           if (Math.abs(rightTriggerSupplier.getAsDouble()) > DEADBAND) {
             intake.runPercentSpeed(
-                -Constants.IntakeConstants.percentPower * rightTriggerSupplier.getAsDouble());
+                Constants.IntakeConstants.percentPower * rightTriggerSupplier.getAsDouble());
           }
         },
         intake);
