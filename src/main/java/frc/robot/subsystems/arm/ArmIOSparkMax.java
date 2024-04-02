@@ -120,8 +120,9 @@ public class ArmIOSparkMax implements ArmIO {
   // Returns true if the arm is stationary.
   @Override
   public boolean getIsFinished() {
-    return (Math.abs(getSmoothedPosition() - targetAngle) < 0.1);
-    // return calculatedPID < 0.037;
+    double velocity =
+        Units.rotationsPerMinuteToRadiansPerSecond(leftAbsoluteEncoder.getVelocity() / GEAR_RATIO);
+    return (Math.abs(getSmoothedPosition() - targetAngle) < 0.01) && (Math.abs(velocity) < 0.001);
   }
 
   @Override

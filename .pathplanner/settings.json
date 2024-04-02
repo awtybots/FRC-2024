@@ -15,9 +15,9 @@
     "RealAutons",
     "TestAutos"
   ],
-  "defaultMaxVel": 2.4,
+  "defaultMaxVel": 2.2,
   "defaultMaxAccel": 1.8,
-  "defaultMaxAngVel": 300.0,
-  "defaultMaxAngAccel": 400.0,
+  "defaultMaxAngVel": 260.0,
+  "defaultMaxAngAccel": 300.0,
   "maxModuleSpeed": 4.5
 }
