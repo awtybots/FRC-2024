@@ -367,6 +367,28 @@ public class RobotContainer {
             false));
 
     driverController
+        .x()
+        .onTrue(
+            Commands.startEnd(
+                () ->
+                    sDrive.setDefaultCommand(
+                        DriveCommands.joystickDrive(
+                            sDrive,
+                            () -> -driverController.getLeftY(),
+                            () -> -driverController.getLeftX(),
+                            () -> -driverController.getRightX(),
+                            true)),
+                () ->
+                    sDrive.setDefaultCommand(
+                        DriveCommands.joystickDrive(
+                            sDrive,
+                            () -> -driverController.getLeftY(),
+                            () -> -driverController.getLeftX(),
+                            () -> -driverController.getRightX(),
+                            false)),
+                sDrive));
+
+    driverController
         .start()
         .whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
 

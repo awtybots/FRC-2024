@@ -27,6 +27,7 @@ public final class Constants {
     ! convinence, but we shouldn't do that as that would mess with the REPLAY mode.
     */
     public static final Mode currentMode = Mode.REAL;
+    public static double loopPeriodMs = 0.02; // "Temporary"
   }
 
   public static enum Mode {
