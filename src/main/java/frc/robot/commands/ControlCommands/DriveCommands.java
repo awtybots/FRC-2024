@@ -118,15 +118,17 @@ public class DriveCommands {
             // Optional<Rotation2d> targetAngleDifference =
             //     Optional.of((Rotation2d.fromDegrees(-LimelightHelpers.getTX("limelight"))));
 
-            targetGyroAngle = Optional.of(new Rotation2d(
-            currentPose.getX()
-                - AllianceFlipUtil.apply(
-                        FieldConstants.Speaker.centerSpeakerOpening.getTranslation())
-                    .getX(),
-            currentPose.getY()
-                - AllianceFlipUtil.apply(
-                        FieldConstants.Speaker.centerSpeakerOpening.getTranslation())
-                    .getY()));
+            targetGyroAngle =
+                Optional.of(
+                    new Rotation2d(
+                        currentPose.getX()
+                            - AllianceFlipUtil.apply(
+                                    FieldConstants.Speaker.centerSpeakerOpening.getTranslation())
+                                .getX(),
+                        currentPose.getY()
+                            - AllianceFlipUtil.apply(
+                                    FieldConstants.Speaker.centerSpeakerOpening.getTranslation())
+                                .getY()));
           }
 
           ChassisSpeeds chassisSpeeds =
