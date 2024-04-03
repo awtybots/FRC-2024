@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -304,13 +305,9 @@ public class RobotContainer {
 
     driverController
         .start()
-        .whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
+        .onTrue(Commands.runOnce(() -> sDrive.resetRotation()));
 
-    operatorController
-        .start()
-        .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
-
-    driverController.rightBumper().whileTrue(Commands.run(() -> sDrive.slowMode()));
+    driverController.rightBumper().onTrue(Commands.runOnce(() -> sDrive.toggleSlowMode()));
 
     // ! TEST <
     driverController.a().whileTrue(sDrive.getZeroAuton());
@@ -338,6 +335,10 @@ public class RobotContainer {
             sIntake, () -> operatorController.getRightTriggerAxis()));
 
     operatorController
+        .start()
+        .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
+
+    operatorController
         .y()
         .whileTrue(Commands.startEnd(() -> sIntake.runPercentSpeed(-1), sIntake::stop, sIntake));
 
@@ -345,10 +346,11 @@ public class RobotContainer {
     // operatorController.leftTrigger().whileTrue(new IntakeNote(sIntake));
 
     // Flywheel commands
-    operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel, sArm));
-    operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel, sIntake));
     sFlywheel.setDefaultCommand(
         new PreRunShooter(sFlywheel, true, sIntake)); // Runs the flywheel slowly at all times
+        
+    operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel, sArm));
+    operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel, sIntake));
 
     // Climber controls (The first one is 90% probably the one that works.)
     // sClimber.setDefaultCommand(
