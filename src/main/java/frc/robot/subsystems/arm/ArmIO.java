@@ -12,6 +12,7 @@
 
 package frc.robot.subsystems.arm;
 
+import java.util.Optional;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ArmIO {
@@ -22,6 +23,7 @@ public interface ArmIO {
     public double appliedVolts = 0.0;
     public double[] currentAmps = new double[] {};
     public double targetPositionRad;
+    public boolean isRoughlyAtSetpoint;
   }
 
   /** Updates the set of loggable inputs. */
@@ -34,7 +36,7 @@ public interface ArmIO {
   public default void setVelocity(double velocityRadPerSec) {}
 
   /** Run loop for the specified target angle. */
-  public default void setTargetAngle(double angle) {}
+  public default void setTargetAngle(Optional<Double> angle) {}
 
   /** Update motor speeds according to PID values from target angle. */
   public default void updateMotorSpeeds() {}
@@ -44,8 +46,4 @@ public interface ArmIO {
 
   /** Set velocity PID constants. */
   public default void configurePID(double kP, double kI, double kD) {}
-
-  public default boolean getIsFinished() {
-    return false;
-  }
 }

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.EnvironmentalConstants;
+import java.util.Optional;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -85,8 +86,8 @@ public class Arm extends SubsystemBase {
     // , ffModel.calculate(velocityRadPerSec));
   }
 
-  public boolean getIsFinished() {
-    return io.getIsFinished();
+  public boolean isRoughlyAtSetpoint() {
+    return inputs.isRoughlyAtSetpoint;
   }
 
   /**
@@ -94,7 +95,7 @@ public class Arm extends SubsystemBase {
    *
    * @param position Angle in radians.
    */
-  public void runTargetAngle(double position) {
+  public void runTargetAngle(Optional<Double> position) {
     io.setTargetAngle(position);
   }
 

@@ -15,6 +15,7 @@ package frc.robot.commands.Positions;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.arm.Arm;
+import java.util.Optional;
 
 public class StraightForwards {
 
@@ -22,14 +23,15 @@ public class StraightForwards {
     return Commands.run(
         () -> {
           // Position preset settings
-          double ARMANGLE = 0.111 * Math.PI * 2.0;
+          double ArmAngle = 0.111 * Math.PI * 2.0;
 
-          arm.runTargetAngle(ARMANGLE);
+          arm.runTargetAngle(Optional.of(ArmAngle));
         },
         arm);
   }
 }
-//  TODO check to add the `.until(
+//  TODO check if .until needed:
+//          .until(
 //             () -> {
 //               return arm.getIsFinished();
 //             });`

@@ -17,6 +17,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.EnvironmentalConstants;
 
 public class ArmIOSim implements ArmIO {
   // ! The settings on this simulation are wrong, fix later (or not lol)
@@ -36,7 +37,7 @@ public class ArmIOSim implements ArmIO {
       sim.setInputVoltage(appliedVolts);
     }
 
-    sim.update(0.02);
+    sim.update(EnvironmentalConstants.loopPeriodMs);
 
     inputs.positionRad = 0.0;
     inputs.velocityRadPerSec = sim.getVelocityRadPerSec();

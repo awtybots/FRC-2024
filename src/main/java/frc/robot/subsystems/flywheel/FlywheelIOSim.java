@@ -16,6 +16,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import frc.robot.Constants.EnvironmentalConstants;
 
 public class FlywheelIOSim implements FlywheelIO {
   // Note that this entire simulation is incorrect.
@@ -34,7 +35,7 @@ public class FlywheelIOSim implements FlywheelIO {
       sim.setInputVoltage(appliedVolts);
     }
 
-    sim.update(0.02);
+    sim.update(EnvironmentalConstants.loopPeriodMs);
 
     inputs.positionRadTop = 0.0;
     inputs.velocityRadPerSecTop = sim.getAngularVelocityRadPerSec();

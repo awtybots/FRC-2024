@@ -17,6 +17,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.ClimberConstants;
+import frc.robot.Constants.EnvironmentalConstants;
 
 public class ClimberIOSim implements ClimberIO {
   // ! The settings on this simulation are wrong, fix later (or not lol)
@@ -37,7 +38,7 @@ public class ClimberIOSim implements ClimberIO {
       sim.setInputVoltage(appliedVolts);
     }
 
-    sim.update(0.02);
+    sim.update(EnvironmentalConstants.loopPeriodMs);
 
     inputs.rightPosition = 0.0;
     inputs.rightVelocity = sim.getVelocityRadPerSec();

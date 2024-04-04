@@ -19,6 +19,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.EnvironmentalConstants;
+import java.util.Optional;
 
 /**
  * NOTE: To use the Spark Flex / NEO Vortex, replace all instances of "CANSparkMax" with
@@ -98,6 +100,7 @@ public class ArmIOSparkMax implements ArmIO {
     inputs.appliedVolts = leftMotor.getAppliedOutput() * leftMotor.getBusVoltage();
     inputs.currentAmps = new double[] {leftMotor.getOutputCurrent()};
     inputs.targetPositionRad = targetAngle;
+    inputs.isRoughlyAtSetpoint = isRoughlyAtSetpoint();
   }
 
   private double getSmoothedPosition() {
@@ -118,8 +121,7 @@ public class ArmIOSparkMax implements ArmIO {
   }
 
   // Returns true if the arm is stationary.
-  @Override
-  public boolean getIsFinished() {
+  public boolean isRoughlyAtSetpoint() {
     double velocity =
         Units.rotationsPerMinuteToRadiansPerSecond(leftAbsoluteEncoder.getVelocity() / GEAR_RATIO);
     return (Math.abs(getSmoothedPosition() - targetAngle) < 0.01) && (Math.abs(velocity) < 0.001);
@@ -129,16 +131,20 @@ public class ArmIOSparkMax implements ArmIO {
   /** Sets the velocity at the specified velocity. Needs to be run periodically. */
   public void setVelocity(double velocityRPM) {
     setTargetAngle(
-        targetAngle
-            + 0.02 // TODO correct cycle time here needed
-                // * ArmConstants.armConversion
-                * Units.rotationsToRadians(velocityRPM));
+        Optional.of(
+            targetAngle
+                + EnvironmentalConstants.loopPeriodMs
+                    // * ArmConstants.armConversion
+                    * Units.rotationsToRadians(velocityRPM)));
   }
 
   @Override
   /** Set the target angle. In radians. */
-  public void setTargetAngle(double angle) {
-    targetAngle = MathUtil.clamp(angle, ArmConstants.minimumAngle, ArmConstants.maximumAngle);
+  public void setTargetAngle(Optional<Double> angle) {
+    if (!angle.isEmpty() && angle.isPresent()) {
+      targetAngle =
+          MathUtil.clamp(angle.get(), ArmConstants.minimumAngle, ArmConstants.maximumAngle);
+    }
     // Note that updateMotorSpeeds(); is run periodically, which actually applies these changes.
 
     //   pid.setReference(

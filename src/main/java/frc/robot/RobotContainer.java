@@ -183,18 +183,6 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("ShootFarPosition", ShootFar.run(sArm).withTimeout(2.0));
 
-    // NamedCommands.registerCommand(
-    //     "FloorPickupPosition", new FloorPickupCommand(sArm).withTimeout(2.0));
-
-    // NamedCommands.registerCommand(
-    //     "ShootClosePosition", new ShootCloseCommand(sArm).withTimeout(2.0));
-
-    // NamedCommands.registerCommand(
-    //     "ShootMediumPosition", new ShootMediumCommand(sArm).withTimeout(2.0));
-
-    // NamedCommands.registerCommand("ShootFarPosition", new
-    // ShootFarCommand(sArm).withTimeout(2.0));
-
     NamedCommands.registerCommand(
         "PreRunShooter", new PreRunShooter(sFlywheel, sIntake).withTimeout(4.0));
 
@@ -210,9 +198,8 @@ public class RobotContainer {
     NamedCommands.registerCommand( // The name is inaccurate
         "ShootMediumGroup", new ShootNote(sIntake, sFlywheel, sArm).withTimeout(3.0));
 
-    // In testing
-    NamedCommands.registerCommand(
-        "SpeakerShot", SpeakerShot.run(1, sArm).withTimeout(5.0)); // TODO Replace SpeakerDistance
+    // TEST
+    NamedCommands.registerCommand("SpeakerShot", SpeakerShot.run(sArm, sDrive).withTimeout(5.0));
 
     SendableChooser<Command> chooser = new SendableChooser<>();
 

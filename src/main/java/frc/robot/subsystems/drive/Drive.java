@@ -42,6 +42,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants.EnvironmentalConstants;
 import frc.robot.util.LocalADStarAK;
 import frc.robot.util.VisionHelpers.TimestampedVisionUpdate;
 import java.util.List;
@@ -217,7 +218,8 @@ public class Drive extends SubsystemBase {
    */
   public void runVelocity(ChassisSpeeds speeds) {
     // Calculate module setpoints
-    ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
+    ChassisSpeeds discreteSpeeds =
+        ChassisSpeeds.discretize(speeds, EnvironmentalConstants.loopPeriodMs);
     SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, CurrentMaxLinearSpeed);
 

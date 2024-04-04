@@ -12,28 +12,81 @@
 
 package frc.robot.commands.Positions;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.arm.Arm;
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.util.AllianceFlipUtil;
+import frc.robot.util.FieldConstants;
+import java.util.Optional;
 
 public class SpeakerShot {
 
-  public static Command run(double SpeakerDistance, Arm arm) {
+  public static Command run(Arm arm, Drive drive) {
     return Commands.run(
         () -> {
-          /* Physics calculation for the note:
+          Pose2d currentPose = drive.getPose();
+          Optional<Double> speakerDistance = Optional.empty();
+          try {
+            speakerDistance =
+                Optional.of(
+                    Math.sqrt(
+                        Math.pow(
+                                currentPose.getX()
+                                    - AllianceFlipUtil.apply(
+                                            FieldConstants.Speaker.centerSpeakerOpening
+                                                .getTranslation())
+                                        .getX(),
+                                2)
+                            + Math.pow(
+                                currentPose.getY()
+                                    - AllianceFlipUtil.apply(
+                                            FieldConstants.Speaker.centerSpeakerOpening
+                                                .getTranslation())
+                                        .getY(),
+                                2)));
+          } catch (Exception e) {
+          }
 
-          */
-
-          // Position settings
-          double ARMANGLE = ((0.345 * Math.PI * 2.0) - 0.18) / 2; // TODO Temporary
-
-          arm.runTargetAngle(ARMANGLE);
+          arm.runTargetAngle(getRequiredAngle(speakerDistance));
         },
         arm);
   }
+
+  /**
+   * Gets the arm angle required for the note to score into the speaker. Calculates this using a
+   * polynomial regression of 5 known points.
+   */
+  public static Optional<Double> getRequiredAngle(Optional<Double> speakerDistance) {
+    // Numbers calculated using Desmos. Note that the range is between 1.753 (upwards) and 0.09
+    // (floor pickup) at the moment. Polynomial form ax^2 + bx + c.
+    final double a = 1.0;
+    final double b = 1.0;
+    final double c = 1.0;
+
+    final double calculatedArmAngle =
+        a * Math.pow(speakerDistance.get(), 2) + b * speakerDistance.get() + c;
+
+    // TODO once this is merged into main, make the FloorPickup and the Upwards angles be constants
+    // and reference them for here so they can update nicely.
+
+    if (Math.abs(calculatedArmAngle) < 1.753 && Math.abs(calculatedArmAngle) > 0.09) {
+      System.err.println(
+          "ERROR: The calculated SpeakerShot angle is outside of the allowed range for the arm.");
+      return Optional.empty();
+    }
+
+    if (speakerDistance.isEmpty()) {
+      System.err.println("WARNING: No speakerDistance detected for SpeakerShot.");
+      return Optional.empty();
+    }
+
+    return Optional.of(calculatedArmAngle);
+  }
 }
-//  TODO check to add the `.until(
+//  TODO check if .until needed:
+//          .until()
 //             () -> {
 //               return arm.getIsFinished();
 //             });`

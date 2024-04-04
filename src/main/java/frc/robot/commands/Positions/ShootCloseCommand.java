@@ -14,12 +14,13 @@ package frc.robot.commands.Positions;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.arm.Arm;
+import java.util.Optional;
 
 public class ShootCloseCommand extends Command {
 
   private Arm arm;
 
-  double ARMANGLE = 0.687;
+  double ArmAngle = 0.687;
 
   public ShootCloseCommand(Arm arm) {
     this.arm = arm;
@@ -33,7 +34,7 @@ public class ShootCloseCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.runTargetAngle(ARMANGLE);
+    arm.runTargetAngle(Optional.of(ArmAngle));
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +43,6 @@ public class ShootCloseCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return arm.getIsFinished();
+    return arm.isRoughlyAtSetpoint();
   }
 }
