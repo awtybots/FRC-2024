@@ -15,6 +15,7 @@ package frc.robot.commands.Positions;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.util.AllianceFlipUtil;
@@ -61,21 +62,22 @@ public class SpeakerShot {
   public static Optional<Double> getRequiredAngle(Optional<Double> speakerDistance) {
     // Numbers calculated using Desmos. Note that the range is between 1.753 (upwards) and 0.09
     // (floor pickup) at the moment. Polynomial form ax^2 + bx + c.
-    final double a = 1.0;
-    final double b = 1.0;
-    final double c = 1.0;
+
+    if (-ArmConstants.QUADRATIC_B * Math.pow((2 * ArmConstants.QUADRATIC_A), -1) < 0) {}
 
     final double calculatedArmAngle =
-        a * Math.pow(speakerDistance.get(), 2) + b * speakerDistance.get() + c;
+        ArmConstants.QUADRATIC_A * Math.pow(speakerDistance.get(), 2)
+            + ArmConstants.QUADRATIC_B * speakerDistance.get()
+            + ArmConstants.QUADRATIC_C;
 
-    // TODO once this is merged into main, make the FloorPickup and the Upwards angles be constants
     // and reference them for here so they can update nicely.
 
-    if (Math.abs(calculatedArmAngle) < 1.753 && Math.abs(calculatedArmAngle) > 0.09) {
-      System.err.println(
-          "ERROR: The calculated SpeakerShot angle is outside of the allowed range for the arm.");
-      return Optional.empty();
-    }
+    // if (Math.abs(calculatedArmAngle) < 1.753 && Math.abs(calculatedArmAngle) > 0.09) {
+    //   System.err.println(
+    //       "ERROR: The calculated SpeakerShot angle is outside of the allowed range for the
+    // arm.");
+    //   return Optional.empty();
+    // }
 
     if (speakerDistance.isEmpty()) {
       System.err.println("WARNING: No speakerDistance detected for SpeakerShot.");

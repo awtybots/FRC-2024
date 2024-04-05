@@ -142,13 +142,17 @@ public final class Constants {
     public static final double minimumAngle = 0;
     public static final double maximumAngle = Math.PI;
 
-    public static final double uprightAngle = 1.734; // (for gravity calculations for PID)
+    // Quadratic regression calculated a, b, and c values. For SpeakerShot and tests.
+    // TODO CALCULATE REAL VALUES (this is a temporary rough calculation)
+    public static final double QUADRATIC_A = -0.169338;
+    public static final double QUADRATIC_B = 0.803248;
+    public static final double QUADRATIC_C = 0.0;
 
-    // do not use
-    // public static final double kFF = 0.0;
-    // public static final double kIz = 0.0;
-
-    // public static final double initialAngle = 0.0; // Not sure what this is for
+    public static final double UpwardsAngle = 1.753; // (for gravity calculations for PID and tests)
+    public static final double FloorPickupAngle = 0.09; // ditto
+    public static final double ShootCloseAngle = 0.747;
+    public static final double ShootMediumAngle = 0.933;
+    public static final double ShootFarAngle = 0.799;
   }
 
   public static final class Presets {

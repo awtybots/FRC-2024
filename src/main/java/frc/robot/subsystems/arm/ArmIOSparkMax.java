@@ -111,7 +111,7 @@ public class ArmIOSparkMax implements ArmIO {
   }
 
   public double getAngleFromVertical() {
-    return (getSmoothedPosition() * Math.PI * 2.0 - Constants.ArmConstants.uprightAngle);
+    return (getSmoothedPosition() * Math.PI * 2.0 - Constants.ArmConstants.UpwardsAngle);
   }
 
   @Override

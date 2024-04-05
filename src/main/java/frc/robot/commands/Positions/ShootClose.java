@@ -14,6 +14,7 @@ package frc.robot.commands.Positions;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.arm.Arm;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class ShootClose { // bumper pressed against the wall
     return Commands.run(
             () -> {
               // Position preset settings
-              double ArmAngle = 0.747;
+              double ArmAngle = ArmConstants.ShootCloseAngle;
 
               arm.runTargetAngle(Optional.of(ArmAngle));
             },
