@@ -14,6 +14,7 @@ package frc.robot.subsystems.flywheel;
 
 import org.littletonrobotics.junction.AutoLog;
 
+/** Interface for operative components of Flywheel (shooter) subsystem. */
 public interface FlywheelIO {
   @AutoLog
   public static class FlywheelIOInputs {

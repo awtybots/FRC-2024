@@ -18,6 +18,11 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Constants.ClimberConstants;
 
+/**
+ * This implementation of ClimberIO is for the chain climber, in the case of simulation. Currently
+ * inoperative.
+ */
+@Deprecated
 public class ClimberIOSim implements ClimberIO {
   // ! The settings on this simulation are wrong, fix later (or not lol)
   private SingleJointedArmSim sim =

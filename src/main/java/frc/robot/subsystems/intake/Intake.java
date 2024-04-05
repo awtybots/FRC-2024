@@ -12,7 +12,6 @@
 
 package frc.robot.subsystems.intake;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -22,10 +21,10 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
+/** This subsystem is for the intake of the robot. */
 public class Intake extends SubsystemBase {
   private final IntakeIO io;
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
-  private final SimpleMotorFeedforward ffModel;
   public static final Lock odometryLock = new ReentrantLock();
 
   private final ProximitySensorIO proximitySensorIO;
@@ -43,13 +42,10 @@ public class Intake extends SubsystemBase {
     switch (EnvironmentalConstants.currentMode) {
       case REAL:
       case REPLAY:
-        ffModel = new SimpleMotorFeedforward(0.1, 0.05);
         break;
       case SIM:
-        ffModel = new SimpleMotorFeedforward(0.0, 0.03);
         break;
       default:
-        ffModel = new SimpleMotorFeedforward(0.0, 0.0);
         break;
     }
   }

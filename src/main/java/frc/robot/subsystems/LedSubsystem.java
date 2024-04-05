@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.intake.Intake;
 
+/** This subsystem is for the LED strip. */
 public class LedSubsystem extends SubsystemBase {
 
   private AddressableLED m_led;

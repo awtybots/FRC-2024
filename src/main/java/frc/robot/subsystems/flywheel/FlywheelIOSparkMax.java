@@ -22,6 +22,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.FlywheelConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 
+/** This implementation of FlywheelIO is real and uses two Neo SparkMax motors. */
 public class FlywheelIOSparkMax implements FlywheelIO {
   private static final double GEAR_RATIO = 2;
 

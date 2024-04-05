@@ -15,6 +15,7 @@ package frc.robot.subsystems.climber;
 import frc.robot.Constants.ClimberConstants;
 import org.littletonrobotics.junction.AutoLog;
 
+/** Interface for operative components of (chain) Climber subsystem. */
 public interface ClimberIO {
   @AutoLog
   public static class ClimberIOInputs {

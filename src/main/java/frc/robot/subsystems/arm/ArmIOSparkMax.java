@@ -21,7 +21,9 @@ import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
 /**
- * NOTE: To use the Spark Flex / NEO Vortex, replace all instances of "CANSparkMax" with
+ * This implementation of ArmIO is for the arm, in the case of using two NEO SparkMax motors.
+ *
+ * <p>NOTE: To use the Spark Flex / NEO Vortex, replace all instances of "CANSparkMax" with
  * "CANSparkFlex".
  */
 public class ArmIOSparkMax implements ArmIO {

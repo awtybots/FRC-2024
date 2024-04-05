@@ -21,6 +21,7 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.EnvironmentalConstants;
 import org.littletonrobotics.junction.Logger;
 
+/** This subsystem controls individual pairs of motors in the swerve drivetrain of the robot. */
 public class Module {
   private static final double WHEEL_RADIUS = Units.inchesToMeters(2.0);
   public static final double ODOMETRY_FREQUENCY = 200.0;

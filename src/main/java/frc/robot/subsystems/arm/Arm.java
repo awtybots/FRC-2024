@@ -19,6 +19,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.EnvironmentalConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 
+/** This subsystem is for the arm. */
 public class Arm extends SubsystemBase {
   private final ArmIO io;
   private final ArmIOInputsAutoLogged inputs = new ArmIOInputsAutoLogged();

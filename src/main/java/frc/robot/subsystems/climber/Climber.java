@@ -20,6 +20,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 // ! TODO Seperate target positions but they're controlled by one so that they can be controlled
 // ! seperately from smartdashboard
 
+/** This subsystem is for the chain climber. */
 public class Climber extends SubsystemBase {
   private final ClimberIO io;
   private final ClimberIOInputsAutoLogged inputs = new ClimberIOInputsAutoLogged();
@@ -66,7 +67,8 @@ public class Climber extends SubsystemBase {
   /**
    * Sets the targeted PID position.
    *
-   * @param position meters.
+   * @param positionLeft meters.
+   * @param positionRight meters.
    */
   public void runTargetPosition(double positionLeft, double positionRight) {
     io.setTargetPosition(positionLeft, positionRight);
