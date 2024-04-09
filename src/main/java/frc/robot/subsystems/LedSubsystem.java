@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+// import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.intake.Intake;
@@ -43,16 +44,6 @@ public class LedSubsystem extends SubsystemBase {
     defaultColor = new int[] {0, 255, 0};
 
     isLucky = Math.random() > 0.99999;
-
-    try {
-      m_led = new AddressableLED(LEDPort);
-      m_ledBuffer = new AddressableLEDBuffer(length);
-      m_led.setLength(m_ledBuffer.getLength());
-      m_led.setData(m_ledBuffer);
-      m_led.start();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   public void setLed(int i, int[] color) {

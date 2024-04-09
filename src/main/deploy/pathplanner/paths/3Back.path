@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.75,
-        "y": 4.4
+        "x": 1.8732108159384147,
+        "y": 4.632584608774542
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3942224539903363,
-        "y": 3.4977018227329286
+        "x": 1.7887022936128545,
+        "y": 4.667364753615702
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.2304,
-        "y": 4.4638
+        "x": 2.23,
+        "y": 4.46
       },
       "prevControl": {
-        "x": 2.1425349500703676,
-        "y": 4.511546549622598
+        "x": 2.3084664747991424,
+        "y": 4.427706507183076
       },
       "nextControl": null,
       "isLocked": false,
@@ -35,10 +35,10 @@
       "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 3.0,
         "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
+        "maxAngularVelocity": 0.1,
+        "maxAngularAcceleration": 0.1
       }
     }
   ],
@@ -53,7 +53,13 @@
             {
               "type": "named",
               "data": {
-                "name": "FloorPickupPosition"
+                "name": "ShootMediumPosition"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "PreRunShooter"
               }
             }
           ]
@@ -68,14 +74,14 @@
     "maxAngularAcceleration": 300.0
   },
   "goalEndState": {
-    "velocity": 0.0,
+    "velocity": 0,
     "rotation": -28.519999999999982,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "StartPaths",
+  "folder": "PickupPaths",
   "previewStartingState": {
-    "rotation": -59.72000000000003,
+    "rotation": -28.519999999999982,
     "velocity": 0
   },
   "useDefaultConstraints": true
