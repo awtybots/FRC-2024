@@ -13,6 +13,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.FollowPathCommand;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.EnvironmentalConstants;
@@ -32,6 +33,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 public class Robot extends LoggedRobot {
   private Command autonomousCommand;
   private RobotContainer robotContainer;
+  Thread m_visionThread;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -40,6 +42,8 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotInit() {
     // Record metadata
+    CameraServer.startAutomaticCapture();
+
     Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
     Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
     Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);

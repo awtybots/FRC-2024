@@ -12,6 +12,7 @@
 
 package frc.robot.commands.ControlCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
@@ -30,6 +31,8 @@ public class IntakeShooterControls {
             intake.runPercentSpeed(
                 Constants.IntakeConstants.percentPower * rightTriggerSupplier.getAsDouble());
           }
+          boolean noteDetected = intake.getConveyerProximity() || intake.getShooterProximity();
+          SmartDashboard.putBoolean("Note Detected", noteDetected);
         },
         intake);
   }

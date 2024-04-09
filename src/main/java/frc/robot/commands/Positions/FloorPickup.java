@@ -23,7 +23,7 @@ public class FloorPickup {
     return Commands.run(
             () -> {
               // Position preset settings
-              double ArmAngle = 0.09;
+              double ArmAngle = 0.122;
 
               arm.runTargetAngle(Optional.of(ArmAngle));
             },

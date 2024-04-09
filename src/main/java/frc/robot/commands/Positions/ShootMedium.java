@@ -23,7 +23,7 @@ public class ShootMedium { // one robot length away
     return Commands.run(
             () -> {
               // Position preset settings
-              double ArmAngle = 0.933;
+              double ArmAngle = 0.9783;
 
               arm.runTargetAngle(Optional.of(ArmAngle));
             },
