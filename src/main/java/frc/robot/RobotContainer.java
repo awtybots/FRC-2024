@@ -23,10 +23,10 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.ControlCommands.ArmCommands;
 import frc.robot.commands.ControlCommands.DriveCommands;
 import frc.robot.commands.ControlCommands.IntakeShooterControls;
-import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.IntakeNote;
 import frc.robot.commands.IntakeNoteAndAlign;
 import frc.robot.commands.Positions.AmpShot;
@@ -43,6 +43,10 @@ import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
 import frc.robot.subsystems.arm.ArmIOSparkMax;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberIO;
+import frc.robot.subsystems.climber.ClimberIOSim;
+import frc.robot.subsystems.climber.ClimberIOSparkMax;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONavX;
@@ -75,6 +79,7 @@ public class RobotContainer {
   private final Flywheel sFlywheel;
   private final Intake sIntake;
   private final Arm sArm;
+  private final Climber sClimber;
 
   // Controllers
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -96,7 +101,7 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         sDrive =
             new Drive(
-                new GyroIONavX(false),
+                new GyroIONavX(),
                 new ModuleIOSparkMax(0),
                 new ModuleIOSparkMax(1),
                 new ModuleIOSparkMax(2),
@@ -104,6 +109,7 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIOSparkMax());
         sIntake = new Intake(new IntakeIOSparkMax() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIOSparkMax() {});
+        sClimber = new Climber(new ClimberIOSparkMax() {});
 
         break;
 
@@ -121,6 +127,7 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIOSim());
         sIntake = new Intake(new IntakeIOSim() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIOSim() {});
+        sClimber = new Climber(new ClimberIOSim() {});
 
         break;
 
@@ -136,6 +143,7 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIO() {});
         sIntake = new Intake(new IntakeIO() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIO() {});
+        sClimber = new Climber(new ClimberIO() {});
 
         break;
     }
@@ -241,6 +249,7 @@ public class RobotContainer {
 
           // Right Alternate Group
           "RCloseOut",
+          "RFar1S5",
 
           // Test Autos
           "SimpleStraight",
@@ -260,15 +269,66 @@ public class RobotContainer {
     options.forEach(auto -> chooser.addOption(auto.getName(), auto));
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", chooser);
 
-    // Set up feedforward characterization
+    // Set up SysId routines
+    // Drive subsystem
     autoChooser.addOption(
-        "Drive FF Characterization",
-        new FeedForwardCharacterization(
-            sDrive, sDrive::runCharacterizationVolts, sDrive::getCharacterizationVelocity));
+        "Drive SysId (Quasistatic Forward)",
+        sDrive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
-        "Flywheel FF Characterization",
-        new FeedForwardCharacterization(
-            sFlywheel, sFlywheel::runVolts, sFlywheel::getCharacterizationVelocity));
+        "Drive SysId (Quasistatic Reverse)",
+        sDrive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Drive SysId (Dynamic Forward)", sDrive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Drive SysId (Dynamic Reverse)", sDrive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Flywheel subsystem
+    autoChooser.addOption(
+        "Flywheel SysId (Quasistatic Forward)",
+        sFlywheel.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Flywheel SysId (Quasistatic Reverse)",
+        sFlywheel.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Flywheel SysId (Dynamic Forward)",
+        sFlywheel.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Flywheel SysId (Dynamic Reverse)",
+        sFlywheel.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Climber subsystem
+    autoChooser.addOption(
+        "Climber SysId (Quasistatic Forward)",
+        sClimber.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Climber SysId (Quasistatic Reverse)",
+        sClimber.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Climber SysId (Dynamic Forward)", sClimber.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Climber SysId (Dynamic Reverse)", sClimber.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Arm subsystem
+    autoChooser.addOption(
+        "Arm SysId (Quasistatic Forward)", sArm.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Arm SysId (Quasistatic Reverse)", sArm.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Arm SysId (Dynamic Forward)", sArm.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Arm SysId (Dynamic Reverse)", sArm.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    // Intake subsystem
+    autoChooser.addOption(
+        "Intake SysId (Quasistatic Forward)",
+        sIntake.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Intake SysId (Quasistatic Reverse)",
+        sIntake.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Intake SysId (Dynamic Forward)", sIntake.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Intake SysId (Dynamic Reverse)", sIntake.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -292,6 +352,12 @@ public class RobotContainer {
             () -> -driverController.getRightX()));
 
     driverController.start().onTrue(Commands.runOnce(() -> sDrive.resetRotation()));
+
+    operatorController
+        .start()
+        .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
+
+    driverController.rightBumper().whileTrue(Commands.runOnce(() -> sDrive.toggleSlowMode()));
 
     // ! TEST <
     driverController.a().whileTrue(sDrive.getZeroAuton());

@@ -43,6 +43,8 @@ public class ModuleIOTalonFX implements ModuleIO {
   private final TalonFX turnTalon;
   private final CANcoder cancoder;
 
+  private final Queue<Double> timestampQueue;
+
   private final StatusSignal<Double> drivePosition;
   private final Queue<Double> drivePositionQueue;
   private final StatusSignal<Double> driveVelocity;
@@ -94,25 +96,27 @@ public class ModuleIOTalonFX implements ModuleIO {
     }
 
     var driveConfig = new TalonFXConfiguration();
-    driveConfig.CurrentLimits.StatorCurrentLimit = 40.0;
-    driveConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    driveConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
+    driveConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
     driveTalon.getConfigurator().apply(driveConfig);
     setDriveBrakeMode(true);
 
     var turnConfig = new TalonFXConfiguration();
-    turnConfig.CurrentLimits.StatorCurrentLimit = 30.0;
-    turnConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    turnConfig.CurrentLimits.SupplyCurrentLimit = 30.0;
+    turnConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
     turnTalon.getConfigurator().apply(turnConfig);
     setTurnBrakeMode(true);
 
     cancoder.getConfigurator().apply(new CANcoderConfiguration());
+
+    timestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
 
     drivePosition = driveTalon.getPosition();
     drivePositionQueue =
         PhoenixOdometryThread.getInstance().registerSignal(driveTalon, driveTalon.getPosition());
     driveVelocity = driveTalon.getVelocity();
     driveAppliedVolts = driveTalon.getMotorVoltage();
-    driveCurrent = driveTalon.getStatorCurrent();
+    driveCurrent = driveTalon.getSupplyCurrent();
 
     turnAbsolutePosition = cancoder.getAbsolutePosition();
     turnPosition = turnTalon.getPosition();
@@ -120,7 +124,7 @@ public class ModuleIOTalonFX implements ModuleIO {
         PhoenixOdometryThread.getInstance().registerSignal(turnTalon, turnTalon.getPosition());
     turnVelocity = turnTalon.getVelocity();
     turnAppliedVolts = turnTalon.getMotorVoltage();
-    turnCurrent = turnTalon.getStatorCurrent();
+    turnCurrent = turnTalon.getSupplyCurrent();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         Module.ODOMETRY_FREQUENCY, drivePosition, turnPosition);
@@ -167,6 +171,8 @@ public class ModuleIOTalonFX implements ModuleIO {
     inputs.turnAppliedVolts = turnAppliedVolts.getValueAsDouble();
     inputs.turnCurrentAmps = new double[] {turnCurrent.getValueAsDouble()};
 
+    inputs.odometryTimestamps =
+        timestampQueue.stream().mapToDouble((Double value) -> value).toArray();
     inputs.odometryDrivePositionsRad =
         drivePositionQueue.stream()
             .mapToDouble((Double value) -> Units.rotationsToRadians(value) / DRIVE_GEAR_RATIO)
@@ -175,6 +181,8 @@ public class ModuleIOTalonFX implements ModuleIO {
         turnPositionQueue.stream()
             .map((Double value) -> Rotation2d.fromRotations(value / TURN_GEAR_RATIO))
             .toArray(Rotation2d[]::new);
+
+    timestampQueue.clear();
     drivePositionQueue.clear();
     turnPositionQueue.clear();
   }

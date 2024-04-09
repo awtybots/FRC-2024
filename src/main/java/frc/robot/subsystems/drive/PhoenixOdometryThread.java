@@ -22,6 +22,7 @@ import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.littletonrobotics.junction.Logger;
 
 /**
  * Provides an interface for asynchronously reading high-frequency measurements to a set of queues.
@@ -36,6 +37,7 @@ public class PhoenixOdometryThread extends Thread {
       new ReentrantLock(); // Prevents conflicts when registering signals
   private BaseStatusSignal[] signals = new BaseStatusSignal[0];
   private final List<Queue<Double>> queues = new ArrayList<>();
+  private final List<Queue<Double>> timestampQueues = new ArrayList<>();
   private boolean isCANFD = false;
 
   private static PhoenixOdometryThread instance = null;
@@ -50,11 +52,17 @@ public class PhoenixOdometryThread extends Thread {
   private PhoenixOdometryThread() {
     setName("PhoenixOdometryThread");
     setDaemon(true);
-    start();
+  }
+
+  @Override
+  public void start() {
+    if (timestampQueues.size() > 0) {
+      super.start();
+    }
   }
 
   public Queue<Double> registerSignal(ParentDevice device, StatusSignal<Double> signal) {
-    Queue<Double> queue = new ArrayBlockingQueue<>(100);
+    Queue<Double> queue = new ArrayBlockingQueue<>(20);
     signalsLock.lock();
     Drive.odometryLock.lock();
     try {
@@ -66,6 +74,17 @@ public class PhoenixOdometryThread extends Thread {
       queues.add(queue);
     } finally {
       signalsLock.unlock();
+      Drive.odometryLock.unlock();
+    }
+    return queue;
+  }
+
+  public Queue<Double> makeTimestampQueue() {
+    Queue<Double> queue = new ArrayBlockingQueue<>(20);
+    Drive.odometryLock.lock();
+    try {
+      timestampQueues.add(queue);
+    } finally {
       Drive.odometryLock.unlock();
     }
     return queue;
@@ -96,8 +115,19 @@ public class PhoenixOdometryThread extends Thread {
       // Save new data to queues
       Drive.odometryLock.lock();
       try {
+        double timestamp = Logger.getRealTimestamp() / 1e6;
+        double totalLatency = 0.0;
+        for (BaseStatusSignal signal : signals) {
+          totalLatency += signal.getTimestamp().getLatency();
+        }
+        if (signals.length > 0) {
+          timestamp -= totalLatency / signals.length;
+        }
         for (int i = 0; i < signals.length; i++) {
           queues.get(i).offer(signals[i].getValueAsDouble());
+        }
+        for (int i = 0; i < timestampQueues.size(); i++) {
+          timestampQueues.get(i).offer(timestamp);
         }
       } finally {
         Drive.odometryLock.unlock();

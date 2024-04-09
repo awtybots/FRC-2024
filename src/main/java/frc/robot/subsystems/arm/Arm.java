@@ -12,17 +12,23 @@
 
 package frc.robot.subsystems.arm;
 
+import static edu.wpi.first.units.Units.*;
+
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.EnvironmentalConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.Logger;
 
 public class Arm extends SubsystemBase {
   private final ArmIO io;
   private final ArmIOInputsAutoLogged inputs = new ArmIOInputsAutoLogged();
   private final SimpleMotorFeedforward ffModel;
+  private final SysIdRoutine sysId;
 
   /** Creates a new Arm. */
   public Arm(ArmIO io) {
@@ -47,6 +53,15 @@ public class Arm extends SubsystemBase {
         ffModel = new SimpleMotorFeedforward(ArmConstants.ks, ArmConstants.kv);
         break;
     }
+    // Configure SysId
+    sysId =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                null,
+                null,
+                null,
+                (state) -> Logger.recordOutput("Arm/SysIdState", state.toString())),
+            new SysIdRoutine.Mechanism((voltage) -> runVolts(voltage.in(Volts)), null, this));
   }
 
   @Override
@@ -94,18 +109,25 @@ public class Arm extends SubsystemBase {
     return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSec);
   }
 
+  /** Returns the arm angle in radians?. */
   @AutoLogOutput(key = "Arm/AngleRad")
   public double getAngleRad() {
     return inputs.positionRad;
   }
 
+  /** Returns the arm target angle in radians. */
   @AutoLogOutput(key = "Arm/TargetPositionRad")
   public double getTargetPosition() {
     return inputs.targetPositionRad;
   }
 
-  /** Returns the current velocity in radians per second. */
-  public double getCharacterizationVelocity() {
-    return inputs.velocityRadPerSec;
+  /** Returns a command to run a quasistatic test in the specified direction. */
+  public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+    return sysId.quasistatic(direction);
+  }
+
+  /** Returns a command to run a dynamic test in the specified direction. */
+  public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+    return sysId.dynamic(direction);
   }
 }
