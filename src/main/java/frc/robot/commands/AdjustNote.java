@@ -15,7 +15,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.intake.Intake;
 
-// Moves the note so that it is detected by the conveySensor but not shooterSensor
+/**
+ * This class is a Command that moves the note so that it is detected by the conveySensor but not
+ * shooterSensor, so that it is in roughly the same position each shot.
+ */
 public class AdjustNote extends Command {
 
   private Intake intake;
@@ -26,6 +29,7 @@ public class AdjustNote extends Command {
 
   private long phase2StartTime;
 
+  /** Constructor. */
   public AdjustNote(Intake intake) {
     this.intake = intake;
     addRequirements(intake);

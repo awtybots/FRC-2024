@@ -41,6 +41,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
+/** This subsystem controls the overall swerve drivetrain of the robot. */
 public class Drive extends SubsystemBase {
 
   private static final double TRACK_WIDTH_X =

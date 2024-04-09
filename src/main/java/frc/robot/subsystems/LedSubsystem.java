@@ -9,18 +9,19 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
-/*
+
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+// import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.intake.Intake;
 
+/** This subsystem is for the LED strip. */
 public class LedSubsystem extends SubsystemBase {
 
   private AddressableLED m_led;
@@ -30,7 +31,6 @@ public class LedSubsystem extends SubsystemBase {
   private static double ledCount = 0;
   private static final double LED_SPEED = 1;
   private final int stripLength;
-
 
   Intake intake;
   private int[] defaultColor;
@@ -44,10 +44,6 @@ public class LedSubsystem extends SubsystemBase {
     defaultColor = new int[] {0, 255, 0};
 
     isLucky = Math.random() > 0.99999;
-
-
-
-
   }
 
   public void setLed(int i, int[] color) {
@@ -88,4 +84,3 @@ public class LedSubsystem extends SubsystemBase {
     m_led.setData(m_ledBuffer);
   }
 }
-*/

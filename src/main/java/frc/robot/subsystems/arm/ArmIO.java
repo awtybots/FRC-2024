@@ -14,6 +14,7 @@ package frc.robot.subsystems.arm;
 
 import org.littletonrobotics.junction.AutoLog;
 
+/** Interface for operative components of Arm subsystem. */
 public interface ArmIO {
   @AutoLog
   public static class ArmIOInputs {

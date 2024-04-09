@@ -22,7 +22,10 @@ import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Constants.ClimberConstants;
 
 /**
- * NOTE: To use the Spark Flex / NEO Vortex, replace all instances of "CANSparkMax" with
+ * This implementation of ClimberIO is for the chain climber, in the case of using two NEO SparkMax
+ * motors.
+ *
+ * <p>Note: To use the Spark Flex / NEO Vortex, replace all instances of "CANSparkMax" with
  * "CANSparkFlex".
  */
 public class ClimberIOSparkMax implements ClimberIO {

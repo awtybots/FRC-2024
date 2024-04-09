@@ -15,6 +15,7 @@ package frc.robot.subsystems.drive;
 import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
 
+/** Interface for operative components of Module subsystem. */
 public interface ModuleIO {
   @AutoLog
   public static class ModuleIOInputs {

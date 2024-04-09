@@ -293,6 +293,8 @@ public class RobotContainer {
 
     driverController.start().onTrue(Commands.runOnce(() -> sDrive.resetRotation()));
 
+    driverController.rightBumper().onTrue(Commands.runOnce(() -> sDrive.toggleSlowMode()));
+
     // ! TEST <
     driverController.a().whileTrue(sDrive.getZeroAuton());
     // !TEST >

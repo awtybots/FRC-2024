@@ -14,6 +14,7 @@ package frc.robot.subsystems.intake;
 
 import org.littletonrobotics.junction.AutoLog;
 
+/** Interface for proximity sensors. Could be removed tbh. */
 public interface ProximitySensorIO {
   @AutoLog
   public static class ProximitySensorIOInputs {
