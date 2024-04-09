@@ -57,6 +57,12 @@
         {
           "type": "path",
           "data": {
+            "pathName": "1Back"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Point1-2"
           }
         },

@@ -100,6 +100,12 @@
         {
           "type": "path",
           "data": {
+            "pathName": "3Back"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Point3-1"
           }
         },
@@ -138,6 +144,12 @@
           "type": "named",
           "data": {
             "name": "ShootMediumGroup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1Back"
           }
         },
         {

@@ -121,7 +121,7 @@ public final class Constants {
 
     public static final double armConversion = 0.05;
 
-    public static final double kMaxOutput = 0.3;
+    public static final double kMaxOutput = 0.4;
 
     // // Arm PID constants
     public static final double kP = 0.65;
@@ -149,9 +149,9 @@ public final class Constants {
     public static final double QUADRATIC_C = 0.0;
 
     public static final double UpwardsAngle = 1.753; // (for gravity calculations for PID and tests)
-    public static final double FloorPickupAngle = 0.09; // ditto
-    public static final double ShootCloseAngle = 0.747;
-    public static final double ShootMediumAngle = 0.933;
+    public static final double FloorPickupAngle = 0.122; // ditto
+    public static final double ShootCloseAngle = 0.8552;
+    public static final double ShootMediumAngle = 0.9783;
     public static final double ShootFarAngle = 0.799;
   }
 

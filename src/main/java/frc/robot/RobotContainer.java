@@ -38,7 +38,7 @@ import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.commands.Positions.StowPosition;
 import frc.robot.commands.PreRunShooter;
 import frc.robot.commands.ShootNote;
-import frc.robot.subsystems.LedSubsystem;
+import frc.robot.commands.ShootNoteTeleop;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
@@ -83,7 +83,6 @@ public class RobotContainer {
   private final Intake sIntake;
   private final Arm sArm;
   private final Climber sClimber;
-  private final LedSubsystem ledSubsystem;
   private AprilTagVision aprilTagVision;
 
   // Controllers
@@ -155,8 +154,6 @@ public class RobotContainer {
 
         break;
     }
-
-    ledSubsystem = new LedSubsystem(0, 80, sIntake);
 
     aprilTagVision.setDataInterfaces(sDrive::addVisionData);
 
@@ -363,9 +360,7 @@ public class RobotContainer {
                 () -> -driverController.getRightX(),
                 true));
 
-    driverController
-        .start()
-        .whileTrue(Commands.startEnd(() -> sDrive.resetRotation(), sDrive::stop, sDrive));
+    driverController.start().onTrue(Commands.runOnce(() -> sDrive.resetRotation()));
 
     operatorController
         .start()
@@ -399,6 +394,10 @@ public class RobotContainer {
             sIntake, () -> operatorController.getRightTriggerAxis()));
 
     operatorController
+        .start()
+        .whileTrue(Commands.startEnd(() -> sIntake.runFull(), sIntake::stop, sIntake));
+
+    operatorController
         .y()
         .whileTrue(Commands.startEnd(() -> sIntake.runPercentSpeed(-1), sIntake::stop, sIntake));
 
@@ -406,10 +405,11 @@ public class RobotContainer {
     // operatorController.leftTrigger().whileTrue(new IntakeNote(sIntake));
 
     // Flywheel commands
-    operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel, sArm));
-    operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel, sIntake));
     sFlywheel.setDefaultCommand(
         new PreRunShooter(sFlywheel, true, sIntake)); // Runs the flywheel slowly at all times
+
+    operatorController.rightBumper().whileTrue(new ShootNoteTeleop(sIntake, sFlywheel, sArm));
+    operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel, sIntake));
 
     // Climber controls (The first one is 90% probably the one that works.)
     // sClimber.setDefaultCommand(

@@ -55,15 +55,15 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Point2-3"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "FloorPickupPosition"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Point2-3"
           }
         },
         {
@@ -98,15 +98,21 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Point3-1"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "FloorPickupPosition"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3Back"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Point3-1"
           }
         },
         {
