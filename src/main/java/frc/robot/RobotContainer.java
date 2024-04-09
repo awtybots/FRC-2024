@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -39,15 +38,11 @@ import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.commands.Positions.StowPosition;
 import frc.robot.commands.PreRunShooter;
 import frc.robot.commands.ShootNote;
-import frc.robot.subsystems.LedSubsystem;
+import frc.robot.commands.ShootNoteTeleop;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOSim;
 import frc.robot.subsystems.arm.ArmIOSparkMax;
-import frc.robot.subsystems.climber.Climber;
-import frc.robot.subsystems.climber.ClimberIO;
-import frc.robot.subsystems.climber.ClimberIOSim;
-import frc.robot.subsystems.climber.ClimberIOSparkMax;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONavX;
@@ -80,8 +75,6 @@ public class RobotContainer {
   private final Flywheel sFlywheel;
   private final Intake sIntake;
   private final Arm sArm;
-  private final Climber sClimber;
-  private final LedSubsystem ledSubsystem;
 
   // Controllers
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -111,7 +104,6 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIOSparkMax());
         sIntake = new Intake(new IntakeIOSparkMax() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIOSparkMax() {});
-        sClimber = new Climber(new ClimberIOSparkMax() {});
 
         break;
 
@@ -129,7 +121,6 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIOSim());
         sIntake = new Intake(new IntakeIOSim() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIOSim() {});
-        sClimber = new Climber(new ClimberIOSim() {});
 
         break;
 
@@ -145,12 +136,9 @@ public class RobotContainer {
         sFlywheel = new Flywheel(new FlywheelIO() {});
         sIntake = new Intake(new IntakeIO() {}, new ProximitySensorIOV3() {});
         sArm = new Arm(new ArmIO() {});
-        sClimber = new Climber(new ClimberIO() {});
 
         break;
     }
-
-    ledSubsystem = new LedSubsystem(0, 80, sIntake);
 
     // Build SmartDashboard auto chooser
     if (!AutoBuilder.isConfigured()) {
@@ -303,11 +291,7 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
 
-    driverController
-        .start()
-        .onTrue(Commands.runOnce(() -> sDrive.resetRotation()));
-
-    driverController.rightBumper().onTrue(Commands.runOnce(() -> sDrive.toggleSlowMode()));
+    driverController.start().onTrue(Commands.runOnce(() -> sDrive.resetRotation()));
 
     // ! TEST <
     driverController.a().whileTrue(sDrive.getZeroAuton());
@@ -348,8 +332,8 @@ public class RobotContainer {
     // Flywheel commands
     sFlywheel.setDefaultCommand(
         new PreRunShooter(sFlywheel, true, sIntake)); // Runs the flywheel slowly at all times
-        
-    operatorController.rightBumper().whileTrue(new ShootNote(sIntake, sFlywheel, sArm));
+
+    operatorController.rightBumper().whileTrue(new ShootNoteTeleop(sIntake, sFlywheel, sArm));
     operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel, sIntake));
 
     // Climber controls (The first one is 90% probably the one that works.)

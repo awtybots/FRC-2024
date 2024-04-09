@@ -41,7 +41,7 @@ public class ArmIOSparkMax implements ArmIO {
 
   private final PIDController mathPid;
 
-  private double targetAngle = 0.747; // 2.2// Radians, just a default value
+  private double targetAngle = 0.09; // 2.2// Radians, just a default value
 
   private double lastEncoderReading = 0.4;
 
