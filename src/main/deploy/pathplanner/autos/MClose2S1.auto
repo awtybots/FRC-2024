@@ -55,15 +55,15 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Point2-1"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "FloorPickupPosition"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Point2-1"
           }
         },
         {

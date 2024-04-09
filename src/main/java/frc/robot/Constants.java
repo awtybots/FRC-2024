@@ -120,7 +120,7 @@ public final class Constants {
 
     public static final double armConversion = 0.05;
 
-    public static final double kMaxOutput = 0.3;
+    public static final double kMaxOutput = 0.4;
 
     // // Arm PID constants
     public static final double kP = 0.65;
