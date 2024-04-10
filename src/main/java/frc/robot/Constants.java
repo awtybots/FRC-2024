@@ -144,9 +144,9 @@ public final class Constants {
 
     // Quadratic regression calculated a, b, and c values. For SpeakerShot and tests.
     // TODO CALCULATE REAL VALUES (this is a temporary rough calculation)
-    public static final double QUADRATIC_A = -0.169338;
-    public static final double QUADRATIC_B = 0.803248;
-    public static final double QUADRATIC_C = 0.0;
+    public static final double QUADRATIC_A = 0.0638417;
+    public static final double QUADRATIC_B = 0.0;
+    public static final double QUADRATIC_C = 0.791358;
 
     public static final double UpwardsAngle = 1.753; // (for gravity calculations for PID and tests)
     public static final double FloorPickupAngle = 0.122; // ditto
