@@ -43,7 +43,7 @@ public class PreRunShooter extends Command {
   @Override
   public void execute() {
     if (!slowerDefault) {
-      flywheel.runVelocity(10000);
+      flywheel.runVelocity(-10000);
 
     } else if (slowerDefault) {
       if (intake.getConveyerProximity()) {

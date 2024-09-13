@@ -26,7 +26,7 @@ public class SpeakerShot {
           */
 
           // Position settings
-          double ARMANGLE = ((0.345 * Math.PI * 2.0) - 0.18) / 2; // TODO Temporary
+          double ARMANGLE = ((0.325 * Math.PI * 2.0) - 0.18) / 2; // TODO Temporary
 
           arm.runTargetAngle(ARMANGLE);
         },

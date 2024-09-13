@@ -73,6 +73,8 @@ public class RobotContainer {
   // Subsystems
   private final Drive sDrive;
   private final Flywheel sFlywheel;
+  private final Flywheel sEject;
+  private final Intake sOutake;
   private final Intake sIntake;
   private final Arm sArm;
 
@@ -336,7 +338,7 @@ public class RobotContainer {
         new PreRunShooter(sFlywheel, true, sIntake)); // Runs the flywheel slowly at all times
 
     operatorController.rightBumper().whileTrue(new ShootNoteTeleop(sIntake, sFlywheel, sArm));
-    operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel, sIntake));
+    operatorController.leftBumper().whileTrue(new ShootNoteTeleop(sOutake, sEject, sArm));
 
     // Climber controls (The first one is 90% probably the one that works.)
     // sClimber.setDefaultCommand(
