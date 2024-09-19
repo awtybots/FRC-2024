@@ -37,6 +37,7 @@ import frc.robot.commands.Positions.ShootMedium;
 import frc.robot.commands.Positions.SpeakerShot;
 import frc.robot.commands.Positions.StowPosition;
 import frc.robot.commands.PreRunShooter;
+import frc.robot.commands.ReverseIntakeFlywheel;
 import frc.robot.commands.ShootNote;
 import frc.robot.commands.ShootNoteTeleop;
 import frc.robot.subsystems.arm.Arm;
@@ -73,8 +74,6 @@ public class RobotContainer {
   // Subsystems
   private final Drive sDrive;
   private final Flywheel sFlywheel;
-  private final Flywheel sEject;
-  private final Intake sOutake;
   private final Intake sIntake;
   private final Arm sArm;
 
@@ -338,7 +337,8 @@ public class RobotContainer {
         new PreRunShooter(sFlywheel, true, sIntake)); // Runs the flywheel slowly at all times
 
     operatorController.rightBumper().whileTrue(new ShootNoteTeleop(sIntake, sFlywheel, sArm));
-    operatorController.leftBumper().whileTrue(new ShootNoteTeleop(sOutake, sEject, sArm));
+    // operatorController.leftBumper().whileTrue(new PreRunShooter(sFlywheel, sIntake));
+    operatorController.leftBumper().whileTrue(new ReverseIntakeFlywheel(sIntake, sFlywheel));
 
     // Climber controls (The first one is 90% probably the one that works.)
     // sClimber.setDefaultCommand(

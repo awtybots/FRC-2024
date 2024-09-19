@@ -75,7 +75,7 @@ public class Intake extends SubsystemBase {
     Logger.recordOutput("Intake/PercentSpeed", percentSpeed);
   }
 
-  public boolean getConveyerProximity() {
+  public boolean getConveyorProximity() {
     return proximitySensorInputs.isConveyorSensorTriggered;
   }
 

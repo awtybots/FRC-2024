@@ -35,7 +35,7 @@ public class IntakeNoteAndAlign extends Command {
   @Override
   public void execute() {
 
-    if (intake.getConveyerProximity()) {
+    if (intake.getConveyorProximity()) {
       intake.runPercentSpeed(0);
     } else {
       intake.runPercentSpeed(-Constants.IntakeConstants.percentPower);
@@ -51,6 +51,6 @@ public class IntakeNoteAndAlign extends Command {
 
   @Override
   public boolean isFinished() {
-    return intake.getConveyerProximity();
+    return intake.getConveyorProximity();
   }
 }

@@ -67,7 +67,7 @@ public class LedSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    boolean noteDetected = intake.getConveyerProximity() || intake.getShooterProximity();
+    boolean noteDetected = intake.getConveyorProximity() || intake.getShooterProximity();
     SmartDashboard.putBoolean("Note Detected", noteDetected);
     if (noteDetected) {
       setColor(new int[] {0, 255, 0});
