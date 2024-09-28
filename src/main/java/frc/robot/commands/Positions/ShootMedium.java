@@ -22,7 +22,7 @@ public class ShootMedium { // one robot length away
     return Commands.run(
             () -> {
               // Position preset settings
-              double ARMANGLE = 0.9783;
+              double ARMANGLE = 1.1;
 
               arm.runTargetAngle(ARMANGLE);
             },

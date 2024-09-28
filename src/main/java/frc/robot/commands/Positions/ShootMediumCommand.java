@@ -19,7 +19,7 @@ public class ShootMediumCommand extends Command {
 
   private Arm arm;
 
-  double ARMANGLE = 0.933;
+  double ARMANGLE = 1.5;
 
   public ShootMediumCommand(Arm arm) {
     this.arm = arm;

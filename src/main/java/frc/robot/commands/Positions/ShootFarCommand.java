@@ -19,7 +19,7 @@ public class ShootFarCommand extends Command {
 
   private Arm arm;
 
-  double ARMANGLE = 0.799;
+  double ARMANGLE = 0.85;
 
   public ShootFarCommand(Arm arm) {
     this.arm = arm;

@@ -22,7 +22,7 @@ public class AmpShot {
     return Commands.run(
         () -> {
           // Position preset settings
-          double ARMANGLE = 2.093;
+          double ARMANGLE = 2.06;
 
           arm.runTargetAngle(ARMANGLE);
         },

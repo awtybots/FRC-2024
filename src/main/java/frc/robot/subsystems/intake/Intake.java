@@ -68,7 +68,7 @@ public class Intake extends SubsystemBase {
 
   /** Run closed loop at the percent speed. */
   public void runPercentSpeed(double percentSpeed) {
-    percentSpeed = -percentSpeed;
+    percentSpeed = percentSpeed;
     io.setPercentSpeed(percentSpeed);
 
     // Log flywheel setpoint
