@@ -31,7 +31,7 @@ public class IntakeShooterControls {
             intake.runPercentSpeed(
                 Constants.IntakeConstants.percentPower * rightTriggerSupplier.getAsDouble());
           }
-          boolean noteDetected = intake.getConveyorProximity() || intake.getShooterProximity();
+          boolean noteDetected = intake.getConveyerProximity() || intake.getShooterProximity();
           SmartDashboard.putBoolean("Note Detected", noteDetected);
         },
         intake);

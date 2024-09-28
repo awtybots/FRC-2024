@@ -53,7 +53,7 @@ public class ShootNote extends Command {
       intake.runPercentSpeed(-1);
     }
 
-    if (!intake.getConveyorProximity() && !intake.getShooterProximity()) {
+    if (!intake.getConveyerProximity() && !intake.getShooterProximity()) {
       if (sensorsZeroTime == null) {
         sensorsZeroTime = System.currentTimeMillis();
       }
